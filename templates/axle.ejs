@@ -1,0 +1,36 @@
+import { api } from '@/request'
+<% if (ts) { %> import { type paths } from './<%- typesFilename %>' <% } %>
+
+<% apiModule.payloads.forEach(payload => { %> -%>
+export const <%- payload.fn %> = api<% if (ts) { %><Res<<%- payload.typeResponseBody %>>, <%- payload.typeRequestBody %>><% } %>('<%- payload.url %>', '<%- payload.method %>')
+
+<% }) %>
+
+<% if (ts) { %>
+<% apiModule.payloads.forEach(payload => { %> -%>
+export type <%- payload.type %> = <%- payload.typeValue %>
+
+<% }) %>
+
+<% apiModule.payloads.forEach(payload => { %> -%>
+  <% if (payload.typeParamsValue) { %>
+  export type <%- payload.typeParams %> = <%- payload.typeParamsValue %>
+  
+<% } %>
+<% }) %>
+
+<% apiModule.payloads.forEach(payload => { %> -%>
+<% if (payload.typeRequestBodyValue) { %>
+export type <%- payload.typeRequestBody %> = <%- payload.typeRequestBodyValue %>
+
+<% } %>
+<% }) %>
+
+<% apiModule.payloads.forEach(payload => { %> -%>
+<% if (payload.typeResponseBodyValue) { %>
+export type <%- payload.typeResponseBody %> = <%- payload.typeResponseBodyValue %>
+  
+<% } %>
+<% }) %>
+<% } %>
+

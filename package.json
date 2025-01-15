@@ -1,0 +1,93 @@
+{
+  "name": "api-farmer",
+  "version": "0.0.0",
+  "description": "A cli to generate apis from a schema",
+  "keywords": [
+    "cli",
+    "api generator",
+    "openapi",
+    "swagger",
+    "json schema"
+  ],
+  "bugs": {
+    "url": "https://github.com/varletjs/api-farmer/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/varletjs/api-farmer.git"
+  },
+  "license": "MIT",
+  "author": "haoziqaq <357229046@qq.com>",
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "af": "dist/cli.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts src/cli.ts --format esm,cjs --dts --clean --shims",
+    "clean": "rimraf node_modules dist",
+    "dev": "tsup src/index.ts src/cli.ts --format esm,cjs --watch --dts --shims",
+    "format": "prettier --write .",
+    "lint": "eslint . --fix",
+    "prepare": "simple-git-hooks && pnpm build",
+    "release": "vr release"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm exec nano-staged --allow-empty",
+    "commit-msg": "pnpm exec vr commit-lint -p $1"
+  },
+  "nano-staged": {
+    "*.{md}": "prettier --write",
+    "*.{ts}": [
+      "prettier --write",
+      "eslint --fix"
+    ]
+  },
+  "dependencies": {
+    "@varlet/axle": "^0.10.1",
+    "commander": "^13.0.0",
+    "ejs": "^3.1.10",
+    "fs-extra": "^11.2.0",
+    "openapi-typescript": "^7.5.2",
+    "pluralize": "^8.0.0",
+    "rattail": "^1.0.19",
+    "rslog": "^1.2.3",
+    "unconfig": "^0.6.0",
+    "yaml": "^2.7.0"
+  },
+  "devDependencies": {
+    "@configurajs/eslint": "^0.1.0",
+    "@configurajs/prettier": "^0.1.1",
+    "@types/ejs": "^3.1.5",
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^22.8.1",
+    "@types/pluralize": "^0.0.33",
+    "@varlet/release": "^0.3.1",
+    "eslint": "^9.17.0",
+    "nano-staged": "0.8.0",
+    "prettier": "^3.4.2",
+    "rimraf": "^6.0.1",
+    "simple-git-hooks": "^2.11.1",
+    "tsup": "8.3.5",
+    "typescript": "5.3.3"
+  },
+  "peerDependencies": {
+    "eslint": "^9.17.0"
+  },
+  "packageManager": "pnpm@9.0.0",
+  "engines": {
+    "pnpm": ">=9.0"
+  }
+}

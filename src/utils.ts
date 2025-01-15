@@ -1,0 +1,73 @@
+import { resolve } from 'path'
+import { pathToFileURL } from 'url'
+import fse from 'fs-extra'
+import { OpenAPI3, OperationObject } from 'openapi-typescript'
+import yaml from 'yaml'
+import { CLI_PACKAGE_JSON, CUSTOM_TEMPLATE_FILE, CWD } from './constants'
+
+export interface SchemaResult {
+  path: string
+  fileURL: URL
+  schema: OpenAPI3
+}
+
+export type ResponseSuccessStatusStrategy = 'strict' | 'loose'
+
+export type Preset = 'axle' | 'axios'
+
+export function createResponseSuccessStatusByStrategy(strategy: ResponseSuccessStatusStrategy) {
+  return {
+    strict: {
+      get: 200,
+      post: 201,
+      put: 200,
+      delete: 204,
+      patch: 200,
+      options: 204,
+      head: 200,
+    },
+    loose: {
+      get: 200,
+      post: 200,
+      put: 200,
+      delete: 200,
+      patch: 200,
+      options: 200,
+      head: 200,
+    },
+  }[strategy]
+}
+
+export function readSchema(input: string): SchemaResult {
+  const isYaml = input.endsWith('.yaml')
+  const path = resolve(CWD, input)
+  const content = fse.readFileSync(path, 'utf-8')
+
+  return {
+    path,
+    fileURL: pathToFileURL(path),
+    schema: isYaml ? yaml.parse(content) : JSON.parse(content),
+  }
+}
+
+export function readTemplateFile(preset: Preset = 'axle') {
+  if (fse.existsSync(CUSTOM_TEMPLATE_FILE)) {
+    return fse.readFileSync(CUSTOM_TEMPLATE_FILE, 'utf-8')
+  }
+
+  return fse.readFileSync(resolve(__dirname, `../templates/${preset}.ejs`), 'utf-8')
+}
+
+export function hasQueryParameter(operation: OperationObject) {
+  return (operation.parameters ?? []).some((param) => 'in' in param && param.in === 'query')
+}
+
+export function hasResponseBody(operation: OperationObject) {
+  return Object.values(operation.responses ?? {}).some(
+    (responseObject) => 'content' in responseObject && responseObject.content,
+  )
+}
+
+export function getCliVersion() {
+  return fse.readJsonSync(CLI_PACKAGE_JSON).version
+}

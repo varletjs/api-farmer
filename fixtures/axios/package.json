@@ -1,0 +1,12 @@
+{
+  "private": true,
+  "scripts": {
+    "gen": "af"
+  },
+  "dependencies": {
+    "axios": "^1.7.9"
+  },
+  "devDependencies": {
+    "api-farmer": "workspace:*"
+  }
+}

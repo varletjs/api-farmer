@@ -1,0 +1,42 @@
+<% if (ts) { %> import { type AxiosRequestConfig } from 'axios' <% } %>
+import { request } from '@/request'
+<% if (ts) { %> import { type paths } from './<%- typesFilename %>' <% } %>
+
+<% apiModule.payloads.forEach(payload => { %> -%>
+export const <%- payload.fn %> = (config<% if (ts) { %>: AxiosRequestConfig<<%- payload.typeRequestBody %>> <% } %>) 
+=> request<% if (ts) { %><any, Res<<%- payload.typeResponseBody %>>><% } %>({
+  url: '<%- payload.url %>', 
+  method: '<%- payload.method %>',
+  ...config
+})
+
+<% }) %>
+
+<% if (ts) { %>
+<% apiModule.payloads.forEach(payload => { %> -%>
+export type <%- payload.type %> = <%- payload.typeValue %>
+
+<% }) %>
+
+<% apiModule.payloads.forEach(payload => { %> -%>
+  <% if (payload.typeParamsValue) { %>
+  export type <%- payload.typeParams %> = <%- payload.typeParamsValue %>
+  
+<% } %>
+<% }) %>
+
+<% apiModule.payloads.forEach(payload => { %> -%>
+<% if (payload.typeRequestBodyValue) { %>
+export type <%- payload.typeRequestBody %> = <%- payload.typeRequestBodyValue %>
+
+<% } %>
+<% }) %>
+
+<% apiModule.payloads.forEach(payload => { %> -%>
+<% if (payload.typeResponseBodyValue) { %>
+export type <%- payload.typeResponseBody %> = <%- payload.typeResponseBodyValue %>
+  
+<% } %>
+<% }) %>
+<% } %>
+

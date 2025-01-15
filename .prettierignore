@@ -1,0 +1,2 @@
+fixtures/schema.yaml
+templates/**/*.ejs
