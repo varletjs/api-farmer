@@ -1,0 +1,6 @@
+## 0.0.1 (2025-01-15)
+
+### Features
+
+- complete poc ([c2ecf07](https://github.com/varletjs/api-farmer/commit/c2ecf0772d24d0cad6b809881ee952679c53fa03))
+- support swagger2 and fix template ([f4aed80](https://github.com/varletjs/api-farmer/commit/f4aed804e178ab36ad954e6cc460a8edcd2304b8))
