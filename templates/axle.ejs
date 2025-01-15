@@ -13,8 +13,8 @@ export type <%- payload.type %> = <%- payload.typeValue %>
 <% }) %>
 
 <% apiModule.payloads.forEach(payload => { %> -%>
-  <% if (payload.typeParamsValue) { %>
-  export type <%- payload.typeParams %> = <%- payload.typeParamsValue %>
+  <% if (payload.typeQueryValue) { %>
+  export type <%- payload.typeQuery %> = <%- payload.typeQueryValue %>
   
 <% } %>
 <% }) %>

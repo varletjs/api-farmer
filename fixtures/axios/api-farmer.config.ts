@@ -1,6 +1,6 @@
 import { defineConfig } from 'api-farmer'
 
 export default defineConfig({
-  input: './schema.yaml',
+  input: '../schema/swagger.schema.yaml',
   preset: 'axios',
 })

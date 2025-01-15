@@ -67,8 +67,8 @@ export function transformTypeResponseBody(verb: string, entity: string) {
   return `Api${verb}${entity}ResponseBody`
 }
 
-export function transformTypeResponseBodyValue(type: string, code: number) {
-  return `${type}['responses']['${code}']['content']['application/json']`
+export function transformTypeResponseBodyValue(type: string, statusCode: number, mime: string) {
+  return `${type}['responses']['${statusCode}']['content']['${mime}']`
 }
 
 export interface Transformer {

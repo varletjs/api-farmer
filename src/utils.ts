@@ -1,21 +1,25 @@
 import { resolve } from 'path'
-import { pathToFileURL } from 'url'
 import fse from 'fs-extra'
 import { OpenAPI3, OperationObject } from 'openapi-typescript'
+import swagger from 'swagger2openapi'
 import yaml from 'yaml'
 import { CLI_PACKAGE_JSON, CUSTOM_TEMPLATE_FILE, CWD } from './constants'
 
-export interface SchemaResult {
-  path: string
-  fileURL: URL
-  schema: OpenAPI3
-}
-
-export type ResponseSuccessStatusStrategy = 'strict' | 'loose'
-
 export type Preset = 'axle' | 'axios'
 
-export function createResponseSuccessStatusByStrategy(strategy: ResponseSuccessStatusStrategy) {
+export type StatusCodeStrategy = 'strict' | 'loose'
+
+export interface StatusCodes {
+  get?: number
+  post?: number
+  put?: number
+  delete?: number
+  patch?: number
+  options?: number
+  head?: number
+}
+
+export function createStatusCodesByStrategy(strategy: StatusCodeStrategy) {
   return {
     strict: {
       get: 200,
@@ -38,16 +42,16 @@ export function createResponseSuccessStatusByStrategy(strategy: ResponseSuccessS
   }[strategy]
 }
 
-export function readSchema(input: string): SchemaResult {
+export async function readSchema(input: string): Promise<OpenAPI3> {
   const isYaml = input.endsWith('.yaml')
   const path = resolve(CWD, input)
   const content = fse.readFileSync(path, 'utf-8')
+  const swaggerOrOpenapiSchema = isYaml ? yaml.parse(content) : JSON.parse(content)
+  const schema: OpenAPI3 = swaggerOrOpenapiSchema.swagger
+    ? (await swagger.convert(swaggerOrOpenapiSchema as any, {})).openapi
+    : swaggerOrOpenapiSchema
 
-  return {
-    path,
-    fileURL: pathToFileURL(path),
-    schema: isYaml ? yaml.parse(content) : JSON.parse(content),
-  }
+  return schema
 }
 
 export function readTemplateFile(preset: Preset = 'axle') {

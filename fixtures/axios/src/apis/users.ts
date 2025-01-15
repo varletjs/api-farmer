@@ -65,6 +65,20 @@ export type ApiGetUserResource = paths['/users/{userId}/resources/{resourceId}']
 
 export type ApiDeleteUserResource = paths['/users/{userId}/resources/{resourceId}']['delete']
 
+export type ApiGetUsersQuery = ApiGetUsers['parameters']['query']
+
+export type ApiCreateUserQuery = never
+
+export type ApiGetUserQuery = never
+
+export type ApiGetUserResourcesQuery = ApiGetUserResources['parameters']['query']
+
+export type ApiCreateUserResourceQuery = never
+
+export type ApiGetUserResourceQuery = never
+
+export type ApiDeleteUserResourceQuery = never
+
 export type ApiGetUsersRequestBody = never
 
 export type ApiCreateUserRequestBody = ApiCreateUser['requestBody']['content']['application/json']
@@ -79,16 +93,16 @@ export type ApiGetUserResourceRequestBody = never
 
 export type ApiDeleteUserResourceRequestBody = never
 
-export type ApiGetUsersResponseBody = ApiGetUsers['responses']['200']['content']['application/json']
+export type ApiGetUsersResponseBody = ApiGetUsers['responses']['200']['content']['*/*']
 
 export type ApiCreateUserResponseBody = never
 
-export type ApiGetUserResponseBody = ApiGetUser['responses']['200']['content']['application/json']
+export type ApiGetUserResponseBody = ApiGetUser['responses']['200']['content']['*/*']
 
-export type ApiGetUserResourcesResponseBody = ApiGetUserResources['responses']['200']['content']['application/json']
+export type ApiGetUserResourcesResponseBody = ApiGetUserResources['responses']['200']['content']['*/*']
 
 export type ApiCreateUserResourceResponseBody = never
 
-export type ApiGetUserResourceResponseBody = ApiGetUserResource['responses']['200']['content']['application/json']
+export type ApiGetUserResourceResponseBody = ApiGetUserResource['responses']['200']['content']['*/*']
 
 export type ApiDeleteUserResourceResponseBody = never

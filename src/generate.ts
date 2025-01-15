@@ -1,7 +1,7 @@
 import { resolve } from 'path'
 import ejs from 'ejs'
 import fse from 'fs-extra'
-import openapiTS, { astToString, OpenAPI3, OperationObject } from 'openapi-typescript'
+import openapiTS, { astToString, OpenAPI3, OperationObject, ResponseObject } from 'openapi-typescript'
 import prettier from 'prettier'
 import { groupBy, isArray, merge } from 'rattail'
 import { logger } from 'rslog'
@@ -9,24 +9,15 @@ import { getConfig } from './config'
 import { CWD } from './constants'
 import { createTransformer, Transformer } from './transformer'
 import {
-  createResponseSuccessStatusByStrategy,
+  createStatusCodesByStrategy,
   hasQueryParameter,
   hasResponseBody,
   Preset,
   readSchema,
   readTemplateFile,
-  ResponseSuccessStatusStrategy,
+  StatusCodes,
+  StatusCodeStrategy,
 } from './utils'
-
-export interface ResponseSuccessStatus {
-  get?: number
-  post?: number
-  put?: number
-  delete?: number
-  patch?: number
-  options?: number
-  head?: number
-}
 
 export interface ApiModulePayload {
   fn: string
@@ -37,13 +28,12 @@ export interface ApiModulePayload {
   entity: string
   type: string
   typeValue: string
-  typeQuery?: string
-  typeQueryValue?: string
+  typeQuery: string
+  typeQueryValue: string
   typeRequestBody: string
   typeRequestBodyValue: string
-  typeResponseBody?: string
+  typeResponseBody: string
   typeResponseBodyValue?: string
-  responseSuccessStatus: ResponseSuccessStatus
 }
 
 export interface ApiModule {
@@ -66,8 +56,8 @@ export interface GenerateOptions {
   ts?: boolean
   override?: boolean | string[]
   preset?: Preset
-  responseSuccessStatusStrategy?: ResponseSuccessStatusStrategy
-  responseSuccessStatus?: {
+  statusCodeStrategy?: StatusCodeStrategy
+  statusCodes?: {
     get?: number
     post?: number
     put?: number
@@ -83,11 +73,11 @@ export function partitionApiModules(
   transformer: Transformer,
   options: {
     ts: boolean
-    responseSuccessStatus: ResponseSuccessStatus
+    statusCodes: StatusCodes
     base?: string
   },
 ): ApiModule[] {
-  const { responseSuccessStatus, base } = options
+  const { statusCodes, base } = options
   const schemaPaths = schema.paths ?? {}
   const schemaPathKeys = base ? Object.keys(schemaPaths).map((key) => key.replace(base, '')) : Object.keys(schemaPaths)
   const keyToPaths = groupBy(schemaPathKeys, (key) => key.split('/')[1])
@@ -108,8 +98,13 @@ export function partitionApiModules(
         const typeRequestBody = transformer.typeRequestBody(verb, entity)
         const typeRequestBodyValue = operation.requestBody ? transformer.typeRequestBodyValue(type) : 'never'
         const typeResponseBody = transformer.typeResponseBody(verb, entity)
+
+        const statusCode = statusCodes[method as keyof StatusCodes] ?? 200
+        const mime = (operation.responses?.[statusCode] as ResponseObject).content?.['application/json']
+          ? 'application/json'
+          : '*/*'
         const typeResponseBodyValue = hasResponseBody(operation)
-          ? transformer.typeResponseBodyValue(type, responseSuccessStatus[method as keyof ResponseSuccessStatus] ?? 200)
+          ? transformer.typeResponseBodyValue(type, statusCode, mime)
           : 'never'
 
         payloads.push({
@@ -119,7 +114,6 @@ export function partitionApiModules(
           method,
           verb,
           entity,
-          responseSuccessStatus,
           type,
           typeValue,
           typeQuery,
@@ -195,8 +189,8 @@ export function renderApiModules(
   )
 }
 
-export async function generateTypes(fileURL: URL, output: string, typesFilename: string) {
-  const ast = await openapiTS(fileURL)
+export async function generateTypes(schema: OpenAPI3, output: string, typesFilename: string) {
+  const ast = await openapiTS(schema)
   const contents = astToString(ast)
   const typesFilepath = resolve(CWD, output, typesFilename)
   fse.outputFileSync(typesFilepath, contents)
@@ -212,29 +206,29 @@ export async function generate(userOptions: GenerateOptions = {}) {
     ts = true,
     override = true,
     preset = 'axle',
-    responseSuccessStatusStrategy = 'strict',
+    statusCodeStrategy = 'strict',
     input = './schema.json',
     output = './src/apis',
     typesFilename = 'types.generated.ts',
     transformer = {},
   } = options
 
-  const responseSuccessStatus = {
-    ...createResponseSuccessStatusByStrategy(responseSuccessStatusStrategy),
-    ...(options.responseSuccessStatus ?? {}),
+  const statusCodes = {
+    ...createStatusCodesByStrategy(statusCodeStrategy),
+    ...(options.statusCodes ?? {}),
   }
 
   const mergedTransformer = { ...createTransformer(), ...transformer }
 
-  const { fileURL, schema } = readSchema(input)
+  const schema = await readSchema(input)
 
   logger.info('Generating API modules...')
 
   if (ts) {
-    await generateTypes(fileURL, output, typesFilename)
+    await generateTypes(schema, output, typesFilename)
   }
 
-  const apiModules = partitionApiModules(schema, mergedTransformer, { responseSuccessStatus, ts, base })
+  const apiModules = partitionApiModules(schema, mergedTransformer, { statusCodes, ts, base })
   await renderApiModules(apiModules, { output, typesFilename, ts, override, preset })
   logger.success('Done')
 }
