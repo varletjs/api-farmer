@@ -69,15 +69,17 @@ See the bottom of the document for template variable definitions.
 
 ### Status Code Strategy
 
-`Restful API` recommends using different successful http status codes for different methods, such as `get: 200`, `post: 201`, etc. If you don't need this strategy, you can set `statusCodeStrategy` to `loose`
+`smart`: find a valid status code between [`200`, `299`] that is closest to `200` <br>
+`loose`: all success status codes are `200` <br>
+`strict`: `Restful API` recommends using different successful http status codes for different methods, such as `get: 200`, `post: 201`, etc. <br>
 
 ```ts
 // api-farmer.config.ts
 import { defineConfig } from 'api-farmer'
 
 export default defineConfig({
-  // 'strict' or 'loose', defaults 'strict'
-  statusCodeStrategy: 'loose',
+  // 'strict' or 'loose' or 'smart', defaults 'smart'
+  statusCodeStrategy: 'strict',
 })
 ```
 
@@ -149,7 +151,9 @@ export interface Config {
   preset?: Preset
   /**
    * The status code strategy to use.
-   * loose: all success status codes are 200, strict: use the openapi recommended success status codes.
+   * loose: all success status codes are 200,
+   * strict: use the openapi recommended success status codes.
+   * smart: find a valid status code between [200, 299] that is closest to 200
    */
   statusCodeStrategy?: StatusCodeStrategy
   /**

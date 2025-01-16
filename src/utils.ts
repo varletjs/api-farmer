@@ -7,7 +7,7 @@ import { CLI_PACKAGE_JSON, CUSTOM_TEMPLATE_FILE, CWD } from './constants'
 
 export type Preset = 'axle' | 'axios'
 
-export type StatusCodeStrategy = 'strict' | 'loose'
+export type StatusCodeStrategy = 'strict' | 'loose' | 'smart'
 
 export interface StatusCodes {
   get?: number
@@ -31,6 +31,15 @@ export function createStatusCodesByStrategy(strategy: StatusCodeStrategy) {
       head: 200,
     },
     loose: {
+      get: 200,
+      post: 200,
+      put: 200,
+      delete: 200,
+      patch: 200,
+      options: 200,
+      head: 200,
+    },
+    smart: {
       get: 200,
       post: 200,
       put: 200,
@@ -74,7 +83,28 @@ export function isRequiredRequestBody(value: RequestBodyObject | ReferenceObject
   return 'required' in value && value.required === true
 }
 
-export function getResponseMime(operation: OperationObject, statusCode: number) {
+export function doStatusCodeStrategy(operation: OperationObject, statusCode: number, strategy: StatusCodeStrategy) {
+  if (strategy === 'smart') {
+    const responses = operation.responses ?? {}
+    const codeKey = Object.keys(responses)
+      .sort((a, b) => Number(a) - Number(b))
+      .find((codeKey) => Number(codeKey) >= statusCode && Number(codeKey) <= 299)
+
+    if (!codeKey) {
+      return {
+        statusCode: undefined,
+        mime: undefined,
+      }
+    }
+
+    statusCode = Number(codeKey)
+  }
+
   const content = (operation.responses?.[statusCode] as ResponseObject | undefined)?.content
-  return content?.['application/json'] ? 'application/json' : content?.['*/*'] ? '*/*' : undefined
+  const mime = content?.['application/json'] ? 'application/json' : content?.['*/*'] ? '*/*' : undefined
+
+  return {
+    statusCode,
+    mime,
+  }
 }

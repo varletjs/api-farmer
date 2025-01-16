@@ -10,7 +10,7 @@ import { CWD } from './constants'
 import { createTransformer, Transformer, TransformerBaseArgs } from './transformer'
 import {
   createStatusCodesByStrategy,
-  getResponseMime,
+  doStatusCodeStrategy,
   hasQueryParameter,
   isRequiredRequestBody,
   Preset,
@@ -135,7 +135,10 @@ export interface GenerateOptions {
    */
   preset?: Preset
   /**
-   * The status code strategy to use. loose: all success status codes are 200, strict: use the openapi recommended success status codes.
+   * The status code strategy to use.
+   * loose: all success status codes are 200,
+   * strict: use the openapi recommended success status codes.
+   * smart: find a valid status code between [200, 299] that is closest to 200
    */
   statusCodeStrategy?: StatusCodeStrategy
   /**
@@ -157,11 +160,12 @@ export function partitionApiModules(
   transformer: Transformer,
   options: {
     ts: boolean
+    statusCodeStrategy: StatusCodeStrategy
     statusCodes: StatusCodes
     base?: string
   },
 ): ApiModule[] {
-  const { statusCodes, base } = options
+  const { statusCodes, statusCodeStrategy, base } = options
   const schemaPaths = schema.paths ?? {}
   const schemaPathKeys = base ? Object.keys(schemaPaths).map((key) => key.replace(base, '')) : Object.keys(schemaPaths)
   const keyToPaths = groupBy(schemaPathKeys, (key) => key.split('/')[1])
@@ -197,12 +201,17 @@ export function partitionApiModules(
             })
           : 'never'
 
-        const statusCode = statusCodes[method as keyof StatusCodes] ?? 200
-        const mime = getResponseMime(operation, statusCode)
+        const { mime, statusCode } = doStatusCodeStrategy(
+          operation,
+          statusCodes[method as keyof StatusCodes] ?? 200,
+          statusCodeStrategy,
+        )
+
         const typeResponseBody = transformer.typeResponseBody({ ...args, type, verb, entity })
-        const typeResponseBodyValue = mime
-          ? transformer.typeResponseBodyValue({ ...args, type, verb, entity, statusCode, mime })
-          : 'never'
+        const typeResponseBodyValue =
+          mime && statusCode
+            ? transformer.typeResponseBodyValue({ ...args, type, verb, entity, statusCode, mime })
+            : 'never'
 
         payloads.push({
           fn,
@@ -304,7 +313,7 @@ export async function generate(userOptions: GenerateOptions = {}) {
     ts = true,
     overrides = true,
     preset = 'axle',
-    statusCodeStrategy = 'strict',
+    statusCodeStrategy = 'smart',
     input = './schema.json',
     output = './src/apis',
     typesFilename = 'types.generated.ts',
@@ -326,7 +335,7 @@ export async function generate(userOptions: GenerateOptions = {}) {
     await generateTypes(schema, output, typesFilename)
   }
 
-  const apiModules = partitionApiModules(schema, mergedTransformer, { statusCodes, ts, base })
+  const apiModules = partitionApiModules(schema, mergedTransformer, { statusCodes, statusCodeStrategy, ts, base })
   await renderApiModules(apiModules, { output, typesFilename, ts, overrides, preset })
   logger.success('Done')
 }
