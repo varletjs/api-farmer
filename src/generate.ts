@@ -19,44 +19,127 @@ import {
   StatusCodeStrategy,
 } from './utils'
 
-export interface ApiModulePayload {
-  fn: string
-  path: string
-  url: string
-  method: string
-  verb: string
-  entity: string
-  type: string
-  typeValue: string
-  typeQuery: string
-  typeQueryValue: string
-  typeRequestBody: string
-  typeRequestBodyValue: string
-  typeResponseBody: string
-  typeResponseBodyValue: string
-}
-
-export interface ApiModule {
-  name: string
-  payloads: ApiModulePayload[]
-}
-
 export interface ApiModuleTemplateData {
+  /**
+   * API module metadata
+   */
   apiModule: ApiModule
+  /**
+   * The name of the generated api ts type aggregation file
+   */
   typesFilename: string
+  /**
+   * Whether to generate ts code
+   */
   ts: boolean
 }
 
+export interface ApiModule {
+  /**
+   * The name of the API module
+   */
+  name: string
+  /**
+   * API module payloads
+   */
+  payloads: ApiModulePayload[]
+}
+
+export interface ApiModulePayload {
+  /**
+   * The name of the API function/dispatcher, such as apiGetUsers, apiCreatePost, apiUpdateComment, etc.
+   */
+  fn: string
+  /**
+   * The URL of the API endpoint, such as /users, /posts, /comments, etc.
+   */
+  url: string
+  /**
+   * The HTTP method of the API endpoint, such as get, post, put, delete, etc.
+   */
+  method: string
+  /**
+   * The HTTP verb of the API endpoint, such as Get, Create, Update, Delete, etc.
+   */
+  verb: string
+  /**
+   * The entity name of the API endpoint, such as User, Comment, Post, etc.
+   */
+  entity: string
+  /**
+   * The type name of the API endpoint, such as ApiGetUsers, ApiCreatePost, ApiUpdateComment, etc.
+   */
+  type: string
+  /**
+   * The value of the type of the API endpoint, such as paths['/users']['get'], paths['/posts']['post'], paths['/comments']['put'], etc.
+   */
+  typeValue: string
+  /**
+   * The type name of the query parameters of the API endpoint, such as ApiGetUsersQuery, ApiCreatePostQuery, ApiUpdateCommentQuery, etc.
+   */
+  typeQuery: string
+  /**
+   * The value of the type of the query parameters of the API endpoint, such as ApiGetUsersQuery['parameters']['query'], ApiCreatePostQuery['parameters']['query'], ApiUpdateCommentQuery['parameters']['query'], etc.
+   */
+  typeQueryValue: string
+  /**
+   * The type name of the request body of the API endpoint, such as ApiGetUsersRequestBody, ApiCreatePostRequestBody, ApiUpdateCommentRequestBody, etc.
+   */
+  typeRequestBody: string
+  /**
+   * The value of the type of the request body of the API endpoint, such as ApiGetUsersRequestBody['requestBody']['content']['application/json'], ApiCreatePostRequestBody['requestBody']['content']['application/json'], ApiUpdateCommentRequestBody['requestBody']['content']['application/json'], etc.
+   */
+  typeRequestBodyValue: string
+  /**
+   * The type name of the response body of the API endpoint, such as ApiGetUsersResponseBody, ApiCreatePostResponseBody, ApiUpdateCommentResponseBody, etc.
+   */
+  typeResponseBody: string
+  /**
+   * The value of the type of the response body of the API endpoint, such as ApiGetUsersResponseBody['responses']['200']['content']['application/json'], ApiCreatePostResponseBody['responses']['201']['content']['application/json'], ApiUpdateCommentResponseBody['responses']['200']['content']['application/json'], etc.
+   */
+  typeResponseBodyValue: string
+}
+
 export interface GenerateOptions {
+  /**
+   * The path to the OpenAPI/Swagger schema file.
+   */
   input?: string
+  /**
+   * The path to the output directory.
+   */
   output?: string
+  /**
+   * The base path of the API endpoints.
+   */
   base?: string
+  /**
+   * The filename of the generated openapi types file.
+   */
   typesFilename?: string
+  /**
+   * The transformer api options, used to override the default transformation rules.
+   */
   transformer?: Partial<Transformer>
+  /**
+   * Whether to generate TypeScript code.
+   */
   ts?: boolean
-  override?: boolean | string[]
+  /**
+   * Whether to override the existing files, or an array of filenames to override.
+   */
+  overrides?: boolean | string[]
+  /**
+   * The preset ejs template to use.
+   */
   preset?: Preset
+  /**
+   * The status code strategy to use. loose: all success status codes are 200, strict: use the openapi recommended success status codes.
+   */
   statusCodeStrategy?: StatusCodeStrategy
+  /**
+   * The status codes to override the default status codes.
+   */
   statusCodes?: {
     get?: number
     post?: number
@@ -87,29 +170,28 @@ export function partitionApiModules(
       path = base ? base + path : path
       const pathItems = schemaPaths[path] as Record<string, OperationObject>
       const childPayloads = Object.entries(pathItems).reduce((payloads, [method, operation]) => {
-        const url = transformer.url(path, base)
-        const entity = transformer.entity(path, method, base)
-        const verb = transformer.verb(method)
-        const fn = transformer.fn(verb, entity)
-        const type = transformer.type(verb, entity)
-        const typeValue = transformer.typeValue(path, method)
-        const typeQuery = transformer.typeQuery(verb, entity)
-        const typeQueryValue = hasQueryParameter(operation) ? transformer.typeQueryValue(type) : 'never'
-        const typeRequestBody = transformer.typeRequestBody(verb, entity)
-        const typeRequestBodyValue = operation.requestBody ? transformer.typeRequestBodyValue(type) : 'never'
-        const typeResponseBody = transformer.typeResponseBody(verb, entity)
+        const url = transformer.url({ path, base })
+        const entity = transformer.entity({ path, method, base })
+        const verb = transformer.verb({ method })
+        const fn = transformer.fn({ verb, entity })
+        const type = transformer.type({ verb, entity })
+        const typeValue = transformer.typeValue({ path, method })
+        const typeQuery = transformer.typeQuery({ verb, entity })
+        const typeQueryValue = hasQueryParameter(operation) ? transformer.typeQueryValue({ type }) : 'never'
+        const typeRequestBody = transformer.typeRequestBody({ verb, entity })
+        const typeRequestBodyValue = operation.requestBody ? transformer.typeRequestBodyValue({ type }) : 'never'
+        const typeResponseBody = transformer.typeResponseBody({ verb, entity })
 
         const statusCode = statusCodes[method as keyof StatusCodes] ?? 200
         const mime = (operation.responses?.[statusCode] as ResponseObject).content?.['application/json']
           ? 'application/json'
           : '*/*'
         const typeResponseBodyValue = hasResponseBody(operation)
-          ? transformer.typeResponseBodyValue(type, statusCode, mime)
+          ? transformer.typeResponseBodyValue({ type, statusCode, mime })
           : 'never'
 
         payloads.push({
           fn,
-          path,
           url,
           method,
           verb,
@@ -132,7 +214,7 @@ export function partitionApiModules(
       return payloads
     }, [] as ApiModulePayload[])
 
-    apiModules.push({ name: transformer.moduleName(name), payloads })
+    apiModules.push({ name: transformer.moduleName({ name }), payloads })
 
     return apiModules
   }, [] as ApiModule[])
@@ -146,11 +228,11 @@ export function renderApiModules(
     output: string
     typesFilename: string
     ts: boolean
-    override: boolean | string[]
+    overrides: boolean | string[]
     preset: Preset
   },
 ) {
-  const { output, ts, override, preset } = options
+  const { output, ts, overrides, preset } = options
   const templateFile = readTemplateFile(preset)
   const typesFilename = options.typesFilename.replace('.ts', '')
 
@@ -173,8 +255,10 @@ export function renderApiModules(
             })
             .then((content) => {
               const path = resolve(output, `${apiModule.name}.${ts ? 'ts' : 'js'}`)
+              const shouldSkip =
+                (!overrides || (isArray(overrides) && !overrides.includes(apiModule.name))) && fse.existsSync(path)
 
-              if ((!override || (isArray(override) && !override.includes(apiModule.name))) && fse.existsSync(path)) {
+              if (shouldSkip) {
                 logger.warn(`File already exists, skip: ${path}`)
                 promiseResolve(content)
                 return
@@ -204,7 +288,7 @@ export async function generate(userOptions: GenerateOptions = {}) {
   const {
     base,
     ts = true,
-    override = true,
+    overrides = true,
     preset = 'axle',
     statusCodeStrategy = 'strict',
     input = './schema.json',
@@ -229,6 +313,6 @@ export async function generate(userOptions: GenerateOptions = {}) {
   }
 
   const apiModules = partitionApiModules(schema, mergedTransformer, { statusCodes, ts, base })
-  await renderApiModules(apiModules, { output, typesFilename, ts, override, preset })
+  await renderApiModules(apiModules, { output, typesFilename, ts, overrides, preset })
   logger.success('Done')
 }

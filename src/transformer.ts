@@ -1,11 +1,11 @@
 import pluralize from 'pluralize'
 import { camelize, pascalCase } from 'rattail'
 
-export function transformModuleName(name: string) {
+export function transformModuleName({ name }: { name: string }) {
   return camelize(name)
 }
 
-export function transformVerb(method: string) {
+export function transformVerb({ method }: { method: string }) {
   switch (method) {
     case 'post':
       return 'Create'
@@ -16,11 +16,11 @@ export function transformVerb(method: string) {
   }
 }
 
-export function transformUrl(path: string, base?: string) {
+export function transformUrl({ path, base }: { path: string; base?: string }) {
   return (base ? path.replace(base, '') : path).replace(/{/g, ':').replace(/}/g, '')
 }
 
-export function transformEntity(path: string, method: string, base?: string) {
+export function transformEntity({ path, method, base }: { path: string; method: string; base?: string }) {
   path = base ? path.replace(base, '') : path
 
   const words = path.split('/').filter(Boolean)
@@ -39,39 +39,47 @@ export function transformEntity(path: string, method: string, base?: string) {
   }, '')
 }
 
-export function transformFn(verb: string, entity: string) {
+export function transformFn({ verb, entity }: { verb: string; entity: string }) {
   return `api${verb}${entity}`
 }
 
-export function transformType(verb: string, entity: string) {
+export function transformType({ verb, entity }: { verb: string; entity: string }) {
   return `Api${verb}${entity}`
 }
 
-export function transformTypeValue(path: string, method: string) {
+export function transformTypeValue({ path, method }: { path: string; method: string }) {
   return `paths['${path}']['${method}']`
 }
 
-export function transformTypeQuery(verb: string, entity: string) {
+export function transformTypeQuery({ verb, entity }: { verb: string; entity: string }) {
   return `Api${verb}${entity}Query`
 }
 
-export function transformTypeQueryValue(type: string) {
+export function transformTypeQueryValue({ type }: { type: string }) {
   return `${type}['parameters']['query']`
 }
 
-export function transformTypeRequestBody(verb: string, entity: string) {
+export function transformTypeRequestBody({ verb, entity }: { verb: string; entity: string }) {
   return `Api${verb}${entity}RequestBody`
 }
 
-export function transformTypeRequestBodyValue(type: string) {
+export function transformTypeRequestBodyValue({ type }: { type: string }) {
   return `${type}['requestBody']['content']['application/json']`
 }
 
-export function transformTypeResponseBody(verb: string, entity: string) {
+export function transformTypeResponseBody({ verb, entity }: { verb: string; entity: string }) {
   return `Api${verb}${entity}ResponseBody`
 }
 
-export function transformTypeResponseBodyValue(type: string, statusCode: number, mime: string) {
+export function transformTypeResponseBodyValue({
+  type,
+  statusCode,
+  mime,
+}: {
+  type: string
+  statusCode: number
+  mime: string
+}) {
   return `${type}['responses']['${statusCode}']['content']['${mime}']`
 }
 
