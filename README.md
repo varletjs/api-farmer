@@ -2,7 +2,7 @@
 
 ### Intro
 
-API module generation tool based on `Openapi3 / Swagger2`.
+API module generation tool based on `Openapi3/Swagger2`.
 
 ### Features
 
