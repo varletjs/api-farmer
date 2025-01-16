@@ -66,12 +66,6 @@ export function hasQueryParameter(operation: OperationObject) {
   return (operation.parameters ?? []).some((param) => 'in' in param && param.in === 'query')
 }
 
-export function hasResponseBody(operation: OperationObject) {
-  return Object.values(operation.responses ?? {}).some(
-    (responseObject) => 'content' in responseObject && responseObject.content,
-  )
-}
-
 export function getCliVersion() {
   return fse.readJsonSync(CLI_PACKAGE_JSON).version
 }

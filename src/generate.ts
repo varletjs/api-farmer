@@ -12,7 +12,6 @@ import {
   createStatusCodesByStrategy,
   getResponseMime,
   hasQueryParameter,
-  hasResponseBody,
   isRequiredRequestBody,
   Preset,
   readSchema,
@@ -193,8 +192,7 @@ export function partitionApiModules(
         const statusCode = statusCodes[method as keyof StatusCodes] ?? 200
         const mime = getResponseMime(operation, statusCode)
         const typeResponseBody = transformer.typeResponseBody({ verb, entity })
-        const typeResponseBodyValue =
-          hasResponseBody(operation) && mime ? transformer.typeResponseBodyValue({ type, statusCode, mime }) : 'never'
+        const typeResponseBodyValue = mime ? transformer.typeResponseBodyValue({ type, statusCode, mime }) : 'never'
 
         payloads.push({
           fn,
