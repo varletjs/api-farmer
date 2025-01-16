@@ -52,6 +52,10 @@ npx af
 > [!TIP]
 > The generated content does not include the integration of the request client.
 
+#### Some Examples
+
+Some simple usage examples can be found [here](fixtures)
+
 ### Custom EJS Template
 
 Create `api-farmer.ejs` in the project root, which will replace the `preset` template.
