@@ -1,3 +1,9 @@
+## [0.0.8](https://github.com/varletjs/api-farmer/compare/v0.0.7...v0.0.8) (2025-01-16)
+
+### Features
+
+- add more transformer args ([c92b68a](https://github.com/varletjs/api-farmer/commit/c92b68a9fdf663af6ae096755c2eebeb7616ba65))
+
 ## [0.0.7](https://github.com/varletjs/api-farmer/compare/v0.0.6...v0.0.7) (2025-01-16)
 
 ## [0.0.6](https://github.com/varletjs/api-farmer/compare/v0.0.5...v0.0.6) (2025-01-16)
