@@ -1,3 +1,10 @@
+## [0.0.11](https://github.com/varletjs/api-farmer/compare/v0.0.10...v0.0.11) (2025-01-16)
+
+### Bug Fixes
+
+- **axle:** fix template ([410092f](https://github.com/varletjs/api-farmer/commit/410092f5a2b6a728090e3cec6e512febfd3ea9da))
+- ignore invalid path items key ([40c99af](https://github.com/varletjs/api-farmer/commit/40c99af5c2ca5208723b1629c80d6014a91ac06a))
+
 ## [0.0.10](https://github.com/varletjs/api-farmer/compare/v0.0.9...v0.0.10) (2025-01-16)
 
 ### Features
