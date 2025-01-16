@@ -60,11 +60,8 @@ export function transformTypeValue({ path, method }: { verb: string; entity: str
   return `paths['${path}']['${method}']`
 }
 
-export function transformTypeQuery({
-  verb,
-  entity,
-}: { type: string; verb: string; entity: string } & TransformerBaseArgs) {
-  return `Api${verb}${entity}Query`
+export function transformTypeQuery({ type }: { type: string; verb: string; entity: string } & TransformerBaseArgs) {
+  return `${type}Query`
 }
 
 export function transformTypeQueryValue({
@@ -74,10 +71,9 @@ export function transformTypeQueryValue({
 }
 
 export function transformTypeRequestBody({
-  verb,
-  entity,
+  type,
 }: { type: string; verb: string; entity: string } & TransformerBaseArgs) {
-  return `Api${verb}${entity}RequestBody`
+  return `${type}RequestBody`
 }
 
 export function transformTypeRequestBodyValue({
@@ -90,10 +86,9 @@ export function transformTypeRequestBodyValue({
 }
 
 export function transformTypeResponseBody({
-  verb,
-  entity,
+  type,
 }: { type: string; verb: string; entity: string } & TransformerBaseArgs) {
-  return `Api${verb}${entity}ResponseBody`
+  return `${type}ResponseBody`
 }
 
 export function transformTypeResponseBodyValue({
