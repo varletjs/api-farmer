@@ -1,3 +1,9 @@
+## [0.0.10](https://github.com/varletjs/api-farmer/compare/v0.0.9...v0.0.10) (2025-01-16)
+
+### Features
+
+- support smart statusCodeStrategy ([80d103c](https://github.com/varletjs/api-farmer/commit/80d103c56cb15f28fc7bd5a037aa0ca62aa008b2))
+
 ## [0.0.9](https://github.com/varletjs/api-farmer/compare/v0.0.8...v0.0.9) (2025-01-16)
 
 ### Features
