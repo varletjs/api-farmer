@@ -87,6 +87,7 @@ import { defineConfig } from 'api-farmer'
 export default defineConfig({
   transformer: {
     moduleName({ name }) {
+      // The new module name.
       return `${name}.generated`
     },
     verb() {},
