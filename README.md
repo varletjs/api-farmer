@@ -6,7 +6,7 @@ API module generation tool based on `Openapi3/Swagger2`.
 
 ### Features
 
-- 🌐 &nbsp; Supports generating all API modules from `OpenAPI 3/Swagger 2 schemas`
+- 🌐 &nbsp; Supports generating all API modules from `OpenAPI3/Swagger2 schemas`
 - 📦 &nbsp; Supports generating `ts/js` modules
 - 🛠️ &nbsp; Comprehensive `ts type` generation
 - ✏️ &nbsp; Supports custom `ejs` templates for tailored content generation
