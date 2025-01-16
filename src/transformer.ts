@@ -63,8 +63,10 @@ export function transformTypeRequestBody({ verb, entity }: { verb: string; entit
   return `Api${verb}${entity}RequestBody`
 }
 
-export function transformTypeRequestBodyValue({ type }: { type: string }) {
-  return `${type}['requestBody']['content']['application/json']`
+export function transformTypeRequestBodyValue({ type, required }: { type: string; required: boolean }) {
+  return required
+    ? `${type}['requestBody']['content']['application/json']`
+    : `NonNullable<${type}['requestBody']>['content']['application/json'] | undefined`
 }
 
 export function transformTypeResponseBody({ verb, entity }: { verb: string; entity: string }) {

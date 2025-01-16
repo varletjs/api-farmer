@@ -1,7 +1,7 @@
 import { resolve } from 'path'
 import ejs from 'ejs'
 import fse from 'fs-extra'
-import openapiTS, { astToString, OpenAPI3, OperationObject, ResponseObject } from 'openapi-typescript'
+import openapiTS, { astToString, OpenAPI3, OperationObject } from 'openapi-typescript'
 import prettier from 'prettier'
 import { groupBy, isArray, merge } from 'rattail'
 import { logger } from 'rslog'
@@ -10,8 +10,10 @@ import { CWD } from './constants'
 import { createTransformer, Transformer } from './transformer'
 import {
   createStatusCodesByStrategy,
+  getResponseMime,
   hasQueryParameter,
   hasResponseBody,
+  isRequiredRequestBody,
   Preset,
   readSchema,
   readTemplateFile,
@@ -174,21 +176,25 @@ export function partitionApiModules(
         const entity = transformer.entity({ path, method, base })
         const verb = transformer.verb({ method })
         const fn = transformer.fn({ verb, entity })
+
         const type = transformer.type({ verb, entity })
         const typeValue = transformer.typeValue({ path, method })
         const typeQuery = transformer.typeQuery({ verb, entity })
         const typeQueryValue = hasQueryParameter(operation) ? transformer.typeQueryValue({ type }) : 'never'
+
         const typeRequestBody = transformer.typeRequestBody({ verb, entity })
-        const typeRequestBodyValue = operation.requestBody ? transformer.typeRequestBodyValue({ type }) : 'never'
-        const typeResponseBody = transformer.typeResponseBody({ verb, entity })
+        const typeRequestBodyValue = operation.requestBody
+          ? transformer.typeRequestBodyValue({
+              type,
+              required: isRequiredRequestBody(operation.requestBody),
+            })
+          : 'never'
 
         const statusCode = statusCodes[method as keyof StatusCodes] ?? 200
-        const mime = (operation.responses?.[statusCode] as ResponseObject | undefined)?.content?.['application/json']
-          ? 'application/json'
-          : '*/*'
-        const typeResponseBodyValue = hasResponseBody(operation)
-          ? transformer.typeResponseBodyValue({ type, statusCode, mime })
-          : 'never'
+        const mime = getResponseMime(operation, statusCode)
+        const typeResponseBody = transformer.typeResponseBody({ verb, entity })
+        const typeResponseBodyValue =
+          hasResponseBody(operation) && mime ? transformer.typeResponseBodyValue({ type, statusCode, mime }) : 'never'
 
         payloads.push({
           fn,

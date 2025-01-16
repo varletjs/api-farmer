@@ -1,6 +1,6 @@
 import { resolve } from 'path'
 import fse from 'fs-extra'
-import { OpenAPI3, OperationObject } from 'openapi-typescript'
+import { OpenAPI3, OperationObject, ReferenceObject, RequestBodyObject, ResponseObject } from 'openapi-typescript'
 import swagger from 'swagger2openapi'
 import yaml from 'yaml'
 import { CLI_PACKAGE_JSON, CUSTOM_TEMPLATE_FILE, CWD } from './constants'
@@ -74,4 +74,13 @@ export function hasResponseBody(operation: OperationObject) {
 
 export function getCliVersion() {
   return fse.readJsonSync(CLI_PACKAGE_JSON).version
+}
+
+export function isRequiredRequestBody(value: RequestBodyObject | ReferenceObject) {
+  return 'required' in value && value.required === true
+}
+
+export function getResponseMime(operation: OperationObject, statusCode: number) {
+  const content = (operation.responses?.[statusCode] as ResponseObject | undefined)?.content
+  return content?.['application/json'] ? 'application/json' : content?.['*/*'] ? '*/*' : undefined
 }
