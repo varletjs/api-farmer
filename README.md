@@ -147,7 +147,8 @@ export interface Config {
    */
   preset?: Preset
   /**
-   * The status code strategy to use. loose: all success status codes are 200, strict: use the openapi recommended success status codes.
+   * The status code strategy to use.
+   * loose: all success status codes are 200, strict: use the openapi recommended success status codes.
    */
   statusCodeStrategy?: StatusCodeStrategy
   /**
@@ -196,55 +197,73 @@ export interface ApiModule {
 
 export interface ApiModulePayload {
   /**
-   * The name of the API function/dispatcher, such as apiGetUsers, apiCreatePost, apiUpdateComment, etc.
+   * The name of the API function/dispatcher,
+   * such as apiGetUsers, apiCreatePost, apiUpdateComment, etc.
    */
   fn: string
   /**
-   * The URL of the API endpoint, such as /users, /posts, /comments, etc.
+   * The URL of the API endpoint,
+   * such as /users, /posts, /comments, etc.
    */
   url: string
   /**
-   * The HTTP method of the API endpoint, such as get, post, put, delete, etc.
+   * The HTTP method of the API endpoint,
+   * such as get, post, put, delete, etc.
    */
   method: string
   /**
-   * The HTTP verb of the API endpoint, such as Get, Create, Update, Delete, etc.
+   * The HTTP verb of the API endpoint,
+   * such as Get, Create, Update, Delete, etc.
    */
   verb: string
   /**
-   * The entity name of the API endpoint, such as User, Comment, Post, etc.
+   * The entity name of the API endpoint,
+   * such as User, Comment, Post, etc.
    */
   entity: string
   /**
-   * The type name of the API endpoint, such as ApiGetUsers, ApiCreatePost, ApiUpdateComment, etc.
+   * The type name of the API endpoint,
+   * such as ApiGetUsers, ApiCreatePost, ApiUpdateComment, etc.
    */
   type: string
   /**
-   * The value of the type of the API endpoint, such as paths['/users']['get'], paths['/posts']['post'], paths['/comments']['put'], etc.
+   * The value of the type of the API endpoint,
+   * such as paths['/users']['get'], paths['/posts']['post'], paths['/comments']['put'], etc.
    */
   typeValue: string
   /**
-   * The type name of the query parameters of the API endpoint, such as ApiGetUsersQuery, ApiCreatePostQuery, ApiUpdateCommentQuery, etc.
+   * The type name of the query parameters of the API endpoint,
+   * such as ApiGetUsersQuery, ApiCreatePostQuery, ApiUpdateCommentQuery, etc.
    */
   typeQuery: string
   /**
-   * The value of the type of the query parameters of the API endpoint, such as ApiGetUsersQuery['parameters']['query'], ApiCreatePostQuery['parameters']['query'], ApiUpdateCommentQuery['parameters']['query'], etc.
+   * The value of the type of the query parameters of the API endpoint,
+   * such as ApiGetUsersQuery['parameters']['query'], ApiCreatePostQuery['parameters']['query'],
+   * ApiUpdateCommentQuery['parameters']['query'], etc.
    */
   typeQueryValue: string
   /**
-   * The type name of the request body of the API endpoint, such as ApiGetUsersRequestBody, ApiCreatePostRequestBody, ApiUpdateCommentRequestBody, etc.
+   * The type name of the request body of the API endpoint,
+   * such as ApiGetUsersRequestBody, ApiCreatePostRequestBody, ApiUpdateCommentRequestBody, etc.
    */
   typeRequestBody: string
   /**
-   * The value of the type of the request body of the API endpoint, such as ApiGetUsersRequestBody['requestBody']['content']['application/json'], ApiCreatePostRequestBody['requestBody']['content']['application/json'], ApiUpdateCommentRequestBody['requestBody']['content']['application/json'], etc.
+   * The value of the type of the request body of the API endpoint,
+   * such as ApiGetUsersRequestBody['requestBody']['content']['application/json'],
+   * ApiCreatePostRequestBody['requestBody']['content']['application/json'],
+   * ApiUpdateCommentRequestBody['requestBody']['content']['application/json'], etc.
    */
   typeRequestBodyValue: string
   /**
-   * The type name of the response body of the API endpoint, such as ApiGetUsersResponseBody, ApiCreatePostResponseBody, ApiUpdateCommentResponseBody, etc.
+   * The type name of the response body of the API endpoint,
+   * such as ApiGetUsersResponseBody, ApiCreatePostResponseBody, ApiUpdateCommentResponseBody, etc.
    */
   typeResponseBody: string
   /**
-   * The value of the type of the response body of the API endpoint, such as ApiGetUsersResponseBody['responses']['200']['content']['application/json'], ApiCreatePostResponseBody['responses']['201']['content']['application/json'], ApiUpdateCommentResponseBody['responses']['200']['content']['application/json'], etc.
+   * The value of the type of the response body of the API endpoint,
+   * such as ApiGetUsersResponseBody['responses']['200']['content']['application/json'],
+   * ApiCreatePostResponseBody['responses']['201']['content']['application/json'],
+   * ApiUpdateCommentResponseBody['responses']['200']['content']['application/json'], etc.
    */
   typeResponseBodyValue: string
 }
