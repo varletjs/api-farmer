@@ -54,7 +54,7 @@ npx af
 
 ### Custom EJS Template
 
-Create `api-farmer.ejs` in the project root path.
+Create `api-farmer.ejs` in the project root, which will replace the `preset` template.
 The template format can refer to the preset template listed below:
 
 - [Axle](templates/axle.ejs)
