@@ -1,3 +1,9 @@
+## [0.0.3](https://github.com/varletjs/api-farmer/compare/v0.0.2...v0.0.3) (2025-01-16)
+
+### Features
+
+- support transform module name ([eee1ce1](https://github.com/varletjs/api-farmer/commit/eee1ce1c3d3273ec7362c8ec4e78ecf47f8250d3))
+
 ## [0.0.2](https://github.com/varletjs/api-farmer/compare/v0.0.1...v0.0.2) (2025-01-16)
 
 ### Features
