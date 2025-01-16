@@ -9,7 +9,7 @@ export const <%- payload.fn %> = api
   <%- payload.typeQuery %> 
 <% } else { %>
   <%- payload.typeRequestBody %> 
-<% } %>>
+<% } %>, <%- payload.typeRequestBody %>>
 <% } %>
 ('<%- payload.url %>', '<%- payload.method %>')
 
