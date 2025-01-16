@@ -183,7 +183,7 @@ export function partitionApiModules(
         const typeResponseBody = transformer.typeResponseBody({ verb, entity })
 
         const statusCode = statusCodes[method as keyof StatusCodes] ?? 200
-        const mime = (operation.responses?.[statusCode] as ResponseObject).content?.['application/json']
+        const mime = (operation.responses?.[statusCode] as ResponseObject | undefined)?.content?.['application/json']
           ? 'application/json'
           : '*/*'
         const typeResponseBodyValue = hasResponseBody(operation)
