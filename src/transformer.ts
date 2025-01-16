@@ -1,8 +1,21 @@
+import { OperationObject } from 'openapi-typescript'
 import pluralize from 'pluralize'
 import { camelize, pascalCase } from 'rattail'
 
+export type TransformerBaseArgs = {
+  path: string
+  base: string | undefined
+  url: string
+  method: string
+  operation: OperationObject
+}
+
 export function transformModuleName({ name }: { name: string }) {
   return camelize(name)
+}
+
+export function transformUrl({ path, base }: { path: string; base: string | undefined }) {
+  return (base ? path.replace(base, '') : path).replace(/{/g, ':').replace(/}/g, '')
 }
 
 export function transformVerb({ method }: { method: string }) {
@@ -16,11 +29,7 @@ export function transformVerb({ method }: { method: string }) {
   }
 }
 
-export function transformUrl({ path, base }: { path: string; base?: string }) {
-  return (base ? path.replace(base, '') : path).replace(/{/g, ':').replace(/}/g, '')
-}
-
-export function transformEntity({ path, method, base }: { path: string; method: string; base?: string }) {
+export function transformEntity({ path, method, base }: TransformerBaseArgs) {
   path = base ? path.replace(base, '') : path
 
   const words = path.split('/').filter(Boolean)
@@ -39,37 +48,51 @@ export function transformEntity({ path, method, base }: { path: string; method: 
   }, '')
 }
 
-export function transformFn({ verb, entity }: { verb: string; entity: string }) {
+export function transformFn({ verb, entity }: { verb: string; entity: string } & TransformerBaseArgs) {
   return `api${verb}${entity}`
 }
 
-export function transformType({ verb, entity }: { verb: string; entity: string }) {
+export function transformType({ verb, entity }: { verb: string; entity: string } & TransformerBaseArgs) {
   return `Api${verb}${entity}`
 }
 
-export function transformTypeValue({ path, method }: { path: string; method: string }) {
+export function transformTypeValue({ path, method }: { verb: string; entity: string } & TransformerBaseArgs) {
   return `paths['${path}']['${method}']`
 }
 
-export function transformTypeQuery({ verb, entity }: { verb: string; entity: string }) {
+export function transformTypeQuery({
+  verb,
+  entity,
+}: { type: string; verb: string; entity: string } & TransformerBaseArgs) {
   return `Api${verb}${entity}Query`
 }
 
-export function transformTypeQueryValue({ type }: { type: string }) {
+export function transformTypeQueryValue({
+  type,
+}: { type: string; verb: string; entity: string } & TransformerBaseArgs) {
   return `${type}['parameters']['query']`
 }
 
-export function transformTypeRequestBody({ verb, entity }: { verb: string; entity: string }) {
+export function transformTypeRequestBody({
+  verb,
+  entity,
+}: { type: string; verb: string; entity: string } & TransformerBaseArgs) {
   return `Api${verb}${entity}RequestBody`
 }
 
-export function transformTypeRequestBodyValue({ type, required }: { type: string; required: boolean }) {
+export function transformTypeRequestBodyValue({
+  type,
+  required,
+}: { type: string; verb: string; entity: string; required: boolean } & TransformerBaseArgs) {
   return required
     ? `${type}['requestBody']['content']['application/json']`
     : `NonNullable<${type}['requestBody']>['content']['application/json'] | undefined`
 }
 
-export function transformTypeResponseBody({ verb, entity }: { verb: string; entity: string }) {
+export function transformTypeResponseBody({
+  verb,
+  entity,
+}: { type: string; verb: string; entity: string } & TransformerBaseArgs) {
   return `Api${verb}${entity}ResponseBody`
 }
 
@@ -79,9 +102,11 @@ export function transformTypeResponseBodyValue({
   mime,
 }: {
   type: string
+  verb: string
+  entity: string
   statusCode: number
   mime: string
-}) {
+} & TransformerBaseArgs) {
   return `${type}['responses']['${statusCode}']['content']['${mime}']`
 }
 

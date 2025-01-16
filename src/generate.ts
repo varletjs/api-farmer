@@ -7,7 +7,7 @@ import { groupBy, isArray, merge } from 'rattail'
 import { logger } from 'rslog'
 import { getConfig } from './config'
 import { CWD } from './constants'
-import { createTransformer, Transformer } from './transformer'
+import { createTransformer, Transformer, TransformerBaseArgs } from './transformer'
 import {
   createStatusCodesByStrategy,
   getResponseMime,
@@ -172,27 +172,37 @@ export function partitionApiModules(
       const pathItems = schemaPaths[path] as Record<string, OperationObject>
       const childPayloads = Object.entries(pathItems).reduce((payloads, [method, operation]) => {
         const url = transformer.url({ path, base })
-        const entity = transformer.entity({ path, method, base })
-        const verb = transformer.verb({ method })
-        const fn = transformer.fn({ verb, entity })
+        const args: TransformerBaseArgs = { path, base, url, method, operation }
 
-        const type = transformer.type({ verb, entity })
-        const typeValue = transformer.typeValue({ path, method })
-        const typeQuery = transformer.typeQuery({ verb, entity })
-        const typeQueryValue = hasQueryParameter(operation) ? transformer.typeQueryValue({ type }) : 'never'
+        const entity = transformer.entity(args)
+        const verb = transformer.verb(args)
 
-        const typeRequestBody = transformer.typeRequestBody({ verb, entity })
+        const fn = transformer.fn({ ...args, verb, entity })
+        const type = transformer.type({ ...args, verb, entity })
+        const typeValue = transformer.typeValue({ ...args, verb, entity })
+
+        const typeQuery = transformer.typeQuery({ ...args, type, verb, entity })
+        const typeQueryValue = hasQueryParameter(operation)
+          ? transformer.typeQueryValue({ ...args, type, verb, entity })
+          : 'never'
+
+        const typeRequestBody = transformer.typeRequestBody({ ...args, type, verb, entity })
         const typeRequestBodyValue = operation.requestBody
           ? transformer.typeRequestBodyValue({
+              ...args,
               type,
+              verb,
+              entity,
               required: isRequiredRequestBody(operation.requestBody),
             })
           : 'never'
 
         const statusCode = statusCodes[method as keyof StatusCodes] ?? 200
         const mime = getResponseMime(operation, statusCode)
-        const typeResponseBody = transformer.typeResponseBody({ verb, entity })
-        const typeResponseBodyValue = mime ? transformer.typeResponseBodyValue({ type, statusCode, mime }) : 'never'
+        const typeResponseBody = transformer.typeResponseBody({ ...args, type, verb, entity })
+        const typeResponseBodyValue = mime
+          ? transformer.typeResponseBodyValue({ ...args, type, verb, entity, statusCode, mime })
+          : 'never'
 
         payloads.push({
           fn,
