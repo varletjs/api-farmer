@@ -67,6 +67,7 @@ See the bottom of the document for template variable definitions.
 `Restful API` recommends using different successful http status codes for different methods, such as `get: 200`, `post: 201`, etc. If you don't need this strategy, you can set `statusCodeStrategy` to `loose`
 
 ```ts
+// api-farmer.config.ts
 import { defineConfig } from 'api-farmer'
 
 export default defineConfig({
