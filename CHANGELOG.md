@@ -1,3 +1,9 @@
+## [0.0.6](https://github.com/varletjs/api-farmer/compare/v0.0.5...v0.0.6) (2025-01-16)
+
+### Bug Fixes
+
+- fix optional requestBody types error and adjust response mime handler ([f744f2d](https://github.com/varletjs/api-farmer/commit/f744f2dddae66538f07b0c4a23ee7c9206dda2ce))
+
 ## [0.0.5](https://github.com/varletjs/api-farmer/compare/v0.0.4...v0.0.5) (2025-01-16)
 
 ### Bug Fixes
