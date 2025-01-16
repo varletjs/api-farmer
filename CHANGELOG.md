@@ -1,3 +1,9 @@
+## [0.0.5](https://github.com/varletjs/api-farmer/compare/v0.0.4...v0.0.5) (2025-01-16)
+
+### Bug Fixes
+
+- fix nullish error and lost templates ([77723ec](https://github.com/varletjs/api-farmer/commit/77723ec4886eac0c21b25e615b1ef3a0175d83c1))
+
 ## [0.0.4](https://github.com/varletjs/api-farmer/compare/v0.0.3...v0.0.4) (2025-01-16)
 
 ## [0.0.3](https://github.com/varletjs/api-farmer/compare/v0.0.2...v0.0.3) (2025-01-16)
