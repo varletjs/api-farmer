@@ -33,7 +33,7 @@ export interface ApiModulePayload {
   typeRequestBody: string
   typeRequestBodyValue: string
   typeResponseBody: string
-  typeResponseBodyValue?: string
+  typeResponseBodyValue: string
 }
 
 export interface ApiModule {
