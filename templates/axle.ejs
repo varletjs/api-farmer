@@ -2,7 +2,16 @@ import { api } from '@/request'
 <% if (ts) { %> import { type paths } from './<%- typesFilename %>' <% } %>
 
 <% apiModule.payloads.forEach(payload => { %> -%>
-export const <%- payload.fn %> = api<% if (ts) { %><Res<<%- payload.typeResponseBody %>>, <%- payload.typeRequestBody %>><% } %>('<%- payload.url %>', '<%- payload.method %>')
+export const <%- payload.fn %> = api
+<% if (ts) { %>
+<Res<<%- payload.typeResponseBody %>>, 
+<% if (['get', 'delete', 'head', 'options'].includes(payload.method)) { %> 
+  <%- payload.typeQuery %> 
+<% } else { %>
+  <%- payload.typeRequestBody %> 
+<% } %>>
+<% } %>
+('<%- payload.url %>', '<%- payload.method %>')
 
 <% }) %>
 
