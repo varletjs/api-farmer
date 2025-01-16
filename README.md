@@ -38,7 +38,7 @@ export default defineConfig({
   input: './schema.yaml',
   // generated codes output path, defaults './src/apis'
   output: './src/apis',
-  // axle or axios, defaults axle.
+  // 'axle' or 'axios', defaults 'axle'.
   preset: 'axios',
 })
 ```
@@ -61,6 +61,19 @@ The template format can refer to the preset template listed below:
 - [Axios](templates/axios.ejs)
 
 See the bottom of the document for template variable definitions.
+
+### Status Code Strategy
+
+`Restful API` recommends using different successful http status codes for different methods, such as `get: 200`, `post: 201`, etc. If you don't need this strategy, you can set `statusCodeStrategy` to `loose`
+
+```ts
+import { defineConfig } from 'api-farmer'
+
+export default defineConfig({
+  // 'strict' or 'loose', defaults 'strict'
+  statusCodeStrategy: 'loose',
+})
+```
 
 ### Transformer API
 
