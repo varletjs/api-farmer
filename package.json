@@ -1,7 +1,7 @@
 {
   "name": "api-farmer",
   "version": "0.0.4",
-  "description": "A cli to generate apis from a schema",
+  "description": "API module generation tool based on Openapi3/Swagger2.",
   "keywords": [
     "cli",
     "api generator",
