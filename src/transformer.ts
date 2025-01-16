@@ -1,5 +1,9 @@
 import pluralize from 'pluralize'
-import { pascalCase } from 'rattail'
+import { camelize, pascalCase } from 'rattail'
+
+export function transformModuleName(name: string) {
+  return camelize(name)
+}
 
 export function transformVerb(method: string) {
   switch (method) {
@@ -72,6 +76,7 @@ export function transformTypeResponseBodyValue(type: string, statusCode: number,
 }
 
 export interface Transformer {
+  moduleName: typeof transformModuleName
   verb: typeof transformVerb
   url: typeof transformUrl
   entity: typeof transformEntity
@@ -88,6 +93,7 @@ export interface Transformer {
 
 export function createTransformer(): Transformer {
   return {
+    moduleName: transformModuleName,
     verb: transformVerb,
     url: transformUrl,
     entity: transformEntity,

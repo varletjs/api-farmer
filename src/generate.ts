@@ -132,7 +132,7 @@ export function partitionApiModules(
       return payloads
     }, [] as ApiModulePayload[])
 
-    apiModules.push({ name, payloads })
+    apiModules.push({ name: transformer.moduleName(name), payloads })
 
     return apiModules
   }, [] as ApiModule[])
