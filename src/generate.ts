@@ -6,7 +6,7 @@ import prettier from 'prettier'
 import { groupBy, isArray, merge } from 'rattail'
 import { logger } from 'rslog'
 import { getConfig } from './config'
-import { CWD } from './constants'
+import { CWD, SUPPORTED_HTTP_METHODS } from './constants'
 import { createTransformer, Transformer, TransformerBaseArgs } from './transformer'
 import {
   createStatusCodesByStrategy,
@@ -155,84 +155,97 @@ export interface GenerateOptions {
   }
 }
 
-export function partitionApiModules(
-  schema: OpenAPI3,
-  transformer: Transformer,
+export function transformPayloads(
+  pathItems: Record<string, OperationObject>,
   options: {
-    ts: boolean
+    path: string
     statusCodeStrategy: StatusCodeStrategy
     statusCodes: StatusCodes
-    base?: string
+    transformer: Transformer
+    base: string | undefined
+  },
+) {
+  const { transformer, path, base, statusCodeStrategy, statusCodes } = options
+  return Object.entries(pathItems)
+    .filter(([key]) => SUPPORTED_HTTP_METHODS.includes(key))
+    .reduce((payloads, [method, operation]) => {
+      const url = transformer.url({ path, base })
+      const args: TransformerBaseArgs = { path, base, url, method, operation }
+
+      const entity = transformer.entity(args)
+      const verb = transformer.verb(args)
+
+      const fn = transformer.fn({ ...args, verb, entity })
+      const type = transformer.type({ ...args, verb, entity })
+      const typeValue = transformer.typeValue({ ...args, verb, entity })
+
+      const typeQuery = transformer.typeQuery({ ...args, type, verb, entity })
+      const typeQueryValue = hasQueryParameter(operation)
+        ? transformer.typeQueryValue({ ...args, type, verb, entity })
+        : 'never'
+
+      const typeRequestBody = transformer.typeRequestBody({ ...args, type, verb, entity })
+      const typeRequestBodyValue = operation.requestBody
+        ? transformer.typeRequestBodyValue({
+            ...args,
+            type,
+            verb,
+            entity,
+            required: isRequiredRequestBody(operation.requestBody),
+          })
+        : 'never'
+
+      const { mime, statusCode } = doStatusCodeStrategy(
+        operation,
+        statusCodes[method as keyof StatusCodes] ?? 200,
+        statusCodeStrategy,
+      )
+
+      const typeResponseBody = transformer.typeResponseBody({ ...args, type, verb, entity })
+      const typeResponseBodyValue =
+        mime && statusCode
+          ? transformer.typeResponseBodyValue({ ...args, type, verb, entity, statusCode, mime })
+          : 'never'
+
+      payloads.push({
+        fn,
+        url,
+        method,
+        verb,
+        entity,
+        type,
+        typeValue,
+        typeQuery,
+        typeQueryValue,
+        typeRequestBody,
+        typeRequestBodyValue,
+        typeResponseBody,
+        typeResponseBodyValue,
+      })
+
+      return payloads
+    }, [] as ApiModulePayload[])
+}
+
+export function partitionApiModules(
+  schema: OpenAPI3,
+  options: {
+    transformer: Transformer
+    statusCodeStrategy: StatusCodeStrategy
+    statusCodes: StatusCodes
+    base: string | undefined
   },
 ): ApiModule[] {
-  const { statusCodes, statusCodeStrategy, base } = options
+  const { base, transformer } = options
+
   const schemaPaths = schema.paths ?? {}
   const schemaPathKeys = base ? Object.keys(schemaPaths).map((key) => key.replace(base, '')) : Object.keys(schemaPaths)
   const keyToPaths = groupBy(schemaPathKeys, (key) => key.split('/')[1])
-
   const apiModules = Object.entries(keyToPaths).reduce((apiModules, [name, paths]) => {
     const payloads = paths.reduce((payloads, path) => {
-      path = base ? base + path : path
       const pathItems = schemaPaths[path] as Record<string, OperationObject>
-      const childPayloads = Object.entries(pathItems).reduce((payloads, [method, operation]) => {
-        const url = transformer.url({ path, base })
-        const args: TransformerBaseArgs = { path, base, url, method, operation }
 
-        const entity = transformer.entity(args)
-        const verb = transformer.verb(args)
-
-        const fn = transformer.fn({ ...args, verb, entity })
-        const type = transformer.type({ ...args, verb, entity })
-        const typeValue = transformer.typeValue({ ...args, verb, entity })
-
-        const typeQuery = transformer.typeQuery({ ...args, type, verb, entity })
-        const typeQueryValue = hasQueryParameter(operation)
-          ? transformer.typeQueryValue({ ...args, type, verb, entity })
-          : 'never'
-
-        const typeRequestBody = transformer.typeRequestBody({ ...args, type, verb, entity })
-        const typeRequestBodyValue = operation.requestBody
-          ? transformer.typeRequestBodyValue({
-              ...args,
-              type,
-              verb,
-              entity,
-              required: isRequiredRequestBody(operation.requestBody),
-            })
-          : 'never'
-
-        const { mime, statusCode } = doStatusCodeStrategy(
-          operation,
-          statusCodes[method as keyof StatusCodes] ?? 200,
-          statusCodeStrategy,
-        )
-
-        const typeResponseBody = transformer.typeResponseBody({ ...args, type, verb, entity })
-        const typeResponseBodyValue =
-          mime && statusCode
-            ? transformer.typeResponseBodyValue({ ...args, type, verb, entity, statusCode, mime })
-            : 'never'
-
-        payloads.push({
-          fn,
-          url,
-          method,
-          verb,
-          entity,
-          type,
-          typeValue,
-          typeQuery,
-          typeQueryValue,
-          typeRequestBody,
-          typeRequestBodyValue,
-          typeResponseBody,
-          typeResponseBodyValue,
-        })
-
-        return payloads
-      }, [] as ApiModulePayload[])
-
-      payloads.push(...childPayloads)
+      payloads.push(...transformPayloads(pathItems, { ...options, path: base ? base + path : path, transformer }))
 
       return payloads
     }, [] as ApiModulePayload[])
@@ -335,7 +348,13 @@ export async function generate(userOptions: GenerateOptions = {}) {
     await generateTypes(schema, output, typesFilename)
   }
 
-  const apiModules = partitionApiModules(schema, mergedTransformer, { statusCodes, statusCodeStrategy, ts, base })
+  const apiModules = partitionApiModules(schema, {
+    statusCodes,
+    statusCodeStrategy,
+    base,
+    transformer: mergedTransformer,
+  })
+
   await renderApiModules(apiModules, { output, typesFilename, ts, overrides, preset })
   logger.success('Done')
 }
