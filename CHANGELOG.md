@@ -1,3 +1,9 @@
+## [0.0.9](https://github.com/varletjs/api-farmer/compare/v0.0.8...v0.0.9) (2025-01-16)
+
+### Features
+
+- enhance transform process ([d2ab6cc](https://github.com/varletjs/api-farmer/commit/d2ab6cccfffcfe9e69014d89634cd7ac68bdd009))
+
 ## [0.0.8](https://github.com/varletjs/api-farmer/compare/v0.0.7...v0.0.8) (2025-01-16)
 
 ### Features
