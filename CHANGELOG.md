@@ -1,3 +1,9 @@
+## [0.0.13](https://github.com/varletjs/api-farmer/compare/v0.0.12...v0.0.13) (2025-01-17)
+
+### Bug Fixes
+
+- replace never with undefined ([8e99b21](https://github.com/varletjs/api-farmer/commit/8e99b21d0f5d3cf7fc116b1ab7cf92205b34ec5b))
+
 ## [0.0.12](https://github.com/varletjs/api-farmer/compare/v0.0.11...v0.0.12) (2025-01-17)
 
 ### Features
