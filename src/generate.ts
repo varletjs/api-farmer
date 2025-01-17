@@ -182,7 +182,7 @@ export function transformPayloads(
       const typeQuery = transformer.typeQuery({ ...args, type, verb, entity })
       const typeQueryValue = hasQueryParameter(operation)
         ? transformer.typeQueryValue({ ...args, type, verb, entity })
-        : 'never'
+        : 'undefined'
 
       const typeRequestBody = transformer.typeRequestBody({ ...args, type, verb, entity })
       const typeRequestBodyValue = operation.requestBody
@@ -193,7 +193,7 @@ export function transformPayloads(
             entity,
             required: isRequiredRequestBody(operation.requestBody),
           })
-        : 'never'
+        : 'undefined'
 
       const { mime, statusCode } = doStatusCodeStrategy(
         operation,
@@ -205,7 +205,7 @@ export function transformPayloads(
       const typeResponseBodyValue =
         mime && statusCode
           ? transformer.typeResponseBodyValue({ ...args, type, verb, entity, statusCode, mime })
-          : 'never'
+          : 'undefined'
 
       payloads.push({
         fn,
