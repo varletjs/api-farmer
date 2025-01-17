@@ -36,8 +36,8 @@ import { defineConfig } from 'api-farmer'
 export default defineConfig({
   // openapi or swagger schema path, defaults './schema.json'
   input: './schema.yaml',
-  // generated codes output path, defaults './src/apis'
-  output: './src/apis',
+  // generated codes output path, defaults './src/apis/generated'
+  output: './src/apis/generated',
   // 'axle' or 'axios', defaults 'axle'.
   preset: 'axios',
 })
@@ -242,8 +242,8 @@ export interface ApiModulePayload {
    */
   typeQuery: string
   /**
-   * The value of the type of the query parameters of the API endpoint,
-   * such as ApiGetUsersQuery['parameters']['query'], ApiCreatePostQuery['parameters']['query'],
+   * The value of the type of the query parameters of the API endpoint, such as
+   * ApiGetUsersQuery['parameters']['query'], ApiCreatePostQuery['parameters']['query'],
    * ApiUpdateCommentQuery['parameters']['query'], etc.
    */
   typeQueryValue: string
@@ -253,8 +253,8 @@ export interface ApiModulePayload {
    */
   typeRequestBody: string
   /**
-   * The value of the type of the request body of the API endpoint,
-   * such as ApiGetUsersRequestBody['requestBody']['content']['application/json'],
+   * The value of the type of the request body of the API endpoint, such as
+   * ApiGetUsersRequestBody['requestBody']['content']['application/json'],
    * ApiCreatePostRequestBody['requestBody']['content']['application/json'],
    * ApiUpdateCommentRequestBody['requestBody']['content']['application/json'], etc.
    */

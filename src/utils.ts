@@ -88,7 +88,7 @@ export function doStatusCodeStrategy(operation: OperationObject, statusCode: num
     const responses = operation.responses ?? {}
     const codeKey = Object.keys(responses)
       .sort((a, b) => Number(a) - Number(b))
-      .find((codeKey) => Number(codeKey) >= statusCode && Number(codeKey) <= 299)
+      .find((codeKey) => Number(codeKey) >= 200 && Number(codeKey) <= 299)
 
     if (!codeKey) {
       return {

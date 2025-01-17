@@ -4,7 +4,7 @@
     "gen": "af"
   },
   "dependencies": {
-    "@varlet/axle": "^0.10.1"
+    "@varlet/axle": "^0.10.2"
   },
   "devDependencies": {
     "api-farmer": "workspace:*"

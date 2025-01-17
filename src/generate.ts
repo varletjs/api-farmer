@@ -328,8 +328,8 @@ export async function generate(userOptions: GenerateOptions = {}) {
     preset = 'axle',
     statusCodeStrategy = 'smart',
     input = './schema.json',
-    output = './src/apis',
-    typesFilename = 'types.generated.ts',
+    output = './src/apis/generated',
+    typesFilename = '_types.ts',
     transformer = {},
   } = options
 

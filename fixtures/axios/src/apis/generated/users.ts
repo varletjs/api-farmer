@@ -1,6 +1,6 @@
 import { type AxiosRequestConfig } from 'axios'
 import { request } from '@/request'
-import { type paths } from './types.generated'
+import { type paths } from './_types'
 
 export const apiGetUsers = (config: AxiosRequestConfig<ApiGetUsersRequestBody>) =>
   request<any, Res<ApiGetUsersResponseBody>>({
@@ -67,42 +67,42 @@ export type ApiDeleteUserResource = paths['/users/{userId}/resources/{resourceId
 
 export type ApiGetUsersQuery = ApiGetUsers['parameters']['query']
 
-export type ApiCreateUserQuery = never
+export type ApiCreateUserQuery = undefined
 
-export type ApiGetUserQuery = never
+export type ApiGetUserQuery = undefined
 
 export type ApiGetUserResourcesQuery = ApiGetUserResources['parameters']['query']
 
-export type ApiCreateUserResourceQuery = never
+export type ApiCreateUserResourceQuery = undefined
 
-export type ApiGetUserResourceQuery = never
+export type ApiGetUserResourceQuery = undefined
 
-export type ApiDeleteUserResourceQuery = never
+export type ApiDeleteUserResourceQuery = undefined
 
-export type ApiGetUsersRequestBody = never
+export type ApiGetUsersRequestBody = undefined
 
 export type ApiCreateUserRequestBody = ApiCreateUser['requestBody']['content']['application/json']
 
-export type ApiGetUserRequestBody = never
+export type ApiGetUserRequestBody = undefined
 
-export type ApiGetUserResourcesRequestBody = never
+export type ApiGetUserResourcesRequestBody = undefined
 
 export type ApiCreateUserResourceRequestBody = ApiCreateUserResource['requestBody']['content']['application/json']
 
-export type ApiGetUserResourceRequestBody = never
+export type ApiGetUserResourceRequestBody = undefined
 
-export type ApiDeleteUserResourceRequestBody = never
+export type ApiDeleteUserResourceRequestBody = undefined
 
 export type ApiGetUsersResponseBody = ApiGetUsers['responses']['200']['content']['*/*']
 
-export type ApiCreateUserResponseBody = never
+export type ApiCreateUserResponseBody = undefined
 
 export type ApiGetUserResponseBody = ApiGetUser['responses']['200']['content']['*/*']
 
 export type ApiGetUserResourcesResponseBody = ApiGetUserResources['responses']['200']['content']['*/*']
 
-export type ApiCreateUserResourceResponseBody = never
+export type ApiCreateUserResourceResponseBody = undefined
 
 export type ApiGetUserResourceResponseBody = ApiGetUserResource['responses']['200']['content']['*/*']
 
-export type ApiDeleteUserResourceResponseBody = never
+export type ApiDeleteUserResourceResponseBody = undefined
