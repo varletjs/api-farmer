@@ -1,3 +1,9 @@
+## [0.0.15](https://github.com/varletjs/api-farmer/compare/v0.0.14...v0.0.15) (2025-01-17)
+
+### Bug Fixes
+
+- handling path names containing . ([908b60d](https://github.com/varletjs/api-farmer/commit/908b60dc696c7ba666e4c1e83af8ddee64d2b963))
+
 ## [0.0.14](https://github.com/varletjs/api-farmer/compare/v0.0.13...v0.0.14) (2025-01-17)
 
 ## [0.0.13](https://github.com/varletjs/api-farmer/compare/v0.0.12...v0.0.13) (2025-01-17)
