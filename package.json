@@ -42,8 +42,8 @@
     "dev": "tsup src/index.ts src/cli.ts --format esm,cjs --watch --dts --shims",
     "format": "prettier --write .",
     "lint": "eslint . --fix",
-    "prepare": "simple-git-hooks && pnpm build",
-    "release": "vr release"
+    "prepare": "simple-git-hooks",
+    "release": "pnpm build && vr release"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm exec nano-staged --allow-empty",
