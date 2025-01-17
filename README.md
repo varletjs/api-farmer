@@ -51,7 +51,6 @@ npx af
 
 > [!TIP]
 > The generated content does not include the integration of the request client.
-> If you allow ts code output, you will see a custom type called `Res`. This type needs to be defined in `global.d.ts` for use.
 
 #### Some Examples
 

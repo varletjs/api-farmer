@@ -3,49 +3,49 @@ import { request } from '@/request'
 import { type paths } from './_types'
 
 export const apiGetUsers = (config: AxiosRequestConfig<ApiGetUsersRequestBody>) =>
-  request<any, Res<ApiGetUsersResponseBody>>({
+  request<any, ApiGetUsersResponseBody>({
     url: '/users',
     method: 'get',
     ...config,
   })
 
 export const apiCreateUser = (config: AxiosRequestConfig<ApiCreateUserRequestBody>) =>
-  request<any, Res<ApiCreateUserResponseBody>>({
+  request<any, ApiCreateUserResponseBody>({
     url: '/users',
     method: 'post',
     ...config,
   })
 
 export const apiGetUser = (config: AxiosRequestConfig<ApiGetUserRequestBody>) =>
-  request<any, Res<ApiGetUserResponseBody>>({
+  request<any, ApiGetUserResponseBody>({
     url: '/users/:userId',
     method: 'get',
     ...config,
   })
 
 export const apiGetUserResources = (config: AxiosRequestConfig<ApiGetUserResourcesRequestBody>) =>
-  request<any, Res<ApiGetUserResourcesResponseBody>>({
+  request<any, ApiGetUserResourcesResponseBody>({
     url: '/users/:userId/resources',
     method: 'get',
     ...config,
   })
 
 export const apiCreateUserResource = (config: AxiosRequestConfig<ApiCreateUserResourceRequestBody>) =>
-  request<any, Res<ApiCreateUserResourceResponseBody>>({
+  request<any, ApiCreateUserResourceResponseBody>({
     url: '/users/:userId/resources',
     method: 'post',
     ...config,
   })
 
 export const apiGetUserResource = (config: AxiosRequestConfig<ApiGetUserResourceRequestBody>) =>
-  request<any, Res<ApiGetUserResourceResponseBody>>({
+  request<any, ApiGetUserResourceResponseBody>({
     url: '/users/:userId/resources/:resourceId',
     method: 'get',
     ...config,
   })
 
 export const apiDeleteUserResource = (config: AxiosRequestConfig<ApiDeleteUserResourceRequestBody>) =>
-  request<any, Res<ApiDeleteUserResourceResponseBody>>({
+  request<any, ApiDeleteUserResourceResponseBody>({
     url: '/users/:userId/resources/:resourceId',
     method: 'delete',
     ...config,

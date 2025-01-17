@@ -4,7 +4,7 @@ import { api } from '@/request'
 <% apiModule.payloads.forEach(payload => { %> -%>
 export const <%- payload.fn %> = api
 <% if (ts) { %>
-<Res<<%- payload.typeResponseBody %>>, 
+<<%- payload.typeResponseBody %>, 
 <% if (['get', 'delete', 'head', 'options'].includes(payload.method)) { %> 
   <%- payload.typeQuery %> 
 <% } else { %>

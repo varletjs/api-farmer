@@ -1,38 +1,35 @@
 import { api } from '@/request'
 import { type paths } from './_types'
 
-export const apiGetUsers = api<Res<ApiGetUsersResponseBody>, ApiGetUsersQuery, ApiGetUsersRequestBody>('/users', 'get')
+export const apiGetUsers = api<ApiGetUsersResponseBody, ApiGetUsersQuery, ApiGetUsersRequestBody>('/users', 'get')
 
-export const apiCreateUser = api<Res<ApiCreateUserResponseBody>, ApiCreateUserRequestBody, ApiCreateUserRequestBody>(
+export const apiCreateUser = api<ApiCreateUserResponseBody, ApiCreateUserRequestBody, ApiCreateUserRequestBody>(
   '/users',
   'post',
 )
 
-export const apiGetUser = api<Res<ApiGetUserResponseBody>, ApiGetUserQuery, ApiGetUserRequestBody>(
-  '/users/:userId',
-  'get',
-)
+export const apiGetUser = api<ApiGetUserResponseBody, ApiGetUserQuery, ApiGetUserRequestBody>('/users/:userId', 'get')
 
 export const apiGetUserResources = api<
-  Res<ApiGetUserResourcesResponseBody>,
+  ApiGetUserResourcesResponseBody,
   ApiGetUserResourcesQuery,
   ApiGetUserResourcesRequestBody
 >('/users/:userId/resources', 'get')
 
 export const apiCreateUserResource = api<
-  Res<ApiCreateUserResourceResponseBody>,
+  ApiCreateUserResourceResponseBody,
   ApiCreateUserResourceRequestBody,
   ApiCreateUserResourceRequestBody
 >('/users/:userId/resources', 'post')
 
 export const apiGetUserResource = api<
-  Res<ApiGetUserResourceResponseBody>,
+  ApiGetUserResourceResponseBody,
   ApiGetUserResourceQuery,
   ApiGetUserResourceRequestBody
 >('/users/:userId/resources/:resourceId', 'get')
 
 export const apiDeleteUserResource = api<
-  Res<ApiDeleteUserResourceResponseBody>,
+  ApiDeleteUserResourceResponseBody,
   ApiDeleteUserResourceQuery,
   ApiDeleteUserResourceRequestBody
 >('/users/:userId/resources/:resourceId', 'delete')

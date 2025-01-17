@@ -4,7 +4,7 @@ import { request } from '@/request'
 
 <% apiModule.payloads.forEach(payload => { %> -%>
 export const <%- payload.fn %> = (config<% if (ts) { %>: AxiosRequestConfig<<%- payload.typeRequestBody %>> <% } %>) 
-=> request<% if (ts) { %><any, Res<<%- payload.typeResponseBody %>>><% } %>({
+=> request<% if (ts) { %><any, <%- payload.typeResponseBody %>><% } %>({
   url: '<%- payload.url %>', 
   method: '<%- payload.method %>',
   ...config
