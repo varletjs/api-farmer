@@ -1,3 +1,9 @@
+## [0.0.12](https://github.com/varletjs/api-farmer/compare/v0.0.11...v0.0.12) (2025-01-17)
+
+### Features
+
+- **axle:** enhance template ([49e27c3](https://github.com/varletjs/api-farmer/commit/49e27c3afa1dfc384af058a6554b85db60f88919))
+
 ## [0.0.11](https://github.com/varletjs/api-farmer/compare/v0.0.10...v0.0.11) (2025-01-16)
 
 ### Bug Fixes
