@@ -38,6 +38,7 @@ export function transformEntity({ path, method, base }: TransformerBaseArgs) {
       return entity
     }
 
+    word = word.replace(/\.([a-z])/g, (_, p) => p.toUpperCase())
     word = pluralize.singular(pascalCase(word))
 
     if (method === 'get' && index === words.length - 1) {
