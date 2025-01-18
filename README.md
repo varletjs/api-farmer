@@ -125,6 +125,10 @@ export interface Config {
    */
   ts?: boolean
   /**
+   * Whether to generate only types.
+   */
+  typesOnly?: boolean
+  /**
    * Whether to override the existing files, or an array of filenames to override.
    */
   overrides?: boolean | string[]
@@ -151,6 +155,10 @@ export interface ApiModuleTemplateData {
    * Whether to generate ts code
    */
   ts: boolean
+  /**
+   * Whether to generate only types.
+   */
+  typesOnly?: boolean
 }
 
 export interface ApiModule {

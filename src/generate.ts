@@ -30,6 +30,10 @@ export interface ApiModuleTemplateData {
    * Whether to generate ts code
    */
   ts: boolean
+  /**
+   * Whether to generate only types
+   */
+  typesOnly: boolean
 }
 
 export interface ApiModule {
@@ -123,6 +127,10 @@ export interface GenerateOptions {
    * Whether to generate TypeScript code.
    */
   ts?: boolean
+  /**
+   * Whether to generate only types.
+   */
+  typesOnly?: boolean
   /**
    * Whether to override the existing files, or an array of filenames to override.
    */
@@ -234,11 +242,12 @@ export function renderApiModules(
     output: string
     typesFilename: string
     ts: boolean
+    typesOnly: boolean
     overrides: boolean | string[]
     preset: Preset
   },
 ) {
-  const { output, ts, overrides, preset } = options
+  const { output, ts, typesOnly, overrides, preset } = options
   const templateFile = readTemplateFile(preset)
   const typesFilename = options.typesFilename.replace('.ts', '')
 
@@ -250,6 +259,7 @@ export function renderApiModules(
             apiModule,
             typesFilename,
             ts,
+            typesOnly,
           }
 
           prettier
@@ -294,6 +304,7 @@ export async function generate(userOptions: GenerateOptions = {}) {
   const {
     base,
     ts = true,
+    typesOnly = false,
     overrides = true,
     preset = 'axle',
     input = './schema.json',
@@ -317,6 +328,6 @@ export async function generate(userOptions: GenerateOptions = {}) {
     transformer: mergedTransformer,
   })
 
-  await renderApiModules(apiModules, { output, typesFilename, ts, overrides, preset })
+  await renderApiModules(apiModules, { output, typesFilename, ts, typesOnly, overrides, preset })
   logger.success('Done')
 }

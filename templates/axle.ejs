@@ -1,6 +1,7 @@
-import { api } from '@/request'
+<% if (!typesOnly) { %> import { api } from '@/request' <% } %>
 <% if (ts) { %> import { type paths } from './<%- typesFilename %>' <% } %>
 
+<% if (!typesOnly) { %>
 <% apiModule.payloads.forEach(payload => { %> -%>
 export const <%- payload.fn %> = api
 <% if (ts) { %>
@@ -14,6 +15,7 @@ export const <%- payload.fn %> = api
 ('<%- payload.url %>', '<%- payload.method %>')
 
 <% }) %>
+<% } %>
 
 <% if (ts) { %>
 <% apiModule.payloads.forEach(payload => { %> -%>
