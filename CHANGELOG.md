@@ -1,3 +1,13 @@
+## [0.0.17](https://github.com/varletjs/api-farmer/compare/v0.0.16...v0.0.17) (2025-01-18)
+
+### Bug Fixes
+
+- remove status code strategy ([dc5159f](https://github.com/varletjs/api-farmer/commit/dc5159f4563a21b08b22ba24d337785fc54933d4))
+
+### Features
+
+- support typesOnly ([a6d4c99](https://github.com/varletjs/api-farmer/commit/a6d4c99f711a5d27921736194390167137a90b2a))
+
 ## [0.0.16](https://github.com/varletjs/api-farmer/compare/v0.0.15...v0.0.16) (2025-01-17)
 
 ## [0.0.15](https://github.com/varletjs/api-farmer/compare/v0.0.14...v0.0.15) (2025-01-17)
