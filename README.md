@@ -56,32 +56,6 @@ npx af
 
 Some simple usage examples can be found [here](fixtures)
 
-### Custom EJS Template
-
-Create `api-farmer.ejs` in the project root, which will replace the `preset` template.
-The template format can refer to the preset template listed below:
-
-- [Axle](templates/axle.ejs)
-- [Axios](templates/axios.ejs)
-
-See the bottom of the document for template variable definitions.
-
-### Status Code Strategy
-
-`smart`: find a valid status code between [`200`, `299`] that is closest to `200` <br>
-`loose`: all success status codes are `200` <br>
-`strict`: `Restful API` recommends using different successful http status codes for different methods, such as `get: 200`, `post: 201`, etc. <br>
-
-```ts
-// api-farmer.config.ts
-import { defineConfig } from 'api-farmer'
-
-export default defineConfig({
-  // 'strict' or 'loose' or 'smart', defaults 'smart'
-  statusCodeStrategy: 'strict',
-})
-```
-
 ### Transformer API
 
 You can use the Transformer API to further define template variables, which will override the default transformation rules.
@@ -111,6 +85,16 @@ export default defineConfig({
   },
 })
 ```
+
+### Custom EJS Template
+
+Create `api-farmer.ejs` in the project root, which will replace the `preset` template.
+The template format can refer to the preset template listed below:
+
+- [Axle](templates/axle.ejs)
+- [Axios](templates/axios.ejs)
+
+See the bottom of the document for template variable definitions.
 
 ### Configuration Options
 
@@ -148,25 +132,6 @@ export interface Config {
    * The preset ejs template to use.
    */
   preset?: Preset
-  /**
-   * The status code strategy to use.
-   * loose: all success status codes are 200,
-   * strict: use the openapi recommended success status codes.
-   * smart: find a valid status code between [200, 299] that is closest to 200
-   */
-  statusCodeStrategy?: StatusCodeStrategy
-  /**
-   * The status codes to override the default status codes.
-   */
-  statusCodes?: {
-    get?: number
-    post?: number
-    put?: number
-    delete?: number
-    patch?: number
-    options?: number
-    head?: number
-  }
 }
 ```
 

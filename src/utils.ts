@@ -83,23 +83,20 @@ export function isRequiredRequestBody(value: RequestBodyObject | ReferenceObject
   return 'required' in value && value.required === true
 }
 
-export function doStatusCodeStrategy(operation: OperationObject, statusCode: number, strategy: StatusCodeStrategy) {
-  if (strategy === 'smart') {
-    const responses = operation.responses ?? {}
-    const codeKey = Object.keys(responses)
-      .sort((a, b) => Number(a) - Number(b))
-      .find((codeKey) => Number(codeKey) >= 200 && Number(codeKey) <= 299)
+export function getSuccessfulResponseMeme(operation: OperationObject) {
+  const responses = operation.responses ?? {}
+  const codeKey = Object.keys(responses)
+    .sort((a, b) => Number(a) - Number(b))
+    .find((codeKey) => Number(codeKey) >= 200 && Number(codeKey) <= 299)
 
-    if (!codeKey) {
-      return {
-        statusCode: undefined,
-        mime: undefined,
-      }
+  if (!codeKey) {
+    return {
+      statusCode: undefined,
+      mime: undefined,
     }
-
-    statusCode = Number(codeKey)
   }
 
+  const statusCode = Number(codeKey)
   const content = (operation.responses?.[statusCode] as ResponseObject | undefined)?.content
   const mime = content?.['application/json'] ? 'application/json' : content?.['*/*'] ? '*/*' : undefined
 

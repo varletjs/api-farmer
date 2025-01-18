@@ -9,15 +9,12 @@ import { getConfig } from './config'
 import { CWD, SUPPORTED_HTTP_METHODS } from './constants'
 import { createTransformer, Transformer, TransformerBaseArgs } from './transformer'
 import {
-  createStatusCodesByStrategy,
-  doStatusCodeStrategy,
+  getSuccessfulResponseMeme,
   hasQueryParameter,
   isRequiredRequestBody,
   Preset,
   readSchema,
   readTemplateFile,
-  StatusCodes,
-  StatusCodeStrategy,
 } from './utils'
 
 export interface ApiModuleTemplateData {
@@ -134,38 +131,18 @@ export interface GenerateOptions {
    * The preset ejs template to use.
    */
   preset?: Preset
-  /**
-   * The status code strategy to use.
-   * loose: all success status codes are 200,
-   * strict: use the openapi recommended success status codes.
-   * smart: find a valid status code between [200, 299] that is closest to 200
-   */
-  statusCodeStrategy?: StatusCodeStrategy
-  /**
-   * The status codes to override the default status codes.
-   */
-  statusCodes?: {
-    get?: number
-    post?: number
-    put?: number
-    delete?: number
-    patch?: number
-    options?: number
-    head?: number
-  }
 }
 
 export function transformPayloads(
   pathItems: Record<string, OperationObject>,
   options: {
     path: string
-    statusCodeStrategy: StatusCodeStrategy
-    statusCodes: StatusCodes
+
     transformer: Transformer
     base: string | undefined
   },
 ) {
-  const { transformer, path, base, statusCodeStrategy, statusCodes } = options
+  const { transformer, path, base } = options
   return Object.entries(pathItems)
     .filter(([key]) => SUPPORTED_HTTP_METHODS.includes(key))
     .reduce((payloads, [method, operation]) => {
@@ -195,12 +172,7 @@ export function transformPayloads(
           })
         : 'undefined'
 
-      const { mime, statusCode } = doStatusCodeStrategy(
-        operation,
-        statusCodes[method as keyof StatusCodes] ?? 200,
-        statusCodeStrategy,
-      )
-
+      const { mime, statusCode } = getSuccessfulResponseMeme(operation)
       const typeResponseBody = transformer.typeResponseBody({ ...args, type, verb, entity })
       const typeResponseBodyValue =
         mime && statusCode
@@ -231,8 +203,6 @@ export function partitionApiModules(
   schema: OpenAPI3,
   options: {
     transformer: Transformer
-    statusCodeStrategy: StatusCodeStrategy
-    statusCodes: StatusCodes
     base: string | undefined
   },
 ): ApiModule[] {
@@ -326,17 +296,11 @@ export async function generate(userOptions: GenerateOptions = {}) {
     ts = true,
     overrides = true,
     preset = 'axle',
-    statusCodeStrategy = 'smart',
     input = './schema.json',
     output = './src/apis/generated',
     typesFilename = '_types.ts',
     transformer = {},
   } = options
-
-  const statusCodes = {
-    ...createStatusCodesByStrategy(statusCodeStrategy),
-    ...(options.statusCodes ?? {}),
-  }
 
   const mergedTransformer = { ...createTransformer(), ...transformer }
 
@@ -349,8 +313,6 @@ export async function generate(userOptions: GenerateOptions = {}) {
   }
 
   const apiModules = partitionApiModules(schema, {
-    statusCodes,
-    statusCodeStrategy,
     base,
     transformer: mergedTransformer,
   })
