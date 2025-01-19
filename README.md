@@ -102,10 +102,12 @@ See the bottom of the document for template variable definitions.
 export interface Config {
   /**
    * The path to the OpenAPI/Swagger schema file.
+   * @default './schema.json'
    */
   input?: string
   /**
    * The path to the output directory.
+   * @default './src/apis/generated'
    */
   output?: string
   /**
@@ -114,28 +116,38 @@ export interface Config {
   base?: string
   /**
    * The filename of the generated openapi types file.
+   * @default '_types.ts'
    */
   typesFilename?: string
   /**
-   * The transformer api options, used to override the default transformation rules.
-   */
-  transformer?: Partial<Transformer>
-  /**
    * Whether to generate TypeScript code.
+   * @default true
    */
   ts?: boolean
   /**
    * Whether to generate only types.
+   * @default false
    */
   typesOnly?: boolean
   /**
    * Whether to override the existing files, or an array of filenames to override.
+   * @default true
    */
   overrides?: boolean | string[]
   /**
    * The preset ejs template to use.
+   * @default 'axle'
    */
   preset?: Preset
+  /**
+   * Defines which return status codes will be typed
+   * @default (status) => status >= 200 && status < 300
+   */
+  validateStatus?: (status: number) => boolean
+  /**
+   * The transformer api options, used to override the default transformation rules.
+   */
+  transformer?: Partial<Transformer>
 }
 ```
 

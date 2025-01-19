@@ -1,6 +1,7 @@
 import { OperationObject } from 'openapi-typescript'
 import pluralize from 'pluralize'
 import { camelize, pascalCase } from 'rattail'
+import { ResponseMetadataItem } from './utils'
 
 export type TransformerBaseArgs = {
   path: string
@@ -94,16 +95,16 @@ export function transformTypeResponseBody({
 
 export function transformTypeResponseBodyValue({
   type,
-  statusCode,
-  mime,
+  responseMetadataItems,
 }: {
   type: string
   verb: string
   entity: string
-  statusCode: number
-  mime: string
+  responseMetadataItems: ResponseMetadataItem[]
 } & TransformerBaseArgs) {
-  return `${type}['responses']['${statusCode}']['content']['${mime}']`
+  return responseMetadataItems
+    .map(({ status, mime }) => `${type}['responses']['${status}']['content']['${mime}']`)
+    .join(' | ')
 }
 
 export interface Transformer {

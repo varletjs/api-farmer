@@ -9,7 +9,7 @@ import { getConfig } from './config'
 import { CWD, SUPPORTED_HTTP_METHODS } from './constants'
 import { createTransformer, Transformer, TransformerBaseArgs } from './transformer'
 import {
-  getSuccessfulResponseMeme,
+  getValidResponseMetadataItems,
   hasQueryParameter,
   isRequiredRequestBody,
   Preset,
@@ -105,10 +105,12 @@ export interface ApiModulePayload {
 export interface GenerateOptions {
   /**
    * The path to the OpenAPI/Swagger schema file.
+   * @default './schema.json'
    */
   input?: string
   /**
    * The path to the output directory.
+   * @default './src/apis/generated'
    */
   output?: string
   /**
@@ -117,40 +119,50 @@ export interface GenerateOptions {
   base?: string
   /**
    * The filename of the generated openapi types file.
+   * @default '_types.ts'
    */
   typesFilename?: string
   /**
-   * The transformer api options, used to override the default transformation rules.
-   */
-  transformer?: Partial<Transformer>
-  /**
    * Whether to generate TypeScript code.
+   * @default true
    */
   ts?: boolean
   /**
    * Whether to generate only types.
+   * @default false
    */
   typesOnly?: boolean
   /**
    * Whether to override the existing files, or an array of filenames to override.
+   * @default true
    */
   overrides?: boolean | string[]
   /**
    * The preset ejs template to use.
+   * @default 'axle'
    */
   preset?: Preset
+  /**
+   * Defines which return status codes will be typed
+   * @default (status) => status >= 200 && status < 300
+   */
+  validateStatus?: (status: number) => boolean
+  /**
+   * The transformer api options, used to override the default transformation rules.
+   */
+  transformer?: Partial<Transformer>
 }
 
 export function transformPayloads(
   pathItems: Record<string, OperationObject>,
   options: {
     path: string
-
     transformer: Transformer
     base: string | undefined
+    validateStatus: (status: number) => boolean
   },
 ) {
-  const { transformer, path, base } = options
+  const { transformer, path, base, validateStatus } = options
   return Object.entries(pathItems)
     .filter(([key]) => SUPPORTED_HTTP_METHODS.includes(key))
     .reduce((payloads, [method, operation]) => {
@@ -180,11 +192,11 @@ export function transformPayloads(
           })
         : 'undefined'
 
-      const { mime, statusCode } = getSuccessfulResponseMeme(operation)
       const typeResponseBody = transformer.typeResponseBody({ ...args, type, verb, entity })
+      const responseMetadataItems = getValidResponseMetadataItems(operation, validateStatus)
       const typeResponseBodyValue =
-        mime && statusCode
-          ? transformer.typeResponseBodyValue({ ...args, type, verb, entity, statusCode, mime })
+        responseMetadataItems.length > 0
+          ? transformer.typeResponseBodyValue({ ...args, type, verb, entity, responseMetadataItems })
           : 'undefined'
 
       payloads.push({
@@ -212,9 +224,10 @@ export function partitionApiModules(
   options: {
     transformer: Transformer
     base: string | undefined
+    validateStatus: (status: number) => boolean
   },
 ): ApiModule[] {
-  const { base, transformer } = options
+  const { base, transformer, validateStatus } = options
 
   const schemaPaths = schema.paths ?? {}
   const schemaPathKeys = base ? Object.keys(schemaPaths).map((key) => key.replace(base, '')) : Object.keys(schemaPaths)
@@ -223,7 +236,9 @@ export function partitionApiModules(
     const payloads = paths.reduce((payloads, path) => {
       const pathItems = schemaPaths[path] as Record<string, OperationObject>
 
-      payloads.push(...transformPayloads(pathItems, { ...options, path: base ? base + path : path, transformer }))
+      payloads.push(
+        ...transformPayloads(pathItems, { ...options, path: base ? base + path : path, transformer, validateStatus }),
+      )
 
       return payloads
     }, [] as ApiModulePayload[])
@@ -310,6 +325,7 @@ export async function generate(userOptions: GenerateOptions = {}) {
     input = './schema.json',
     output = './src/apis/generated',
     typesFilename = '_types.ts',
+    validateStatus = (status: number) => status >= 200 && status < 300,
     transformer = {},
   } = options
 
@@ -326,6 +342,7 @@ export async function generate(userOptions: GenerateOptions = {}) {
   const apiModules = partitionApiModules(schema, {
     base,
     transformer: mergedTransformer,
+    validateStatus,
   })
 
   await renderApiModules(apiModules, { output, typesFilename, ts, typesOnly, overrides, preset })

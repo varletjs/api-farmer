@@ -83,25 +83,29 @@ export function isRequiredRequestBody(value: RequestBodyObject | ReferenceObject
   return 'required' in value && value.required === true
 }
 
-export function getSuccessfulResponseMeme(operation: OperationObject) {
+export type ResponseMetadataItem = { status: number; mime: string }
+
+export function getValidResponseMetadataItems(
+  operation: OperationObject,
+  validateStatus: (status: number) => boolean,
+): ResponseMetadataItem[] {
   const responses = operation.responses ?? {}
-  const codeKey = Object.keys(responses)
+  const validStatusResults = Object.keys(responses)
     .sort((a, b) => Number(a) - Number(b))
-    .find((codeKey) => Number(codeKey) >= 200 && Number(codeKey) <= 299)
+    .filter((key) => validateStatus(Number(key)))
+    .map(Number)
 
-  if (!codeKey) {
-    return {
-      statusCode: undefined,
-      mime: undefined,
-    }
-  }
+  const results = validStatusResults
+    .map((status) => {
+      const content = (operation.responses?.[status] as ResponseObject | undefined)?.content
+      const mime = content?.['application/json'] ? 'application/json' : content?.['*/*'] ? '*/*' : undefined
 
-  const statusCode = Number(codeKey)
-  const content = (operation.responses?.[statusCode] as ResponseObject | undefined)?.content
-  const mime = content?.['application/json'] ? 'application/json' : content?.['*/*'] ? '*/*' : undefined
+      return {
+        status,
+        mime,
+      }
+    })
+    .filter((result) => result.mime) as ResponseMetadataItem[]
 
-  return {
-    statusCode,
-    mime,
-  }
+  return results
 }
