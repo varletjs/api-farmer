@@ -56,6 +56,16 @@ npx af
 
 Some simple usage examples can be found [here](fixtures)
 
+### Custom code generation templates
+
+Create `api-farmer.ejs` in the project root, which will replace the `preset` template.
+The template format can refer to the preset template listed below:
+
+- [Axle](templates/axle.ejs)
+- [Axios](templates/axios.ejs)
+
+And see the bottom of the document for template variable definitions.
+
 ### Transformer API
 
 You can use the Transformer API to further define template variables, which will override the default transformation rules.
@@ -85,16 +95,6 @@ export default defineConfig({
   },
 })
 ```
-
-### Custom EJS Template
-
-Create `api-farmer.ejs` in the project root, which will replace the `preset` template.
-The template format can refer to the preset template listed below:
-
-- [Axle](templates/axle.ejs)
-- [Axios](templates/axios.ejs)
-
-See the bottom of the document for template variable definitions.
 
 ### Configuration Options
 
