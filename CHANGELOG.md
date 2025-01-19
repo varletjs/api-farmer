@@ -1,3 +1,9 @@
+## [0.0.18](https://github.com/varletjs/api-farmer/compare/v0.0.17...v0.0.18) (2025-01-19)
+
+### Features
+
+- support validateStatus ([19735a3](https://github.com/varletjs/api-farmer/commit/19735a3b26e71844696339b39abc56c27d0e8b77))
+
 ## [0.0.17](https://github.com/varletjs/api-farmer/compare/v0.0.16...v0.0.17) (2025-01-18)
 
 ### Bug Fixes
