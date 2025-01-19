@@ -30,7 +30,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "*/*": components["schemas"]["User"][];
+                        "application/json": components["schemas"]["User"][];
                     };
                 };
             };
@@ -98,7 +98,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "*/*": components["schemas"]["User"];
+                        "application/json": components["schemas"]["User"];
                     };
                 };
                 /** @description User not found. */
@@ -150,7 +150,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "*/*": components["schemas"]["Resource"][];
+                        "application/json": components["schemas"]["Resource"][];
                     };
                 };
             };
@@ -223,7 +223,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "*/*": components["schemas"]["Resource"];
+                        "application/json": components["schemas"]["Resource"];
                     };
                 };
                 /** @description Resource not found. */

@@ -76,16 +76,16 @@ export type ApiGetUserResourceRequestBody = undefined
 
 export type ApiDeleteUserResourceRequestBody = undefined
 
-export type ApiGetUsersResponseBody = ApiGetUsers['responses']['200']['content']['*/*']
+export type ApiGetUsersResponseBody = ApiGetUsers['responses']['200']['content']['application/json']
 
 export type ApiCreateUserResponseBody = undefined
 
-export type ApiGetUserResponseBody = ApiGetUser['responses']['200']['content']['*/*']
+export type ApiGetUserResponseBody = ApiGetUser['responses']['200']['content']['application/json']
 
-export type ApiGetUserResourcesResponseBody = ApiGetUserResources['responses']['200']['content']['*/*']
+export type ApiGetUserResourcesResponseBody = ApiGetUserResources['responses']['200']['content']['application/json']
 
 export type ApiCreateUserResourceResponseBody = undefined
 
-export type ApiGetUserResourceResponseBody = ApiGetUserResource['responses']['200']['content']['*/*']
+export type ApiGetUserResourceResponseBody = ApiGetUserResource['responses']['200']['content']['application/json']
 
 export type ApiDeleteUserResourceResponseBody = undefined

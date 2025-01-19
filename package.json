@@ -43,7 +43,8 @@
     "format": "prettier --write .",
     "lint": "eslint . --fix",
     "prepare": "simple-git-hooks",
-    "release": "pnpm build && vr release"
+    "release": "pnpm build && vr release",
+    "gen": "pnpm --dir ./fixtures/axios gen & pnpm --dir ./fixtures/axle gen"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm exec nano-staged --allow-empty",
