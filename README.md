@@ -34,7 +34,7 @@ pnpm i api-farmer -D
 import { defineConfig } from 'api-farmer'
 
 export default defineConfig({
-  // openapi or swagger schema path, defaults './schema.json'
+  // openapi or swagger schema path or resource url, defaults './schema.json'
   input: './schema.yaml',
   // generated codes output path, defaults './src/apis/generated'
   output: './src/apis/generated',
