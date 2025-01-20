@@ -12,8 +12,8 @@ importers:
         specifier: ^0.0.33
         version: 0.0.33
       '@varlet/axle':
-        specifier: ^0.10.1
-        version: 0.10.1(vue@3.5.13(typescript@5.3.3))
+        specifier: ^0.10.3
+        version: 0.10.3(vue@3.5.13(typescript@5.3.3))
       commander:
         specifier: ^13.0.0
         version: 13.0.0
@@ -852,13 +852,13 @@ packages:
     resolution: {integrity: sha512-v/BpkeeYAsPkKCkR8BDwcno0llhzWVqPOamQrAEMdpZav2Y9OVjd9dwJyBLJWwf335B5DmlifECIkZRJCaGaHA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@varlet/axle@0.10.1':
-    resolution: {integrity: sha512-puHq09BBxh0UdgmyVSXn5xVh6Rh/uXNA39cZXkgMxSBHOZd7aC0CjALDKbpFBuyKobiWCU+nudwPBDH7nfIcDQ==}
+  '@varlet/axle@0.10.2':
+    resolution: {integrity: sha512-SIYOdY+o8jGqk3dDgYUGPOsFbH5UnQZ4zDFd8ExQTstS3YTomFex45VjdRQvo3pgx0iMYYHgzcaK3CUt3RZBcQ==}
     peerDependencies:
       vue: ^3.2.0
 
-  '@varlet/axle@0.10.2':
-    resolution: {integrity: sha512-SIYOdY+o8jGqk3dDgYUGPOsFbH5UnQZ4zDFd8ExQTstS3YTomFex45VjdRQvo3pgx0iMYYHgzcaK3CUt3RZBcQ==}
+  '@varlet/axle@0.10.3':
+    resolution: {integrity: sha512-3x1SVx9aPGHiVhDXmuEvEyM2PbJLE/4D3jLpacLvLwjV8inh1Znu3o/g73PgGs0BFEZStceVGhv2zcN05vNEfg==}
     peerDependencies:
       vue: ^3.2.0
 
@@ -3303,7 +3303,7 @@ snapshots:
       '@typescript-eslint/types': 8.20.0
       eslint-visitor-keys: 4.2.0
 
-  '@varlet/axle@0.10.1(vue@3.5.13(typescript@5.3.3))':
+  '@varlet/axle@0.10.2(vue@3.5.13(typescript@5.3.3))':
     dependencies:
       axios: 1.7.9
       crypto-js: 4.2.0
@@ -3315,7 +3315,7 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@varlet/axle@0.10.2(vue@3.5.13(typescript@5.3.3))':
+  '@varlet/axle@0.10.3(vue@3.5.13(typescript@5.3.3))':
     dependencies:
       axios: 1.7.9
       crypto-js: 4.2.0

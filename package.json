@@ -59,7 +59,7 @@
   },
   "dependencies": {
     "@types/pluralize": "^0.0.33",
-    "@varlet/axle": "^0.10.1",
+    "@varlet/axle": "^0.10.3",
     "commander": "^13.0.0",
     "ejs": "^3.1.10",
     "fs-extra": "^11.2.0",

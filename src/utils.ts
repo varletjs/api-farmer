@@ -1,6 +1,9 @@
 import { resolve } from 'path'
+import { createAxle } from '@varlet/axle'
 import fse from 'fs-extra'
 import { OpenAPI3, OperationObject, ReferenceObject, RequestBodyObject, ResponseObject } from 'openapi-typescript'
+import { tryParseJSON } from 'rattail'
+import { logger } from 'rslog'
 import swagger from 'swagger2openapi'
 import yaml from 'yaml'
 import { CLI_PACKAGE_JSON, CUSTOM_TEMPLATE_FILE, CWD } from './constants'
@@ -52,15 +55,36 @@ export function createStatusCodesByStrategy(strategy: StatusCodeStrategy) {
 }
 
 export async function readSchema(input: string): Promise<OpenAPI3> {
-  const isYaml = input.endsWith('.yaml')
-  const path = resolve(CWD, input)
-  const content = fse.readFileSync(path, 'utf-8')
-  const swaggerOrOpenapiSchema = isYaml ? yaml.parse(content) : JSON.parse(content)
+  const content = await readSchemaContent(input)
+  const jsonSchema = tryParseJSON(content)
+  const swaggerOrOpenapiSchema = jsonSchema ? jsonSchema : yaml.parse(content)
   const schema: OpenAPI3 = swaggerOrOpenapiSchema.swagger
     ? (await swagger.convert(swaggerOrOpenapiSchema as any, {})).openapi
     : swaggerOrOpenapiSchema
 
   return schema
+}
+
+export async function readSchemaContent(input: string) {
+  if (isRemoteSchema(input)) {
+    try {
+      logger.info('Fetching remote schema...')
+      const { data } = await createAxle().get(input)
+
+      return JSON.stringify(data)
+    } catch {
+      throw new Error('Failed to fetch remote schema')
+    }
+  }
+
+  const path = resolve(CWD, input)
+  const content = fse.readFileSync(path, 'utf-8')
+
+  return content
+}
+
+export function isRemoteSchema(path: string) {
+  return path.startsWith('http://') || path.startsWith('https://')
 }
 
 export function readTemplateFile(preset: Preset = 'axle') {
