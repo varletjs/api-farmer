@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
+import axios, { AxiosRequestConfig } from 'axios'
 import * as qs from 'qs-esm'
 
 export const instance = axios.create()
@@ -12,7 +12,7 @@ export type RequestConfig<P, D> = Omit<AxiosRequestConfig<D>, 'params'> & {
   pathParams?: Record<string, any>
 }
 
-export function request<R = AxiosResponse<any>, P = Record<string, any>, D = any>(config: RequestConfig<P, D>) {
+export function request<R = any, P = Record<string, any>, D = any>(config: RequestConfig<P, D>) {
   const url = Object.entries(config.pathParams ?? {}).reduce(
     (url, [key, value]) => url.replace(`:${key}`, value),
     config.url ?? '',
