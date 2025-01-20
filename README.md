@@ -211,6 +211,10 @@ export interface ApiModulePayload {
    */
   entity: string
   /**
+   * The request content type of the API endpoint, such as 'application/json', 'application/x-www-form-urlencoded'.
+   */
+  requestContentType?: string
+  /**
    * The type name of the API endpoint,
    * such as ApiGetUsers, ApiCreatePost, ApiUpdateComment, etc.
    */
