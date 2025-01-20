@@ -69,7 +69,8 @@
     "rslog": "^1.2.3",
     "swagger2openapi": "^7.0.8",
     "unconfig": "^0.6.0",
-    "yaml": "^2.7.0"
+    "yaml": "^2.7.0",
+    "prettier": "^3.4.2"
   },
   "devDependencies": {
     "@configurajs/eslint": "^0.1.0",
@@ -81,7 +82,6 @@
     "@varlet/release": "^0.3.1",
     "eslint": "^9.17.0",
     "nano-staged": "0.8.0",
-    "prettier": "^3.4.2",
     "rimraf": "^6.0.1",
     "simple-git-hooks": "^2.11.1",
     "tsup": "8.3.5",
