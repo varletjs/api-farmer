@@ -1,3 +1,9 @@
+## [0.0.23](https://github.com/varletjs/api-farmer/compare/v0.0.22...v0.0.23) (2025-01-20)
+
+### Features
+
+- support multipart/form-data ([a579652](https://github.com/varletjs/api-farmer/commit/a5796527a612ce6000e4016dd8ad3f7db4b705e3))
+
 ## [0.0.22](https://github.com/varletjs/api-farmer/compare/v0.0.21...v0.0.22) (2025-01-20)
 
 ### Features
