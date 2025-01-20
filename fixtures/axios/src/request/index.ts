@@ -24,7 +24,7 @@ export function request<R = any, P = Record<string, any>, D = any>(config: Reque
       : config.data
     : undefined
 
-  return instance<any, R, any>({
+  return instance<any, R>({
     ...config,
     url,
     data,
