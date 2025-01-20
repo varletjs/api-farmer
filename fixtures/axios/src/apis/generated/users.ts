@@ -2,50 +2,58 @@ import type { RequestConfig } from '@/request'
 import { request } from '@/request'
 import { type paths } from './_types'
 
-export const apiGetUsers = (config: RequestConfig<ApiGetUsersRequestBody> = {}) =>
-  request<any, ApiGetUsersResponseBody>({
+export const apiGetUsers = (config: RequestConfig<ApiGetUsersQuery, ApiGetUsersRequestBody> = {}) =>
+  request<ApiGetUsersResponseBody>({
     url: '/users',
     method: 'get',
     ...config,
   })
 
-export const apiCreateUser = (config: RequestConfig<ApiCreateUserRequestBody> = {}) =>
-  request<any, ApiCreateUserResponseBody>({
+export const apiCreateUser = (config: RequestConfig<ApiCreateUserQuery, ApiCreateUserRequestBody> = {}) =>
+  request<ApiCreateUserResponseBody>({
     url: '/users',
     method: 'post',
     ...config,
   })
 
-export const apiGetUser = (config: RequestConfig<ApiGetUserRequestBody> = {}) =>
-  request<any, ApiGetUserResponseBody>({
+export const apiGetUser = (config: RequestConfig<ApiGetUserQuery, ApiGetUserRequestBody> = {}) =>
+  request<ApiGetUserResponseBody>({
     url: '/users/:userId',
     method: 'get',
     ...config,
   })
 
-export const apiGetUserResources = (config: RequestConfig<ApiGetUserResourcesRequestBody> = {}) =>
-  request<any, ApiGetUserResourcesResponseBody>({
+export const apiGetUserResources = (
+  config: RequestConfig<ApiGetUserResourcesQuery, ApiGetUserResourcesRequestBody> = {},
+) =>
+  request<ApiGetUserResourcesResponseBody>({
     url: '/users/:userId/resources',
     method: 'get',
     ...config,
   })
 
-export const apiCreateUserResource = (config: RequestConfig<ApiCreateUserResourceRequestBody> = {}) =>
-  request<any, ApiCreateUserResourceResponseBody>({
+export const apiCreateUserResource = (
+  config: RequestConfig<ApiCreateUserResourceQuery, ApiCreateUserResourceRequestBody> = {},
+) =>
+  request<ApiCreateUserResourceResponseBody>({
     url: '/users/:userId/resources',
     method: 'post',
     ...config,
   })
 
-export const apiGetUserResource = (config: RequestConfig<ApiGetUserResourceRequestBody> = {}) =>
-  request<any, ApiGetUserResourceResponseBody>({
+export const apiGetUserResource = (
+  config: RequestConfig<ApiGetUserResourceQuery, ApiGetUserResourceRequestBody> = {},
+) =>
+  request<ApiGetUserResourceResponseBody>({
     url: '/users/:userId/resources/:resourceId',
     method: 'get',
     ...config,
   })
 
-export const apiDeleteUserResource = (config: RequestConfig<ApiDeleteUserResourceRequestBody> = {}) =>
-  request<any, ApiDeleteUserResourceResponseBody>({
+export const apiDeleteUserResource = (
+  config: RequestConfig<ApiDeleteUserResourceQuery, ApiDeleteUserResourceRequestBody> = {},
+) =>
+  request<ApiDeleteUserResourceResponseBody>({
     url: '/users/:userId/resources/:resourceId',
     method: 'delete',
     ...config,

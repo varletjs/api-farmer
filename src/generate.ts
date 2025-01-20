@@ -9,7 +9,8 @@ import { getConfig } from './config'
 import { CWD, SUPPORTED_HTTP_METHODS } from './constants'
 import { createTransformer, Transformer, TransformerBaseArgs } from './transformer'
 import {
-  getValidResponseMetadataItems,
+  getRequestBodyContentType,
+  getResponseMetadataItems,
   hasQueryParameter,
   isRequiredRequestBody,
   Preset,
@@ -68,6 +69,10 @@ export interface ApiModulePayload {
    * The entity name of the API endpoint, such as User, Comment, Post, etc.
    */
   entity: string
+  /**
+   * The request content type of the API endpoint, such as 'application/json', 'application/x-www-form-urlencoded'.
+   */
+  requestContentType?: string
   /**
    * The type name of the API endpoint, such as ApiGetUsers, ApiCreatePost, ApiUpdateComment, etc.
    */
@@ -168,9 +173,10 @@ export function transformPayloads(
     .reduce((payloads, [method, operation]) => {
       const url = transformer.url({ path, base })
       const args: TransformerBaseArgs = { path, base, url, method, operation }
-
       const entity = transformer.entity(args)
       const verb = transformer.verb(args)
+      const requestContentType = operation.requestBody ? getRequestBodyContentType(operation.requestBody) : undefined
+      const responseMetadataItems = getResponseMetadataItems(operation, validateStatus)
 
       const fn = transformer.fn({ ...args, verb, entity })
       const type = transformer.type({ ...args, verb, entity })
@@ -182,18 +188,19 @@ export function transformPayloads(
         : 'undefined'
 
       const typeRequestBody = transformer.typeRequestBody({ ...args, type, verb, entity })
-      const typeRequestBodyValue = operation.requestBody
-        ? transformer.typeRequestBodyValue({
-            ...args,
-            type,
-            verb,
-            entity,
-            required: isRequiredRequestBody(operation.requestBody),
-          })
-        : 'undefined'
+      const typeRequestBodyValue =
+        operation.requestBody && requestContentType
+          ? transformer.typeRequestBodyValue({
+              ...args,
+              type,
+              verb,
+              entity,
+              required: isRequiredRequestBody(operation.requestBody),
+              requestContentType,
+            })
+          : 'undefined'
 
       const typeResponseBody = transformer.typeResponseBody({ ...args, type, verb, entity })
-      const responseMetadataItems = getValidResponseMetadataItems(operation, validateStatus)
       const typeResponseBodyValue =
         responseMetadataItems.length > 0
           ? transformer.typeResponseBodyValue({ ...args, type, verb, entity, responseMetadataItems })
@@ -205,6 +212,7 @@ export function transformPayloads(
         method,
         verb,
         entity,
+        requestContentType,
         type,
         typeValue,
         typeQuery,

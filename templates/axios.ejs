@@ -4,11 +4,16 @@
 
 <% if (!typesOnly) { %>
 <% apiModule.payloads.forEach(payload => { %> -%>
-export const <%- payload.fn %> = (config<% if (ts) { %>: RequestConfig<<%- payload.typeRequestBody %>> <% } %> = {}) 
-=> request<% if (ts) { %><any, <%- payload.typeResponseBody %>><% } %>({
+export const <%- payload.fn %> = (config<% if (ts) { %>: RequestConfig<<%- payload.typeQuery %>, <%- payload.typeRequestBody %>> <% } %> = {}) 
+=> request<% if (ts) { %><<%- payload.typeResponseBody %>><% } %>({
   url: '<%- payload.url %>', 
   method: '<%- payload.method %>',
-  ...config
+  ...config,
+  <% if (payload.requestContentType === 'application/x-www-form-urlencoded') { %>headers: {
+    'Content-Type': 'application/x-www-form-urlencoded',
+    ...config.headers,
+  },
+  <% } %>
 })
 
 <% }) %>

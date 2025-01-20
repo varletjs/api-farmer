@@ -81,10 +81,17 @@ export function transformTypeRequestBody({
 export function transformTypeRequestBodyValue({
   type,
   required,
-}: { type: string; verb: string; entity: string; required: boolean } & TransformerBaseArgs) {
+  requestContentType,
+}: {
+  type: string
+  verb: string
+  entity: string
+  required: boolean
+  requestContentType: string
+} & TransformerBaseArgs) {
   return required
-    ? `${type}['requestBody']['content']['application/json']`
-    : `NonNullable<${type}['requestBody']>['content']['application/json'] | undefined`
+    ? `${type}['requestBody']['content']['${requestContentType}']`
+    : `NonNullable<${type}['requestBody']>['content']['${requestContentType}'] | undefined`
 }
 
 export function transformTypeResponseBody({
@@ -103,7 +110,7 @@ export function transformTypeResponseBodyValue({
   responseMetadataItems: ResponseMetadataItem[]
 } & TransformerBaseArgs) {
   return responseMetadataItems
-    .map(({ status, mime }) => `${type}['responses']['${status}']['content']['${mime}']`)
+    .map(({ status, responseContentType }) => `${type}['responses']['${status}']['content']['${responseContentType}']`)
     .join(' | ')
 }
 

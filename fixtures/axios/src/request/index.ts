@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
+import * as qs from 'qs-esm'
 
 export const instance = axios.create()
 
@@ -6,18 +7,26 @@ instance.interceptors.response.use((response) => {
   return response.data
 })
 
-export type RequestConfig<D> = AxiosRequestConfig<D> & {
+export type RequestConfig<P, D> = Omit<AxiosRequestConfig<D>, 'params'> & {
+  params?: P
   pathParams?: Record<string, any>
 }
 
-export function request<T = any, R = AxiosResponse<T>, D = any>(config: RequestConfig<D>) {
+export function request<R = AxiosResponse<any>, P = Record<string, any>, D = any>(config: RequestConfig<P, D>) {
   const url = Object.entries(config.pathParams ?? {}).reduce(
     (url, [key, value]) => url.replace(`:${key}`, value),
     config.url ?? '',
   )
 
-  return instance<T, R, D>({
+  const data = config.data
+    ? config.headers?.['Content-Type'] === 'application/x-www-form-urlencoded'
+      ? qs.stringify(config.data)
+      : config.data
+    : undefined
+
+  return instance<any, R, any>({
     ...config,
     url,
+    data,
   })
 }

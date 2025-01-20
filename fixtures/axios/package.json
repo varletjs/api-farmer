@@ -4,7 +4,8 @@
     "gen": "af"
   },
   "dependencies": {
-    "axios": "^1.7.9"
+    "axios": "^1.7.9",
+    "qs-esm": "^7.0.2"
   },
   "devDependencies": {
     "api-farmer": "workspace:*"

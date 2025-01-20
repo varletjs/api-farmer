@@ -107,9 +107,21 @@ export function isRequiredRequestBody(value: RequestBodyObject | ReferenceObject
   return 'required' in value && value.required === true
 }
 
-export type ResponseMetadataItem = { status: number; mime: string }
+export function getRequestBodyContentType(value: RequestBodyObject | ReferenceObject) {
+  if (!('content' in value)) {
+    return ''
+  }
 
-export function getValidResponseMetadataItems(
+  return value.content['application/json']
+    ? 'application/json'
+    : value.content['application/x-www-form-urlencoded']
+      ? 'application/x-www-form-urlencoded'
+      : undefined
+}
+
+export type ResponseMetadataItem = { status: number; responseContentType: string }
+
+export function getResponseMetadataItems(
   operation: OperationObject,
   validateStatus: (status: number) => boolean,
 ): ResponseMetadataItem[] {
@@ -119,17 +131,21 @@ export function getValidResponseMetadataItems(
     .filter((key) => validateStatus(Number(key)))
     .map(Number)
 
-  const results = validStatusResults
+  const metadataItems = validStatusResults
     .map((status) => {
-      const content = (operation.responses?.[status] as ResponseObject | undefined)?.content
-      const mime = content?.['application/json'] ? 'application/json' : content?.['*/*'] ? '*/*' : undefined
+      const content = (operation.responses?.[status] as ResponseObject | undefined)?.content ?? {}
+      const responseContentType = findResponseContentType(content)
 
       return {
         status,
-        mime,
+        responseContentType,
       }
     })
-    .filter((result) => result.mime) as ResponseMetadataItem[]
+    .filter((result) => result.responseContentType) as ResponseMetadataItem[]
 
-  return results
+  function findResponseContentType(content: Record<string, any>) {
+    return content['application/json'] ? 'application/json' : content['*/*'] ? '*/*' : undefined
+  }
+
+  return metadataItems
 }
