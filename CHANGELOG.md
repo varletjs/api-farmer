@@ -1,3 +1,9 @@
+## [0.0.22](https://github.com/varletjs/api-farmer/compare/v0.0.21...v0.0.22) (2025-01-20)
+
+### Features
+
+- **axle:** enhance template ([480f777](https://github.com/varletjs/api-farmer/commit/480f777173253919ba0e01131afa6234b1f5c4c6))
+
 ## [0.0.21](https://github.com/varletjs/api-farmer/compare/v0.0.20...v0.0.21) (2025-01-20)
 
 ### Features
