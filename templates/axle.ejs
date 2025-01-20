@@ -14,7 +14,7 @@ export const <%- payload.fn %> = api
 <%- payload.typeRequestBody %>>
 <% } %>
 ('<%- payload.url %>', 
-<% if (payload.requestContentType === 'application/x-www-form-urlencoded' && payload.method === 'post') { %> 'postUrlEncode'<% } else { %> '<%- payload.method %>' <% } %>)
+<% if (payload.requestContentType === 'application/x-www-form-urlencoded') { %> '<%- payload.method %>UrlEncode' <% } else { %> '<%- payload.method %>' <% } %>)
 
 <% }) %>
 <% } %>
