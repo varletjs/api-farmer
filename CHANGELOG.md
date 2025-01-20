@@ -1,3 +1,10 @@
+## [0.0.21](https://github.com/varletjs/api-farmer/compare/v0.0.20...v0.0.21) (2025-01-20)
+
+### Features
+
+- support application/x-www-form-urlencoded and rename mime to contentType ([ee254ec](https://github.com/varletjs/api-farmer/commit/ee254ec8c36ac3c952c54b46d1b822181cee162b))
+- support remote schema fetching ([5c627a2](https://github.com/varletjs/api-farmer/commit/5c627a21a3e5c048a8fe8bf07d4827cad5d572f5))
+
 ## [0.0.20](https://github.com/varletjs/api-farmer/compare/v0.0.19...v0.0.20) (2025-01-20)
 
 ### Bug Fixes
