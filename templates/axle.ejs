@@ -1,49 +1,59 @@
 <% if (!typesOnly) { %> import { api } from '@/request' <% } %>
-<% if (ts) { %> import { type paths } from './<%- typesFilename %>' <% } %>
+<% if (ts) { %>  import { type paths } from './<%- typesFilename %>' <% } %>
 
 <% if (!typesOnly) { %>
-<% apiModule.payloads.forEach(payload => { %> -%>
-export const <%- payload.fn %> = api
+  <% apiModule.payloads.forEach(payload => { %> %>
+    export const <%- payload.fn %> = api
+
+    <% if (ts) { %>
+    <
+    <%- payload.typeResponseBody %>, 
+    <% if (['get', 'delete', 'head', 'options'].includes(payload.method)) { %> 
+    <%- payload.typeQuery %> 
+    <% } else { %>
+    <%- payload.typeRequestBody %> 
+    <% } %>, 
+    <%- payload.typeRequestBody %>
+    >
+    <% } %>
+
+    ('<%- payload.url %>', 
+    <%_ if (payload.requestContentType === 'application/x-www-form-urlencoded') { _%> 
+    '<%- payload.method %>UrlEncode' 
+    <%_ } else if (payload.requestContentType === 'multipart/form-data') { _%> 
+    '<%- payload.method %>Multipart'
+    <%_ } else { _%> 
+    '<%- payload.method %>' 
+    <%_ } _%>)
+
+  <% }) %>
+<% } %>
+
 <% if (ts) { %>
-<<%- payload.typeResponseBody %>, 
-<% if (['get', 'delete', 'head', 'options'].includes(payload.method)) { %> 
-  <%- payload.typeQuery %> 
-<% } else { %>
-  <%- payload.typeRequestBody %> 
-<% } %>, 
-<%- payload.typeRequestBody %>>
-<% } %>
-('<%- payload.url %>', 
-<% if (payload.requestContentType === 'application/x-www-form-urlencoded') { %> '<%- payload.method %>UrlEncode' <% } else { %> '<%- payload.method %>' <% } %>)
+  <% apiModule.payloads.forEach(payload => { %> %>
+    export type <%- payload.type %> = <%- payload.typeValue %>
 
-<% }) %>
-<% } %>
+  <% }) %>
 
-<% if (ts) { %>
-<% apiModule.payloads.forEach(payload => { %> -%>
-export type <%- payload.type %> = <%- payload.typeValue %>
+  <% apiModule.payloads.forEach(payload => { %> %>
+    <% if (payload.typeQueryValue) { %>
+      export type <%- payload.typeQuery %> = <%- payload.typeQueryValue %>
+    
+    <% } %>
+  <% }) %>
 
-<% }) %>
+  <% apiModule.payloads.forEach(payload => { %> %>
+    <% if (payload.typeRequestBodyValue) { %>
+      export type <%- payload.typeRequestBody %> = <%- payload.typeRequestBodyValue %>
 
-<% apiModule.payloads.forEach(payload => { %> -%>
-  <% if (payload.typeQueryValue) { %>
-  export type <%- payload.typeQuery %> = <%- payload.typeQueryValue %>
-  
-<% } %>
-<% }) %>
+    <% } %>
+  <% }) %>
 
-<% apiModule.payloads.forEach(payload => { %> -%>
-<% if (payload.typeRequestBodyValue) { %>
-export type <%- payload.typeRequestBody %> = <%- payload.typeRequestBodyValue %>
-
-<% } %>
-<% }) %>
-
-<% apiModule.payloads.forEach(payload => { %> -%>
-<% if (payload.typeResponseBodyValue) { %>
-export type <%- payload.typeResponseBody %> = <%- payload.typeResponseBodyValue %>
-  
-<% } %>
-<% }) %>
+  <% apiModule.payloads.forEach(payload => { %> %>
+    <% if (payload.typeResponseBodyValue) { %>
+      export type <%- payload.typeResponseBody %> = <%- payload.typeResponseBodyValue %>
+      
+    <% } %>
+  <% }) %>
 <% } %>
 

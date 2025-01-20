@@ -107,16 +107,16 @@ export function isRequiredRequestBody(value: RequestBodyObject | ReferenceObject
   return 'required' in value && value.required === true
 }
 
+export function findObjectKey(object: Record<string, any>, targetKeys: string[]) {
+  return Object.keys(object).find((key) => targetKeys.includes(key))
+}
+
 export function getRequestBodyContentType(value: RequestBodyObject | ReferenceObject) {
   if (!('content' in value)) {
     return ''
   }
 
-  return value.content['application/json']
-    ? 'application/json'
-    : value.content['application/x-www-form-urlencoded']
-      ? 'application/x-www-form-urlencoded'
-      : undefined
+  return findObjectKey(value.content, ['application/json', 'application/x-www-form-urlencoded', 'multipart/form-data'])
 }
 
 export type ResponseMetadataItem = { status: number; responseContentType: string }
@@ -134,7 +134,7 @@ export function getResponseMetadataItems(
   const metadataItems = validStatusResults
     .map((status) => {
       const content = (operation.responses?.[status] as ResponseObject | undefined)?.content ?? {}
-      const responseContentType = findResponseContentType(content)
+      const responseContentType = findObjectKey(content, ['application/json', '*/*'])
 
       return {
         status,
@@ -142,10 +142,6 @@ export function getResponseMetadataItems(
       }
     })
     .filter((result) => result.responseContentType) as ResponseMetadataItem[]
-
-  function findResponseContentType(content: Record<string, any>) {
-    return content['application/json'] ? 'application/json' : content['*/*'] ? '*/*' : undefined
-  }
 
   return metadataItems
 }
