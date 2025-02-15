@@ -1,3 +1,9 @@
+## [0.0.24](https://github.com/varletjs/api-farmer/compare/v0.0.23...v0.0.24) (2025-02-15)
+
+### Features
+
+- support uncountableNouns ([92232ab](https://github.com/varletjs/api-farmer/commit/92232ab3f8a12c9153a3874dd4e8668b1fd7f913))
+
 ## [0.0.23](https://github.com/varletjs/api-farmer/compare/v0.0.22...v0.0.23) (2025-01-20)
 
 ### Features
