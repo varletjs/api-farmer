@@ -1,3 +1,9 @@
+## [0.0.25](https://github.com/varletjs/api-farmer/compare/v0.0.24...v0.0.25) (2025-02-15)
+
+### Bug Fixes
+
+- fix uncountable noun case error ([796cbeb](https://github.com/varletjs/api-farmer/commit/796cbeb3407e1092bd18c7e6b5e8ee4218cd4a08))
+
 ## [0.0.24](https://github.com/varletjs/api-farmer/compare/v0.0.23...v0.0.24) (2025-02-15)
 
 ### Features
