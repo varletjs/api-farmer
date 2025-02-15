@@ -41,10 +41,12 @@ export function transformEntity({ path, method, base, uncountableNouns }: Transf
     }
 
     word = word.replace(/\.([a-z])/g, (_, p) => p.toUpperCase())
-    word = uncountableNouns.includes(word) ? word : pluralize.singular(pascalCase(word))
+    const isUncountableNoun = uncountableNouns.includes(word)
+    word = pascalCase(word)
+    word = isUncountableNoun ? word : pluralize.singular(word)
 
     if (method === 'get' && index === words.length - 1) {
-      word = uncountableNouns.includes(word) ? `${word}List` : pluralize.plural(word)
+      word = isUncountableNoun ? `${word}List` : pluralize.plural(word)
     }
 
     return `${entity}${word}`
