@@ -148,6 +148,10 @@ export interface Config {
    * The transformer api options, used to override the default transformation rules.
    */
   transformer?: Partial<Transformer>
+  /**
+   * Certain uncountable nouns that do not change from singular to plural
+   */
+  uncountableNouns?: string[]
 }
 ```
 

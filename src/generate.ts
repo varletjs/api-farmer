@@ -156,6 +156,10 @@ export interface GenerateOptions {
    * The transformer api options, used to override the default transformation rules.
    */
   transformer?: Partial<Transformer>
+  /**
+   * Certain uncountable nouns that do not change from singular to plural
+   */
+  uncountableNouns?: string[]
 }
 
 export function transformPayloads(
@@ -164,15 +168,16 @@ export function transformPayloads(
     path: string
     transformer: Transformer
     base: string | undefined
+    uncountableNouns: string[]
     validateStatus: (status: number) => boolean
   },
 ) {
-  const { transformer, path, base, validateStatus } = options
+  const { transformer, path, base, uncountableNouns, validateStatus } = options
   return Object.entries(pathItems)
     .filter(([key]) => SUPPORTED_HTTP_METHODS.includes(key))
     .reduce((payloads, [method, operation]) => {
       const url = transformer.url({ path, base })
-      const args: TransformerBaseArgs = { path, base, url, method, operation }
+      const args: TransformerBaseArgs = { path, base, url, method, uncountableNouns, operation }
       const entity = transformer.entity(args)
       const verb = transformer.verb(args)
       const requestContentType = operation.requestBody ? getRequestBodyContentType(operation.requestBody) : undefined
@@ -232,10 +237,11 @@ export function partitionApiModules(
   options: {
     transformer: Transformer
     base: string | undefined
+    uncountableNouns: string[]
     validateStatus: (status: number) => boolean
   },
 ): ApiModule[] {
-  const { base, transformer, validateStatus } = options
+  const { base, transformer, uncountableNouns, validateStatus } = options
 
   const schemaPaths = schema.paths ?? {}
   const schemaPathKeys = base ? Object.keys(schemaPaths).map((key) => key.replace(base, '')) : Object.keys(schemaPaths)
@@ -245,7 +251,13 @@ export function partitionApiModules(
       const pathItems = schemaPaths[path] as Record<string, OperationObject>
 
       payloads.push(
-        ...transformPayloads(pathItems, { ...options, path: base ? base + path : path, transformer, validateStatus }),
+        ...transformPayloads(pathItems, {
+          ...options,
+          path: base ? base + path : path,
+          transformer,
+          uncountableNouns,
+          validateStatus,
+        }),
       )
 
       return payloads
@@ -335,6 +347,7 @@ export async function generate(userOptions: GenerateOptions = {}) {
     typesFilename = '_types.ts',
     validateStatus = (status: number) => status >= 200 && status < 300,
     transformer = {},
+    uncountableNouns = [],
   } = options
 
   const mergedTransformer = { ...createTransformer(), ...transformer }
@@ -349,6 +362,7 @@ export async function generate(userOptions: GenerateOptions = {}) {
 
   const apiModules = partitionApiModules(schema, {
     base,
+    uncountableNouns,
     transformer: mergedTransformer,
     validateStatus,
   })

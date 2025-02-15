@@ -9,6 +9,7 @@ export type TransformerBaseArgs = {
   url: string
   method: string
   operation: OperationObject
+  uncountableNouns: string[]
 }
 
 export function transformModuleName({ name }: { name: string }) {
@@ -30,7 +31,7 @@ export function transformVerb({ method }: { method: string }) {
   }
 }
 
-export function transformEntity({ path, method, base }: TransformerBaseArgs) {
+export function transformEntity({ path, method, base, uncountableNouns }: TransformerBaseArgs) {
   path = base ? path.replace(base, '') : path
 
   const words = path.split('/').filter(Boolean)
@@ -40,10 +41,10 @@ export function transformEntity({ path, method, base }: TransformerBaseArgs) {
     }
 
     word = word.replace(/\.([a-z])/g, (_, p) => p.toUpperCase())
-    word = pluralize.singular(pascalCase(word))
+    word = uncountableNouns.includes(word) ? word : pluralize.singular(pascalCase(word))
 
     if (method === 'get' && index === words.length - 1) {
-      word = pluralize.plural(word)
+      word = uncountableNouns.includes(word) ? `${word}List` : pluralize.plural(word)
     }
 
     return `${entity}${word}`
