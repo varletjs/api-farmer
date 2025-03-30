@@ -1,3 +1,9 @@
+## [0.0.26](https://github.com/varletjs/api-farmer/compare/v0.0.25...v0.0.26) (2025-03-30)
+
+### Bug Fixes
+
+- fix query types ([9ca5960](https://github.com/varletjs/api-farmer/commit/9ca5960a86f1cbe0a3dcc225075784e5911876eb))
+
 ## [0.0.25](https://github.com/varletjs/api-farmer/compare/v0.0.24...v0.0.25) (2025-02-15)
 
 ### Bug Fixes
