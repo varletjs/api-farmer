@@ -11,7 +11,6 @@ import { createTransformer, Transformer, TransformerBaseArgs } from './transform
 import {
   getRequestBodyContentType,
   getResponseMetadataItems,
-  hasQueryParameter,
   isRequiredRequestBody,
   Preset,
   readSchema,
@@ -188,9 +187,7 @@ export function transformPayloads(
       const typeValue = transformer.typeValue({ ...args, verb, entity })
 
       const typeQuery = transformer.typeQuery({ ...args, type, verb, entity })
-      const typeQueryValue = hasQueryParameter(operation)
-        ? transformer.typeQueryValue({ ...args, type, verb, entity })
-        : 'undefined'
+      const typeQueryValue = transformer.typeQueryValue({ ...args, type, verb, entity })
 
       const typeRequestBody = transformer.typeRequestBody({ ...args, type, verb, entity })
       const typeRequestBodyValue =

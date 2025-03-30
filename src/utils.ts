@@ -65,6 +65,12 @@ export async function readSchema(input: string): Promise<OpenAPI3> {
   return schema
 }
 
+export function getSchemaNode(schema: OpenAPI3, path: string) {
+  const paths = path.split('/')
+
+  return paths.reduce((node: any, path) => node[path], schema)
+}
+
 export async function readSchemaContent(input: string) {
   if (isRemoteSchema(input)) {
     try {
@@ -93,10 +99,6 @@ export function readTemplateFile(preset: Preset = 'axle') {
   }
 
   return fse.readFileSync(resolve(__dirname, `../templates/${preset}.ejs`), 'utf-8')
-}
-
-export function hasQueryParameter(operation: OperationObject) {
-  return (operation.parameters ?? []).some((param) => 'in' in param && param.in === 'query')
 }
 
 export function getCliVersion() {
