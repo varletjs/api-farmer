@@ -322,7 +322,9 @@ export function renderApiModules(
 }
 
 export async function generateTypes(schema: OpenAPI3, output: string, typesFilename: string) {
-  const ast = await openapiTS(schema)
+  const ast = await openapiTS(schema, {
+    defaultNonNullable: false,
+  })
   const contents = astToString(ast)
   const typesFilepath = resolve(CWD, output, typesFilename)
   fse.outputFileSync(typesFilepath, contents)
