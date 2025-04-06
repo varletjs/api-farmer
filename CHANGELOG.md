@@ -1,3 +1,9 @@
+## [0.0.27](https://github.com/varletjs/api-farmer/compare/v0.0.26...v0.0.27) (2025-04-06)
+
+### Bug Fixes
+
+- adjust openapiTs defaultNonNullable = false ([bb70067](https://github.com/varletjs/api-farmer/commit/bb70067cf4257767723fedc299b76a8a3d9bc884))
+
 ## [0.0.26](https://github.com/varletjs/api-farmer/compare/v0.0.25...v0.0.26) (2025-03-30)
 
 ### Bug Fixes

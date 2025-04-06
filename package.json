@@ -1,6 +1,6 @@
 {
   "name": "api-farmer",
-  "version": "0.0.26",
+  "version": "0.0.27",
   "description": "API module generation tool based on Openapi3/Swagger2.",
   "keywords": [
     "cli",
