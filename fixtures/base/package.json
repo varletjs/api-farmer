@@ -1,0 +1,12 @@
+{
+  "private": true,
+  "scripts": {
+    "gen": "af"
+  },
+  "dependencies": {
+    "@varlet/axle": "^0.10.2"
+  },
+  "devDependencies": {
+    "api-farmer": "workspace:*"
+  }
+}

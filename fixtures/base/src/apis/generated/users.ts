@@ -34,19 +34,19 @@ export const apiDeleteUserResource = api<
   ApiDeleteUserResourceRequestBody
 >('/users/:userId/resources/:resourceId', 'delete')
 
-export type ApiGetUsers = paths['/users']['get']
+export type ApiGetUsers = paths['/api/v1/users']['get']
 
-export type ApiCreateUser = paths['/users']['post']
+export type ApiCreateUser = paths['/api/v1/users']['post']
 
-export type ApiGetUser = paths['/users/{userId}']['get']
+export type ApiGetUser = paths['/api/v1/users/{userId}']['get']
 
-export type ApiGetUserResources = paths['/users/{userId}/resources']['get']
+export type ApiGetUserResources = paths['/api/v1/users/{userId}/resources']['get']
 
-export type ApiCreateUserResource = paths['/users/{userId}/resources']['post']
+export type ApiCreateUserResource = paths['/api/v1/users/{userId}/resources']['post']
 
-export type ApiGetUserResource = paths['/users/{userId}/resources/{resourceId}']['get']
+export type ApiGetUserResource = paths['/api/v1/users/{userId}/resources/{resourceId}']['get']
 
-export type ApiDeleteUserResource = paths['/users/{userId}/resources/{resourceId}']['delete']
+export type ApiDeleteUserResource = paths['/api/v1/users/{userId}/resources/{resourceId}']['delete']
 
 export type ApiGetUsersQuery = ApiGetUsers['parameters']['query']
 

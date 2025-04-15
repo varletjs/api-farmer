@@ -165,30 +165,28 @@ export function transformPayloads(
   pathItems: Record<string, OperationObject>,
   options: {
     path: string
-    transformer: Transformer
+    fullPath: string
     base: string | undefined
+    transformer: Transformer
     uncountableNouns: string[]
     validateStatus: (status: number) => boolean
   },
 ) {
-  const { transformer, path, base, uncountableNouns, validateStatus } = options
+  const { transformer, path, fullPath, base, uncountableNouns, validateStatus } = options
   return Object.entries(pathItems)
     .filter(([key]) => SUPPORTED_HTTP_METHODS.includes(key))
     .reduce((payloads, [method, operation]) => {
-      const url = transformer.url({ path, base })
-      const args: TransformerBaseArgs = { path, base, url, method, uncountableNouns, operation }
+      const url = transformer.url({ path, base, fullPath })
+      const args: TransformerBaseArgs = { path, base, fullPath, url, method, uncountableNouns, operation }
       const entity = transformer.entity(args)
       const verb = transformer.verb(args)
       const requestContentType = operation.requestBody ? getRequestBodyContentType(operation.requestBody) : undefined
       const responseMetadataItems = getResponseMetadataItems(operation, validateStatus)
-
       const fn = transformer.fn({ ...args, verb, entity })
       const type = transformer.type({ ...args, verb, entity })
       const typeValue = transformer.typeValue({ ...args, verb, entity })
-
       const typeQuery = transformer.typeQuery({ ...args, type, verb, entity })
       const typeQueryValue = transformer.typeQueryValue({ ...args, type, verb, entity })
-
       const typeRequestBody = transformer.typeRequestBody({ ...args, type, verb, entity })
       const typeRequestBodyValue =
         operation.requestBody && requestContentType
@@ -201,7 +199,6 @@ export function transformPayloads(
               requestContentType,
             })
           : 'undefined'
-
       const typeResponseBody = transformer.typeResponseBody({ ...args, type, verb, entity })
       const typeResponseBodyValue =
         responseMetadataItems.length > 0
@@ -245,12 +242,14 @@ export function partitionApiModules(
   const keyToPaths = groupBy(schemaPathKeys, (key) => key.split('/')[1])
   const apiModules = Object.entries(keyToPaths).reduce((apiModules, [name, paths]) => {
     const payloads = paths.reduce((payloads, path) => {
-      const pathItems = schemaPaths[path] as Record<string, OperationObject>
+      const fullPath = base ? base + path : path
+      const pathItems = schemaPaths[fullPath] as Record<string, OperationObject>
 
       payloads.push(
         ...transformPayloads(pathItems, {
           ...options,
-          path: base ? base + path : path,
+          path,
+          fullPath,
           transformer,
           uncountableNouns,
           validateStatus,

@@ -5,6 +5,7 @@ import { ResponseMetadataItem } from './utils'
 
 export type TransformerBaseArgs = {
   path: string
+  fullPath: string
   base: string | undefined
   url: string
   method: string
@@ -16,8 +17,8 @@ export function transformModuleName({ name }: { name: string }) {
   return camelize(name)
 }
 
-export function transformUrl({ path, base }: { path: string; base: string | undefined }) {
-  return (base ? path.replace(base, '') : path).replace(/{/g, ':').replace(/}/g, '')
+export function transformUrl({ path }: { path: string; fullPath: string; base: string | undefined }) {
+  return path.replace(/{/g, ':').replace(/}/g, '')
 }
 
 export function transformVerb({ method }: { method: string }) {
@@ -31,9 +32,7 @@ export function transformVerb({ method }: { method: string }) {
   }
 }
 
-export function transformEntity({ path, method, base, uncountableNouns }: TransformerBaseArgs) {
-  path = base ? path.replace(base, '') : path
-
+export function transformEntity({ path, method, uncountableNouns }: TransformerBaseArgs) {
   const words = path.split('/').filter(Boolean)
   return words.reduce((entity, word, index) => {
     if (word.includes('{')) {
@@ -61,8 +60,8 @@ export function transformType({ verb, entity }: { verb: string; entity: string }
   return `Api${verb}${entity}`
 }
 
-export function transformTypeValue({ path, method }: { verb: string; entity: string } & TransformerBaseArgs) {
-  return `paths['${path}']['${method}']`
+export function transformTypeValue({ fullPath, method }: { verb: string; entity: string } & TransformerBaseArgs) {
+  return `paths['${fullPath}']['${method}']`
 }
 
 export function transformTypeQuery({ type }: { type: string; verb: string; entity: string } & TransformerBaseArgs) {

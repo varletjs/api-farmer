@@ -75,17 +75,17 @@ export type ApiDeleteUserResource = paths['/users/{userId}/resources/{resourceId
 
 export type ApiGetUsersQuery = ApiGetUsers['parameters']['query']
 
-export type ApiCreateUserQuery = undefined
+export type ApiCreateUserQuery = ApiCreateUser['parameters']['query']
 
-export type ApiGetUserQuery = undefined
+export type ApiGetUserQuery = ApiGetUser['parameters']['query']
 
 export type ApiGetUserResourcesQuery = ApiGetUserResources['parameters']['query']
 
-export type ApiCreateUserResourceQuery = undefined
+export type ApiCreateUserResourceQuery = ApiCreateUserResource['parameters']['query']
 
-export type ApiGetUserResourceQuery = undefined
+export type ApiGetUserResourceQuery = ApiGetUserResource['parameters']['query']
 
-export type ApiDeleteUserResourceQuery = undefined
+export type ApiDeleteUserResourceQuery = ApiDeleteUserResource['parameters']['query']
 
 export type ApiGetUsersRequestBody = undefined
 
