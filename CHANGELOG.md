@@ -1,3 +1,9 @@
+## [0.0.28](https://github.com/varletjs/api-farmer/compare/v0.0.27...v0.0.28) (2025-04-15)
+
+### Bug Fixes
+
+- fix parse base path error ([5d2afef](https://github.com/varletjs/api-farmer/commit/5d2afef32d6faa115166ab8fc3e8b72773ef6261))
+
 ## [0.0.27](https://github.com/varletjs/api-farmer/compare/v0.0.26...v0.0.27) (2025-04-06)
 
 ### Bug Fixes
