@@ -49,6 +49,10 @@ export interface ApiModule {
 
 export interface ApiModulePayload {
   /**
+   * The comment of the API endpoint, including summary, description, URL, and method.
+   */
+  comment: string
+  /**
    * The name of the API function/dispatcher, such as apiGetUsers, apiCreatePost, apiUpdateComment, etc.
    */
   fn: string
@@ -179,6 +183,7 @@ export function transformPayloads(
       const url = transformer.url({ path, base, fullPath })
       const args: TransformerBaseArgs = { path, base, fullPath, url, method, uncountableNouns, operation }
       const entity = transformer.entity(args)
+      const comment = transformer.comment({ path, method, ...operation })
       const verb = transformer.verb(args)
       const requestContentType = operation.requestBody ? getRequestBodyContentType(operation.requestBody) : undefined
       const responseMetadataItems = getResponseMetadataItems(operation, validateStatus)
@@ -206,6 +211,7 @@ export function transformPayloads(
           : 'undefined'
 
       payloads.push({
+        comment,
         fn,
         url,
         method,

@@ -21,6 +21,25 @@ export function transformUrl({ path }: { path: string; fullPath: string; base: s
   return path.replace(/{/g, ':').replace(/}/g, '')
 }
 
+export function transformComment({
+  summary,
+  description,
+  path,
+  method,
+}: {
+  summary?: string
+  description?: string
+  path: string
+  method: string
+}) {
+  return `
+  /**${summary ? `\n* ${summary}` : ''}${description && summary !== description ? `\n* @description ${description}\n*` : ''}
+   * @url ${path}
+   * @method ${method.toLocaleUpperCase()}
+   */
+  `.trim()
+}
+
 export function transformVerb({ method }: { method: string }) {
   switch (method) {
     case 'post':
@@ -120,6 +139,7 @@ export interface Transformer {
   moduleName: typeof transformModuleName
   verb: typeof transformVerb
   url: typeof transformUrl
+  comment: typeof transformComment
   entity: typeof transformEntity
   fn: typeof transformFn
   type: typeof transformType
@@ -137,6 +157,7 @@ export function createTransformer(): Transformer {
     moduleName: transformModuleName,
     verb: transformVerb,
     url: transformUrl,
+    comment: transformComment,
     entity: transformEntity,
     fn: transformFn,
     type: transformType,
