@@ -41,10 +41,10 @@
     "clean": "rimraf node_modules dist",
     "dev": "tsup src/index.ts src/cli.ts --format esm,cjs --watch --dts --shims",
     "format": "prettier --write .",
+    "gen": "rimraf ./fixtures/axios/src/apis/generated ./fixtures/axle/src/apis/generated && pnpm --dir ./fixtures/axios gen & pnpm --dir ./fixtures/axle gen",
     "lint": "eslint . --fix",
     "prepare": "simple-git-hooks",
-    "release": "pnpm build && vr release",
-    "gen": "rimraf ./fixtures/axios/src/apis/generated ./fixtures/axle/src/apis/generated && pnpm --dir ./fixtures/axios gen & pnpm --dir ./fixtures/axle gen"
+    "release": "pnpm build && vr release"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm exec nano-staged --allow-empty",
@@ -65,21 +65,21 @@
     "fs-extra": "^11.2.0",
     "openapi-typescript": "^7.5.2",
     "pluralize": "^8.0.0",
+    "prettier": "^3.4.2",
     "rattail": "^1.0.19",
     "rslog": "^1.2.3",
     "swagger2openapi": "^7.0.8",
     "unconfig": "^0.6.0",
-    "yaml": "^2.7.0",
-    "prettier": "^3.4.2"
+    "yaml": "^2.7.0"
   },
   "devDependencies": {
-    "@configurajs/eslint": "^0.1.0",
-    "@configurajs/prettier": "^0.1.1",
+    "@configurajs/eslint": "^0.1.2",
+    "@configurajs/prettier": "^0.1.4",
     "@types/ejs": "^3.1.5",
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^22.8.1",
     "@types/swagger2openapi": "^7.0.4",
-    "@varlet/release": "^0.3.1",
+    "@varlet/release": "^0.4.1",
     "eslint": "^9.17.0",
     "nano-staged": "0.8.0",
     "rimraf": "^6.0.1",

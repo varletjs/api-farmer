@@ -2,6 +2,13 @@ import type { RequestConfig } from '@/request'
 import { request } from '@/request'
 import { type paths } from './_types'
 
+/**
+ * Get a list of users
+ * @description Returns a list of users.
+ *
+ * @url /users
+ * @method GET
+ */
 export const apiGetUsers = (config: RequestConfig<ApiGetUsersQuery, ApiGetUsersRequestBody> = {}) =>
   request<ApiGetUsersResponseBody>({
     url: '/users',
@@ -9,6 +16,13 @@ export const apiGetUsers = (config: RequestConfig<ApiGetUsersQuery, ApiGetUsersR
     ...config,
   })
 
+/**
+ * Create a new user
+ * @description Adds a new user to the system.
+ *
+ * @url /users
+ * @method POST
+ */
 export const apiCreateUser = (config: RequestConfig<ApiCreateUserQuery, ApiCreateUserRequestBody> = {}) =>
   request<ApiCreateUserResponseBody>({
     url: '/users',
@@ -16,6 +30,13 @@ export const apiCreateUser = (config: RequestConfig<ApiCreateUserQuery, ApiCreat
     ...config,
   })
 
+/**
+ * Get user by ID
+ * @description Retrieves a user by their ID.
+ *
+ * @url /users/{userId}
+ * @method GET
+ */
 export const apiGetUser = (config: RequestConfig<ApiGetUserQuery, ApiGetUserRequestBody> = {}) =>
   request<ApiGetUserResponseBody>({
     url: '/users/:userId',
@@ -23,6 +44,13 @@ export const apiGetUser = (config: RequestConfig<ApiGetUserQuery, ApiGetUserRequ
     ...config,
   })
 
+/**
+ * Get resources for a user
+ * @description Retrieves a list of resources associated with the user.
+ *
+ * @url /users/{userId}/resources
+ * @method GET
+ */
 export const apiGetUserResources = (
   config: RequestConfig<ApiGetUserResourcesQuery, ApiGetUserResourcesRequestBody> = {},
 ) =>
@@ -32,6 +60,13 @@ export const apiGetUserResources = (
     ...config,
   })
 
+/**
+ * Create a new resource for a user
+ * @description Adds a new resource to the user's collection.
+ *
+ * @url /users/{userId}/resources
+ * @method POST
+ */
 export const apiCreateUserResource = (
   config: RequestConfig<ApiCreateUserResourceQuery, ApiCreateUserResourceRequestBody> = {},
 ) =>
@@ -41,6 +76,13 @@ export const apiCreateUserResource = (
     ...config,
   })
 
+/**
+ * Get a specific resource for a user
+ * @description Retrieves details of a specific resource associated with the user.
+ *
+ * @url /users/{userId}/resources/{resourceId}
+ * @method GET
+ */
 export const apiGetUserResource = (
   config: RequestConfig<ApiGetUserResourceQuery, ApiGetUserResourceRequestBody> = {},
 ) =>
@@ -50,6 +92,13 @@ export const apiGetUserResource = (
     ...config,
   })
 
+/**
+ * Delete a specific resource for a user
+ * @description Deletes a resource associated with the user.
+ *
+ * @url /users/{userId}/resources/{resourceId}
+ * @method DELETE
+ */
 export const apiDeleteUserResource = (
   config: RequestConfig<ApiDeleteUserResourceQuery, ApiDeleteUserResourceRequestBody> = {},
 ) =>

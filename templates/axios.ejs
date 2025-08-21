@@ -4,6 +4,7 @@
 
 <%_ if (!typesOnly) { _%>
   <% apiModule.payloads.forEach(payload => { %> %>
+    <%- payload.comment %>
     export const <%- payload.fn %> = 
       (config<% if (ts) { %>: RequestConfig<<%- payload.typeQuery %>, <%- payload.typeRequestBody %>> <% } %> = {}) => request
         <% if (ts) { %><<%- payload.typeResponseBody %>><% } %>({

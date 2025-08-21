@@ -1,33 +1,82 @@
 import { api } from '@/request'
 import { type paths } from './_types'
 
+/**
+ * Get a list of users
+ * @description Returns a list of users.
+ *
+ * @url /users
+ * @method GET
+ */
 export const apiGetUsers = api<ApiGetUsersResponseBody, ApiGetUsersQuery, ApiGetUsersRequestBody>('/users', 'get')
 
+/**
+ * Create a new user
+ * @description Adds a new user to the system.
+ *
+ * @url /users
+ * @method POST
+ */
 export const apiCreateUser = api<ApiCreateUserResponseBody, ApiCreateUserRequestBody, ApiCreateUserRequestBody>(
   '/users',
   'post',
 )
 
+/**
+ * Get user by ID
+ * @description Retrieves a user by their ID.
+ *
+ * @url /users/{userId}
+ * @method GET
+ */
 export const apiGetUser = api<ApiGetUserResponseBody, ApiGetUserQuery, ApiGetUserRequestBody>('/users/:userId', 'get')
 
+/**
+ * Get resources for a user
+ * @description Retrieves a list of resources associated with the user.
+ *
+ * @url /users/{userId}/resources
+ * @method GET
+ */
 export const apiGetUserResources = api<
   ApiGetUserResourcesResponseBody,
   ApiGetUserResourcesQuery,
   ApiGetUserResourcesRequestBody
 >('/users/:userId/resources', 'get')
 
+/**
+ * Create a new resource for a user
+ * @description Adds a new resource to the user's collection.
+ *
+ * @url /users/{userId}/resources
+ * @method POST
+ */
 export const apiCreateUserResource = api<
   ApiCreateUserResourceResponseBody,
   ApiCreateUserResourceRequestBody,
   ApiCreateUserResourceRequestBody
 >('/users/:userId/resources', 'post')
 
+/**
+ * Get a specific resource for a user
+ * @description Retrieves details of a specific resource associated with the user.
+ *
+ * @url /users/{userId}/resources/{resourceId}
+ * @method GET
+ */
 export const apiGetUserResource = api<
   ApiGetUserResourceResponseBody,
   ApiGetUserResourceQuery,
   ApiGetUserResourceRequestBody
 >('/users/:userId/resources/:resourceId', 'get')
 
+/**
+ * Delete a specific resource for a user
+ * @description Deletes a resource associated with the user.
+ *
+ * @url /users/{userId}/resources/{resourceId}
+ * @method DELETE
+ */
 export const apiDeleteUserResource = api<
   ApiDeleteUserResourceResponseBody,
   ApiDeleteUserResourceQuery,
