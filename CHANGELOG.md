@@ -1,3 +1,9 @@
+# [0.1.0](https://github.com/varletjs/api-farmer/compare/v0.0.28...v0.1.0) (2025-08-25)
+
+### Features
+
+- add JSDoc comments to generated API endpoints ([a6bfc47](https://github.com/varletjs/api-farmer/commit/a6bfc47e28824e89c89009ce7b5ef9e0bde4aabe))
+
 ## [0.0.28](https://github.com/varletjs/api-farmer/compare/v0.0.27...v0.0.28) (2025-04-15)
 
 ### Bug Fixes
