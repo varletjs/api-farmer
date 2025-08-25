@@ -183,8 +183,8 @@ export function transformPayloads(
       const url = transformer.url({ path, base, fullPath })
       const args: TransformerBaseArgs = { path, base, fullPath, url, method, uncountableNouns, operation }
       const entity = transformer.entity(args)
-      const comment = transformer.comment({ path, method, ...operation })
       const verb = transformer.verb(args)
+      const comment = transformer.comment({ ...args, ...operation })
       const requestContentType = operation.requestBody ? getRequestBodyContentType(operation.requestBody) : undefined
       const responseMetadataItems = getResponseMetadataItems(operation, validateStatus)
       const fn = transformer.fn({ ...args, verb, entity })

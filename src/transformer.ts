@@ -31,7 +31,7 @@ export function transformComment({
   description?: string
   path: string
   method: string
-}) {
+} & TransformerBaseArgs) {
   return `
   /**${summary ? `\n* ${summary}` : ''}${description && summary !== description ? `\n* @description ${description}\n*` : ''}
    * @url ${path}
