@@ -82,6 +82,7 @@ export default defineConfig({
     },
     verb() {},
     url() {},
+    comment() {},
     entity() {},
     fn() {},
     type() {},
@@ -189,6 +190,10 @@ export interface ApiModule {
 }
 
 export interface ApiModulePayload {
+  /**
+   * The comment of the API endpoint, including summary, description, URL, and method.
+   */
+  comment: string
   /**
    * The name of the API function/dispatcher,
    * such as apiGetUsers, apiCreatePost, apiUpdateComment, etc.
