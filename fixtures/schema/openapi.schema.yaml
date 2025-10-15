@@ -163,6 +163,56 @@ paths:
       responses:
         '204':
           description: Resource deleted successfully.
+  /uploads:
+    post:
+      summary: Upload a file
+      description: Uploads a file and returns metadata about the stored item.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              title: FileUploadPayload
+              required:
+                - file
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  title: File
+                  description: The binary file contents to upload.
+                filename:
+                  type: string
+                  description: Optional filename to persist alongside the upload.
+      responses:
+        '201':
+          description: File uploaded successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadMetadata'
+  /downloads/{fileId}:
+    get:
+      summary: Download a file
+      description: Streams a previously uploaded file as binary content.
+      parameters:
+        - name: fileId
+          in: path
+          required: true
+          description: Identifier of the file to download.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Binary file contents.
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: File not found.
 components:
   schemas:
     User:
@@ -194,3 +244,18 @@ components:
         attributes:
           type: object
           description: Additional attributes of the resource.
+    UploadMetadata:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the uploaded file.
+        filename:
+          type: string
+          description: Stored filename.
+        url:
+          type: string
+          description: Public URL to access the uploaded file.
+        size:
+          type: integer
+          description: File size in bytes.
