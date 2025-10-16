@@ -7,7 +7,7 @@ import { groupBy, isArray, merge } from 'rattail'
 import { logger } from 'rslog'
 import { getConfig } from './config'
 import { CWD, SUPPORTED_HTTP_METHODS } from './constants'
-import { createTransformer, Transformer, TransformerBaseArgs } from './transformer'
+import { createTransformer, Transformer, TransformerBaseArgs, transformTypeBlob } from './transformer'
 import {
   getRequestBodyContentType,
   getResponseMetadataItems,
@@ -166,7 +166,7 @@ export interface GenerateOptions {
   /**
    *  A function to transform the generated types AST before printing to string.
    */
-  openapiOptions?: OpenAPITSOptions
+  openapiTsOptions?: OpenAPITSOptions
 }
 
 export function transformPayloads(
@@ -334,11 +334,14 @@ export async function generateTypes(
   schema: OpenAPI3,
   output: string,
   typesFilename: string,
-  options?: OpenAPITSOptions,
+  openapiTsOptions?: OpenAPITSOptions,
 ) {
   const ast = await openapiTS(schema, {
     defaultNonNullable: false,
-    ...options,
+    transform(schemaObject, options) {
+      return transformTypeBlob(schemaObject)
+    },
+    ...openapiTsOptions,
   })
   const contents = astToString(ast)
   const typesFilepath = resolve(CWD, output, typesFilename)
@@ -362,7 +365,7 @@ export async function generate(userOptions: GenerateOptions = {}) {
     validateStatus = (status: number) => status >= 200 && status < 300,
     transformer = {},
     uncountableNouns = [],
-    openapiOptions = {},
+    openapiTsOptions = {},
   } = options
 
   const mergedTransformer = { ...createTransformer(), ...transformer }
@@ -372,7 +375,7 @@ export async function generate(userOptions: GenerateOptions = {}) {
   logger.info('Generating API modules...')
 
   if (ts) {
-    await generateTypes(schema, output, typesFilename, openapiOptions)
+    await generateTypes(schema, output, typesFilename, openapiTsOptions)
   }
 
   const apiModules = partitionApiModules(schema, {

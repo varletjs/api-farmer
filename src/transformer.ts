@@ -1,6 +1,7 @@
-import { OperationObject } from 'openapi-typescript'
+import { OperationObject, SchemaObject } from 'openapi-typescript'
 import pluralize from 'pluralize'
 import { camelize, pascalCase } from 'rattail'
+import ts from 'typescript'
 import { ResponseMetadataItem } from './utils'
 
 export type TransformerBaseArgs = {
@@ -168,5 +169,14 @@ export function createTransformer(): Transformer {
     typeRequestBodyValue: transformTypeRequestBodyValue,
     typeResponseBody: transformTypeResponseBody,
     typeResponseBodyValue: transformTypeResponseBodyValue,
+  }
+}
+
+const BLOB = ts.factory.createTypeReferenceNode(ts.factory.createIdentifier('Blob'))
+const NULL = ts.factory.createLiteralTypeNode(ts.factory.createNull())
+
+export function transformTypeBlob(schemaObject: SchemaObject) {
+  if (schemaObject.format === 'binary') {
+    return schemaObject.nullable ? ts.factory.createUnionTypeNode([BLOB, NULL]) : BLOB
   }
 }

@@ -297,7 +297,7 @@ export interface paths {
                          * Format: binary
                          * @description The binary file contents to upload.
                          */
-                        file: string;
+                        file: Blob;
                         /** @description Optional filename to persist alongside the upload. */
                         filename?: string;
                     };
@@ -350,7 +350,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/octet-stream": string;
+                        "application/octet-stream": Blob;
                     };
                 };
                 /** @description File not found. */
