@@ -1,4 +1,18 @@
+## [0.1.1](https://github.com/varletjs/api-farmer/compare/v0.1.0...v0.1.1) (2025-10-17)
+
+### Code Refactoring
+
+- cleanup ([8b99bd2](https://github.com/varletjs/api-farmer/commit/8b99bd2911198dbdcc9b2cdb87b46d81d6ea2f59))
+
+### Features
+
+- add openapiTS options ([6c53973](https://github.com/varletjs/api-farmer/commit/6c53973cedb4cbfe72fb08289d75b76025915be0))
+
 # [0.1.0](https://github.com/varletjs/api-farmer/compare/v0.0.28...v0.1.0) (2025-08-25)
+
+### Code Refactoring
+
+- **comment:** fix docs and improve code ([a87b1a8](https://github.com/varletjs/api-farmer/commit/a87b1a8e881c9dc8c6c15c428859ebb3274f1c92))
 
 ### Features
 
@@ -61,6 +75,10 @@
 
 ## [0.0.19](https://github.com/varletjs/api-farmer/compare/v0.0.18...v0.0.19) (2025-01-19)
 
+### Code Refactoring
+
+- enhance axios preset ([b73eb6a](https://github.com/varletjs/api-farmer/commit/b73eb6a245045738ca06196908234788150dc7dd))
+
 ## [0.0.18](https://github.com/varletjs/api-farmer/compare/v0.0.17...v0.0.18) (2025-01-19)
 
 ### Features
@@ -79,6 +97,10 @@
 
 ## [0.0.16](https://github.com/varletjs/api-farmer/compare/v0.0.15...v0.0.16) (2025-01-17)
 
+### Code Refactoring
+
+- remove Res helper ([cf0de1b](https://github.com/varletjs/api-farmer/commit/cf0de1b33cd1bb5fcd17239c0c4c2e1569479793))
+
 ## [0.0.15](https://github.com/varletjs/api-farmer/compare/v0.0.14...v0.0.15) (2025-01-17)
 
 ### Bug Fixes
@@ -86,6 +108,10 @@
 - handling path names containing . ([908b60d](https://github.com/varletjs/api-farmer/commit/908b60dc696c7ba666e4c1e83af8ddee64d2b963))
 
 ## [0.0.14](https://github.com/varletjs/api-farmer/compare/v0.0.13...v0.0.14) (2025-01-17)
+
+### Code Refactoring
+
+- refactor output and typesFilename defaults value ([9d7ce55](https://github.com/varletjs/api-farmer/commit/9d7ce552a69e495738abd87cd5c80cbac8395aa6))
 
 ## [0.0.13](https://github.com/varletjs/api-farmer/compare/v0.0.12...v0.0.13) (2025-01-17)
 
@@ -126,6 +152,10 @@
 
 ## [0.0.7](https://github.com/varletjs/api-farmer/compare/v0.0.6...v0.0.7) (2025-01-16)
 
+### Code Refactoring
+
+- remove useless case ([84625d2](https://github.com/varletjs/api-farmer/commit/84625d262de0ee569847cd6474bdc680edc0f93b))
+
 ## [0.0.6](https://github.com/varletjs/api-farmer/compare/v0.0.5...v0.0.6) (2025-01-16)
 
 ### Bug Fixes
@@ -139,6 +169,10 @@
 - fix nullish error and lost templates ([77723ec](https://github.com/varletjs/api-farmer/commit/77723ec4886eac0c21b25e615b1ef3a0175d83c1))
 
 ## [0.0.4](https://github.com/varletjs/api-farmer/compare/v0.0.3...v0.0.4) (2025-01-16)
+
+### Code Refactoring
+
+- refactor transformer api and add readme ([488353b](https://github.com/varletjs/api-farmer/commit/488353b62b85d15ad8553767bb243f42eebff9ff))
 
 ## [0.0.3](https://github.com/varletjs/api-farmer/compare/v0.0.2...v0.0.3) (2025-01-16)
 
