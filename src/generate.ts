@@ -5,9 +5,10 @@ import openapiTS, { astToString, OpenAPI3, OpenAPITSOptions, OperationObject } f
 import prettier from 'prettier'
 import { groupBy, isArray, merge } from 'rattail'
 import { logger } from 'rslog'
+import ts from 'typescript'
 import { getConfig } from './config'
 import { CWD, SUPPORTED_HTTP_METHODS } from './constants'
-import { createTransformer, Transformer, TransformerBaseArgs, transformTypeBlob } from './transformer'
+import { createTransformer, Transformer, TransformerBaseArgs } from './transformer'
 import {
   getRequestBodyContentType,
   getResponseMetadataItems,
@@ -334,15 +335,20 @@ export async function generateTypes(
   schema: OpenAPI3,
   output: string,
   typesFilename: string,
-  openapiTsOptions?: OpenAPITSOptions,
+  openapiTsOptions: OpenAPITSOptions,
 ) {
+  const BLOB = ts.factory.createTypeReferenceNode(ts.factory.createIdentifier('Blob'))
+  const NULL = ts.factory.createLiteralTypeNode(ts.factory.createNull())
   const ast = await openapiTS(schema, {
     defaultNonNullable: false,
-    transform(schemaObject, options) {
-      return transformTypeBlob(schemaObject)
+    transform(schemaObject) {
+      if (schemaObject.format === 'binary') {
+        return schemaObject.nullable ? ts.factory.createUnionTypeNode([BLOB, NULL]) : BLOB
+      }
     },
     ...openapiTsOptions,
   })
+
   const contents = astToString(ast)
   const typesFilepath = resolve(CWD, output, typesFilename)
   fse.outputFileSync(typesFilepath, contents)

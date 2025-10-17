@@ -157,7 +157,7 @@ export interface Config {
    *  The options for the openapiTS library.
    *  @see https://openapi-ts.dev/node
    */
-  openapiOptions?: OpenAPITSOptions
+  openapiTsOptions?: OpenAPITSOptions
 }
 ```
 
