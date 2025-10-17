@@ -153,6 +153,11 @@ export interface Config {
    * Certain uncountable nouns that do not change from singular to plural
    */
   uncountableNouns?: string[]
+  /**
+   *  The options for the openapiTS library.
+   *  @see https://openapi-ts.dev/node
+   */
+  openapiOptions?: OpenAPITSOptions
 }
 ```
 

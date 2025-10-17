@@ -136,7 +136,7 @@ export function getResponseMetadataItems(
   const metadataItems = validStatusResults
     .map((status) => {
       const content = (operation.responses?.[status] as ResponseObject | undefined)?.content ?? {}
-      const responseContentType = findObjectKey(content, ['application/json', '*/*'])
+      const responseContentType = findObjectKey(content, ['application/json', 'application/octet-stream', '*/*'])
 
       return {
         status,

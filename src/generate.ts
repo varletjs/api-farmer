@@ -1,13 +1,13 @@
 import { resolve } from 'path'
 import ejs from 'ejs'
 import fse from 'fs-extra'
-import openapiTS, { astToString, OpenAPI3, OperationObject } from 'openapi-typescript'
+import openapiTS, { astToString, OpenAPI3, OpenAPITSOptions, OperationObject } from 'openapi-typescript'
 import prettier from 'prettier'
 import { groupBy, isArray, merge } from 'rattail'
 import { logger } from 'rslog'
 import { getConfig } from './config'
 import { CWD, SUPPORTED_HTTP_METHODS } from './constants'
-import { createTransformer, Transformer, TransformerBaseArgs } from './transformer'
+import { createTransformer, Transformer, TransformerBaseArgs, transformTypeBlob } from './transformer'
 import {
   getRequestBodyContentType,
   getResponseMetadataItems,
@@ -163,6 +163,10 @@ export interface GenerateOptions {
    * Certain uncountable nouns that do not change from singular to plural
    */
   uncountableNouns?: string[]
+  /**
+   *  A function to transform the generated types AST before printing to string.
+   */
+  openapiTsOptions?: OpenAPITSOptions
 }
 
 export function transformPayloads(
@@ -326,9 +330,18 @@ export function renderApiModules(
   )
 }
 
-export async function generateTypes(schema: OpenAPI3, output: string, typesFilename: string) {
+export async function generateTypes(
+  schema: OpenAPI3,
+  output: string,
+  typesFilename: string,
+  openapiTsOptions?: OpenAPITSOptions,
+) {
   const ast = await openapiTS(schema, {
     defaultNonNullable: false,
+    transform(schemaObject, options) {
+      return transformTypeBlob(schemaObject)
+    },
+    ...openapiTsOptions,
   })
   const contents = astToString(ast)
   const typesFilepath = resolve(CWD, output, typesFilename)
@@ -352,6 +365,7 @@ export async function generate(userOptions: GenerateOptions = {}) {
     validateStatus = (status: number) => status >= 200 && status < 300,
     transformer = {},
     uncountableNouns = [],
+    openapiTsOptions = {},
   } = options
 
   const mergedTransformer = { ...createTransformer(), ...transformer }
@@ -361,7 +375,7 @@ export async function generate(userOptions: GenerateOptions = {}) {
   logger.info('Generating API modules...')
 
   if (ts) {
-    await generateTypes(schema, output, typesFilename)
+    await generateTypes(schema, output, typesFilename, openapiTsOptions)
   }
 
   const apiModules = partitionApiModules(schema, {

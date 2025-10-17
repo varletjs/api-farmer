@@ -269,6 +269,107 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/uploads": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Upload a file
+         * @description Uploads a file and returns metadata about the stored item.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "multipart/form-data": {
+                        /**
+                         * File
+                         * Format: binary
+                         * @description The binary file contents to upload.
+                         */
+                        file: Blob;
+                        /** @description Optional filename to persist alongside the upload. */
+                        filename?: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description File uploaded successfully. */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["UploadMetadata"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/downloads/{fileId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Download a file
+         * @description Streams a previously uploaded file as binary content.
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description Identifier of the file to download. */
+                    fileId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Binary file contents. */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/octet-stream": Blob;
+                    };
+                };
+                /** @description File not found. */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -293,6 +394,16 @@ export interface components {
             type?: string;
             /** @description Additional attributes of the resource. */
             attributes?: Record<string, never>;
+        };
+        UploadMetadata: {
+            /** @description Unique identifier for the uploaded file. */
+            id?: string;
+            /** @description Stored filename. */
+            filename?: string;
+            /** @description Public URL to access the uploaded file. */
+            url?: string;
+            /** @description File size in bytes. */
+            size?: number;
         };
     };
     responses: never;
