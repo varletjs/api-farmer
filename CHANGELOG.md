@@ -1,3 +1,9 @@
+## [0.1.2](https://github.com/varletjs/api-farmer/compare/v0.1.1...v0.1.2) (2026-03-23)
+
+### Features
+
+- add option to clean output directory before generation ([7fba122](https://github.com/varletjs/api-farmer/commit/7fba1227f6bab652abab1c25d48e14fb55574415))
+
 ## [0.1.1](https://github.com/varletjs/api-farmer/compare/v0.1.0...v0.1.1) (2025-10-17)
 
 ### Code Refactoring
