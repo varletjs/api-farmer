@@ -154,6 +154,11 @@ export interface Config {
    */
   uncountableNouns?: string[]
   /**
+   * Whether to clean the output directory before generating.
+   * @default false
+   */
+  clean?: boolean
+  /**
    *  The options for the openapiTS library.
    *  @see https://openapi-ts.dev/node
    */

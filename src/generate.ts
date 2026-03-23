@@ -165,6 +165,11 @@ export interface GenerateOptions {
    */
   uncountableNouns?: string[]
   /**
+   * Whether to clean the output directory before generating.
+   * @default false
+   */
+  clean?: boolean
+  /**
    *  A function to transform the generated types AST before printing to string.
    */
   openapiTsOptions?: OpenAPITSOptions
@@ -368,6 +373,7 @@ export async function generate(userOptions: GenerateOptions = {}) {
     input = './schema.json',
     output = './src/apis/generated',
     typesFilename = '_types.ts',
+    clean = false,
     validateStatus = (status: number) => status >= 200 && status < 300,
     transformer = {},
     uncountableNouns = [],
@@ -377,6 +383,11 @@ export async function generate(userOptions: GenerateOptions = {}) {
   const mergedTransformer = { ...createTransformer(), ...transformer }
 
   const schema = await readSchema(input)
+
+  if (clean) {
+    fse.removeSync(resolve(CWD, output))
+    logger.info(`Cleaned output directory: ${resolve(CWD, output)}`)
+  }
 
   logger.info('Generating API modules...')
 
