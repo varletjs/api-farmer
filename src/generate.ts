@@ -187,7 +187,6 @@ export function transformPayloads(
     excludeDeprecated?: boolean
   },
 ) {
-  console.log('[ pathItems ] >', pathItems)
   const { transformer, path, fullPath, base, uncountableNouns, validateStatus, excludeDeprecated } = options
   return Object.entries(pathItems)
     .filter(([key]) => SUPPORTED_HTTP_METHODS.includes(key))
