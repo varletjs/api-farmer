@@ -184,11 +184,14 @@ export function transformPayloads(
     transformer: Transformer
     uncountableNouns: string[]
     validateStatus: (status: number) => boolean
+    excludeDeprecated?: boolean
   },
 ) {
-  const { transformer, path, fullPath, base, uncountableNouns, validateStatus } = options
+  console.log('[ pathItems ] >', pathItems)
+  const { transformer, path, fullPath, base, uncountableNouns, validateStatus, excludeDeprecated } = options
   return Object.entries(pathItems)
     .filter(([key]) => SUPPORTED_HTTP_METHODS.includes(key))
+    .filter(([, operation]) => !(excludeDeprecated && operation.deprecated))
     .reduce((payloads, [method, operation]) => {
       const url = transformer.url({ path, base, fullPath })
       const args: TransformerBaseArgs = { path, base, fullPath, url, method, uncountableNouns, operation }
@@ -249,9 +252,10 @@ export function partitionApiModules(
     base: string | undefined
     uncountableNouns: string[]
     validateStatus: (status: number) => boolean
+    excludeDeprecated?: boolean
   },
 ): ApiModule[] {
-  const { base, transformer, uncountableNouns, validateStatus } = options
+  const { base, transformer, uncountableNouns, validateStatus, excludeDeprecated } = options
 
   const schemaPaths = schema.paths ?? {}
   const schemaPathKeys = base ? Object.keys(schemaPaths).map((key) => key.replace(base, '')) : Object.keys(schemaPaths)
@@ -269,6 +273,7 @@ export function partitionApiModules(
           transformer,
           uncountableNouns,
           validateStatus,
+          excludeDeprecated,
         }),
       )
 
@@ -400,6 +405,7 @@ export async function generate(userOptions: GenerateOptions = {}) {
     uncountableNouns,
     transformer: mergedTransformer,
     validateStatus,
+    excludeDeprecated: openapiTsOptions.excludeDeprecated,
   })
 
   await renderApiModules(apiModules, { output, typesFilename, ts, typesOnly, overrides, preset })
