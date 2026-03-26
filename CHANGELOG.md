@@ -1,3 +1,9 @@
+## [0.1.3](https://github.com/varletjs/api-farmer/compare/v0.1.2...v0.1.3) (2026-03-26)
+
+### Features
+
+- add support for excluding deprecated API operations ([#9](https://github.com/varletjs/api-farmer/issues/9)) ([13f10bf](https://github.com/varletjs/api-farmer/commit/13f10bf237d64b3d832a20b9191693076648e2d1))
+
 ## [0.1.2](https://github.com/varletjs/api-farmer/compare/v0.1.1...v0.1.2) (2026-03-23)
 
 ### Features
