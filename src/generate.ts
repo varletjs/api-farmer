@@ -173,6 +173,11 @@ export interface GenerateOptions {
    *  A function to transform the generated types AST before printing to string.
    */
   openapiTsOptions?: OpenAPITSOptions
+  /**
+   * Whether to exclude deprecated API endpoints.
+   * @default false
+   */
+  excludeDeprecated?: boolean
 }
 
 export function transformPayloads(
@@ -382,6 +387,7 @@ export async function generate(userOptions: GenerateOptions = {}) {
     transformer = {},
     uncountableNouns = [],
     openapiTsOptions = {},
+    excludeDeprecated = false,
   } = options
 
   const mergedTransformer = { ...createTransformer(), ...transformer }
@@ -395,6 +401,10 @@ export async function generate(userOptions: GenerateOptions = {}) {
 
   logger.info('Generating API modules...')
 
+  if (openapiTsOptions.excludeDeprecated === undefined) {
+    openapiTsOptions.excludeDeprecated = excludeDeprecated
+  }
+
   if (ts) {
     await generateTypes(schema, output, typesFilename, openapiTsOptions)
   }
@@ -404,7 +414,7 @@ export async function generate(userOptions: GenerateOptions = {}) {
     uncountableNouns,
     transformer: mergedTransformer,
     validateStatus,
-    excludeDeprecated: openapiTsOptions.excludeDeprecated,
+    excludeDeprecated,
   })
 
   await renderApiModules(apiModules, { output, typesFilename, ts, typesOnly, overrides, preset })
