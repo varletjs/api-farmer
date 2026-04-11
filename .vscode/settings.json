@@ -1,3 +1,5 @@
 {
-  "typescript.tsdk": "node_modules/typescript/lib"
+  "prettier.enable": false,
+  "eslint.enable": false,
+  "editor.defaultFormatter": "oxc.oxc-vscode"
 }
