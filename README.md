@@ -83,6 +83,7 @@ export default defineConfig({
     verb() {},
     url() {},
     entity() {},
+    name() {},
     fn() {},
     comment() {},
     type() {},
@@ -96,6 +97,25 @@ export default defineConfig({
   },
 })
 ```
+
+#### `name` Transformer
+
+The `name` transformer is a convenience option that derives both `fn` and `type` from a single function. When set, `fn` is the return value, and `type` is automatically capitalized from `fn`. This avoids writing duplicate logic for `fn` and `type`.
+
+```ts
+export default defineConfig({
+  transformer: {
+    name({ verb, entity }) {
+      return `api${verb}${entity}`
+      // fn   -> apiGetUsers
+      // type -> ApiGetUsers
+    },
+  },
+})
+```
+
+> [!NOTE]
+> If `name` is set, `fn` and `type` transformers will be ignored.
 
 ### Configuration Options
 
@@ -163,6 +183,11 @@ export interface Config {
    *  @see https://openapi-ts.dev/node
    */
   openapiTsOptions?: OpenAPITSOptions
+  /**
+   * Whether to exclude deprecated API endpoints.
+   * @default false
+   */
+  excludeDeprecated?: boolean
 }
 ```
 

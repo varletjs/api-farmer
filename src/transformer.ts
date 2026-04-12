@@ -141,6 +141,7 @@ export interface Transformer {
   url: typeof transformUrl
   comment: typeof transformComment
   entity: typeof transformEntity
+  name?: typeof transformFn
   fn: typeof transformFn
   type: typeof transformType
   typeValue: typeof transformTypeValue
