@@ -155,7 +155,7 @@ export interface Config {
   uncountableNouns?: string[]
   /**
    * Whether to clean the output directory before generating.
-   * @default false
+   * @default true
    */
   clean?: boolean
   /**

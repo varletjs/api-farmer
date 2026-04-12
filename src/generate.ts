@@ -382,7 +382,7 @@ export async function generate(userOptions: GenerateOptions = {}) {
     input = './schema.json',
     output = './src/apis/generated',
     typesFilename = '_types.ts',
-    clean = false,
+    clean = true,
     validateStatus = (status: number) => status >= 200 && status < 300,
     transformer = {},
     uncountableNouns = [],
