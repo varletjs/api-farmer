@@ -1,3 +1,12 @@
+## [0.1.5](https://github.com/varletjs/api-farmer/compare/v0.1.4...v0.1.5) (2026-04-12)
+
+
+### Features
+
+* add name transformer for simplified API function and type generation, and implement collision detection ([7aafbdd](https://github.com/varletjs/api-farmer/commit/7aafbdd68416455e2b3cb85cd2278beade72f364))
+
+
+
 ## [0.1.4](https://github.com/varletjs/api-farmer/compare/v0.1.3...v0.1.4) (2026-04-12)
 
 
