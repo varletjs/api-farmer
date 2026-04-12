@@ -1,206 +1,320 @@
-## [0.1.3](https://github.com/varletjs/api-farmer/compare/v0.1.2...v0.1.3) (2026-03-26)
+## [0.1.4](https://github.com/varletjs/api-farmer/compare/v0.1.3...v0.1.4) (2026-04-12)
+
+
+### Code Refactoring
+
+* remove Prettier configuration and update utils import ([9ded94a](https://github.com/varletjs/api-farmer/commit/9ded94a4b92aad8f23072cc98b50d3babeeb3ca6))
+
 
 ### Features
 
-- add support for excluding deprecated API operations ([#9](https://github.com/varletjs/api-farmer/issues/9)) ([13f10bf](https://github.com/varletjs/api-farmer/commit/13f10bf237d64b3d832a20b9191693076648e2d1))
+* enable cleaning of output directory by default ([d80b3c9](https://github.com/varletjs/api-farmer/commit/d80b3c9d36e2276a2e448cf9c6f65a4537ecbdfc))
+
+
+
+## [0.1.3](https://github.com/varletjs/api-farmer/compare/v0.1.2...v0.1.3) (2026-03-26)
+
+
+### Features
+
+* add support for excluding deprecated API operations ([#9](https://github.com/varletjs/api-farmer/issues/9)) ([13f10bf](https://github.com/varletjs/api-farmer/commit/13f10bf237d64b3d832a20b9191693076648e2d1))
+
+
 
 ## [0.1.2](https://github.com/varletjs/api-farmer/compare/v0.1.1...v0.1.2) (2026-03-23)
 
+
 ### Features
 
-- add option to clean output directory before generation ([7fba122](https://github.com/varletjs/api-farmer/commit/7fba1227f6bab652abab1c25d48e14fb55574415))
+* add option to clean output directory before generation ([7fba122](https://github.com/varletjs/api-farmer/commit/7fba1227f6bab652abab1c25d48e14fb55574415))
+
+
 
 ## [0.1.1](https://github.com/varletjs/api-farmer/compare/v0.1.0...v0.1.1) (2025-10-17)
 
+
 ### Code Refactoring
 
-- cleanup ([8b99bd2](https://github.com/varletjs/api-farmer/commit/8b99bd2911198dbdcc9b2cdb87b46d81d6ea2f59))
+* cleanup ([8b99bd2](https://github.com/varletjs/api-farmer/commit/8b99bd2911198dbdcc9b2cdb87b46d81d6ea2f59))
+
 
 ### Features
 
-- add openapiTS options ([6c53973](https://github.com/varletjs/api-farmer/commit/6c53973cedb4cbfe72fb08289d75b76025915be0))
+* add openapiTS options ([6c53973](https://github.com/varletjs/api-farmer/commit/6c53973cedb4cbfe72fb08289d75b76025915be0))
+
+
 
 # [0.1.0](https://github.com/varletjs/api-farmer/compare/v0.0.28...v0.1.0) (2025-08-25)
 
+
 ### Code Refactoring
 
-- **comment:** fix docs and improve code ([a87b1a8](https://github.com/varletjs/api-farmer/commit/a87b1a8e881c9dc8c6c15c428859ebb3274f1c92))
+* **comment:** fix docs and improve code ([a87b1a8](https://github.com/varletjs/api-farmer/commit/a87b1a8e881c9dc8c6c15c428859ebb3274f1c92))
+
 
 ### Features
 
-- add JSDoc comments to generated API endpoints ([a6bfc47](https://github.com/varletjs/api-farmer/commit/a6bfc47e28824e89c89009ce7b5ef9e0bde4aabe))
+* add JSDoc comments to generated API endpoints ([a6bfc47](https://github.com/varletjs/api-farmer/commit/a6bfc47e28824e89c89009ce7b5ef9e0bde4aabe))
+
+
 
 ## [0.0.28](https://github.com/varletjs/api-farmer/compare/v0.0.27...v0.0.28) (2025-04-15)
 
+
 ### Bug Fixes
 
-- fix parse base path error ([5d2afef](https://github.com/varletjs/api-farmer/commit/5d2afef32d6faa115166ab8fc3e8b72773ef6261))
+* fix parse base path error ([5d2afef](https://github.com/varletjs/api-farmer/commit/5d2afef32d6faa115166ab8fc3e8b72773ef6261))
+
+
 
 ## [0.0.27](https://github.com/varletjs/api-farmer/compare/v0.0.26...v0.0.27) (2025-04-06)
 
+
 ### Bug Fixes
 
-- adjust openapiTs defaultNonNullable = false ([bb70067](https://github.com/varletjs/api-farmer/commit/bb70067cf4257767723fedc299b76a8a3d9bc884))
+* adjust openapiTs defaultNonNullable = false ([bb70067](https://github.com/varletjs/api-farmer/commit/bb70067cf4257767723fedc299b76a8a3d9bc884))
+
+
 
 ## [0.0.26](https://github.com/varletjs/api-farmer/compare/v0.0.25...v0.0.26) (2025-03-30)
 
+
 ### Bug Fixes
 
-- fix query types ([9ca5960](https://github.com/varletjs/api-farmer/commit/9ca5960a86f1cbe0a3dcc225075784e5911876eb))
+* fix query types ([9ca5960](https://github.com/varletjs/api-farmer/commit/9ca5960a86f1cbe0a3dcc225075784e5911876eb))
+
+
 
 ## [0.0.25](https://github.com/varletjs/api-farmer/compare/v0.0.24...v0.0.25) (2025-02-15)
 
+
 ### Bug Fixes
 
-- fix uncountable noun case error ([796cbeb](https://github.com/varletjs/api-farmer/commit/796cbeb3407e1092bd18c7e6b5e8ee4218cd4a08))
+* fix uncountable noun case error ([796cbeb](https://github.com/varletjs/api-farmer/commit/796cbeb3407e1092bd18c7e6b5e8ee4218cd4a08))
+
+
 
 ## [0.0.24](https://github.com/varletjs/api-farmer/compare/v0.0.23...v0.0.24) (2025-02-15)
 
+
 ### Features
 
-- support uncountableNouns ([92232ab](https://github.com/varletjs/api-farmer/commit/92232ab3f8a12c9153a3874dd4e8668b1fd7f913))
+* support uncountableNouns ([92232ab](https://github.com/varletjs/api-farmer/commit/92232ab3f8a12c9153a3874dd4e8668b1fd7f913))
+
+
 
 ## [0.0.23](https://github.com/varletjs/api-farmer/compare/v0.0.22...v0.0.23) (2025-01-20)
 
+
 ### Features
 
-- support multipart/form-data ([a579652](https://github.com/varletjs/api-farmer/commit/a5796527a612ce6000e4016dd8ad3f7db4b705e3))
+* support multipart/form-data ([a579652](https://github.com/varletjs/api-farmer/commit/a5796527a612ce6000e4016dd8ad3f7db4b705e3))
+
+
 
 ## [0.0.22](https://github.com/varletjs/api-farmer/compare/v0.0.21...v0.0.22) (2025-01-20)
 
+
 ### Features
 
-- **axle:** enhance template ([480f777](https://github.com/varletjs/api-farmer/commit/480f777173253919ba0e01131afa6234b1f5c4c6))
+* **axle:** enhance template ([480f777](https://github.com/varletjs/api-farmer/commit/480f777173253919ba0e01131afa6234b1f5c4c6))
+
+
 
 ## [0.0.21](https://github.com/varletjs/api-farmer/compare/v0.0.20...v0.0.21) (2025-01-20)
 
+
 ### Features
 
-- support application/x-www-form-urlencoded and rename mime to contentType ([ee254ec](https://github.com/varletjs/api-farmer/commit/ee254ec8c36ac3c952c54b46d1b822181cee162b))
-- support remote schema fetching ([5c627a2](https://github.com/varletjs/api-farmer/commit/5c627a21a3e5c048a8fe8bf07d4827cad5d572f5))
+* support application/x-www-form-urlencoded and rename mime to contentType ([ee254ec](https://github.com/varletjs/api-farmer/commit/ee254ec8c36ac3c952c54b46d1b822181cee162b))
+* support remote schema fetching ([5c627a2](https://github.com/varletjs/api-farmer/commit/5c627a21a3e5c048a8fe8bf07d4827cad5d572f5))
+
+
 
 ## [0.0.20](https://github.com/varletjs/api-farmer/compare/v0.0.19...v0.0.20) (2025-01-20)
 
+
 ### Bug Fixes
 
-- fix prettier deps ([1918e4f](https://github.com/varletjs/api-farmer/commit/1918e4fdf6e3703efcaf809ee8d82290902bd84c))
+* fix prettier deps ([1918e4f](https://github.com/varletjs/api-farmer/commit/1918e4fdf6e3703efcaf809ee8d82290902bd84c))
+
+
 
 ## [0.0.19](https://github.com/varletjs/api-farmer/compare/v0.0.18...v0.0.19) (2025-01-19)
 
+
 ### Code Refactoring
 
-- enhance axios preset ([b73eb6a](https://github.com/varletjs/api-farmer/commit/b73eb6a245045738ca06196908234788150dc7dd))
+* enhance axios preset ([b73eb6a](https://github.com/varletjs/api-farmer/commit/b73eb6a245045738ca06196908234788150dc7dd))
+
+
 
 ## [0.0.18](https://github.com/varletjs/api-farmer/compare/v0.0.17...v0.0.18) (2025-01-19)
 
+
 ### Features
 
-- support validateStatus ([19735a3](https://github.com/varletjs/api-farmer/commit/19735a3b26e71844696339b39abc56c27d0e8b77))
+* support validateStatus ([19735a3](https://github.com/varletjs/api-farmer/commit/19735a3b26e71844696339b39abc56c27d0e8b77))
+
+
 
 ## [0.0.17](https://github.com/varletjs/api-farmer/compare/v0.0.16...v0.0.17) (2025-01-18)
 
+
 ### Bug Fixes
 
-- remove status code strategy ([dc5159f](https://github.com/varletjs/api-farmer/commit/dc5159f4563a21b08b22ba24d337785fc54933d4))
+* remove status code strategy ([dc5159f](https://github.com/varletjs/api-farmer/commit/dc5159f4563a21b08b22ba24d337785fc54933d4))
+
 
 ### Features
 
-- support typesOnly ([a6d4c99](https://github.com/varletjs/api-farmer/commit/a6d4c99f711a5d27921736194390167137a90b2a))
+* support typesOnly ([a6d4c99](https://github.com/varletjs/api-farmer/commit/a6d4c99f711a5d27921736194390167137a90b2a))
+
+
 
 ## [0.0.16](https://github.com/varletjs/api-farmer/compare/v0.0.15...v0.0.16) (2025-01-17)
 
+
 ### Code Refactoring
 
-- remove Res helper ([cf0de1b](https://github.com/varletjs/api-farmer/commit/cf0de1b33cd1bb5fcd17239c0c4c2e1569479793))
+* remove Res helper ([cf0de1b](https://github.com/varletjs/api-farmer/commit/cf0de1b33cd1bb5fcd17239c0c4c2e1569479793))
+
+
 
 ## [0.0.15](https://github.com/varletjs/api-farmer/compare/v0.0.14...v0.0.15) (2025-01-17)
 
+
 ### Bug Fixes
 
-- handling path names containing . ([908b60d](https://github.com/varletjs/api-farmer/commit/908b60dc696c7ba666e4c1e83af8ddee64d2b963))
+* handling path names containing . ([908b60d](https://github.com/varletjs/api-farmer/commit/908b60dc696c7ba666e4c1e83af8ddee64d2b963))
+
+
 
 ## [0.0.14](https://github.com/varletjs/api-farmer/compare/v0.0.13...v0.0.14) (2025-01-17)
 
+
 ### Code Refactoring
 
-- refactor output and typesFilename defaults value ([9d7ce55](https://github.com/varletjs/api-farmer/commit/9d7ce552a69e495738abd87cd5c80cbac8395aa6))
+* refactor output and typesFilename defaults value ([9d7ce55](https://github.com/varletjs/api-farmer/commit/9d7ce552a69e495738abd87cd5c80cbac8395aa6))
+
+
 
 ## [0.0.13](https://github.com/varletjs/api-farmer/compare/v0.0.12...v0.0.13) (2025-01-17)
 
+
 ### Bug Fixes
 
-- replace never with undefined ([8e99b21](https://github.com/varletjs/api-farmer/commit/8e99b21d0f5d3cf7fc116b1ab7cf92205b34ec5b))
+* replace never with undefined ([8e99b21](https://github.com/varletjs/api-farmer/commit/8e99b21d0f5d3cf7fc116b1ab7cf92205b34ec5b))
+
+
 
 ## [0.0.12](https://github.com/varletjs/api-farmer/compare/v0.0.11...v0.0.12) (2025-01-17)
 
+
 ### Features
 
-- **axle:** enhance template ([49e27c3](https://github.com/varletjs/api-farmer/commit/49e27c3afa1dfc384af058a6554b85db60f88919))
+* **axle:** enhance template ([49e27c3](https://github.com/varletjs/api-farmer/commit/49e27c3afa1dfc384af058a6554b85db60f88919))
+
+
 
 ## [0.0.11](https://github.com/varletjs/api-farmer/compare/v0.0.10...v0.0.11) (2025-01-16)
 
+
 ### Bug Fixes
 
-- **axle:** fix template ([410092f](https://github.com/varletjs/api-farmer/commit/410092f5a2b6a728090e3cec6e512febfd3ea9da))
-- ignore invalid path items key ([40c99af](https://github.com/varletjs/api-farmer/commit/40c99af5c2ca5208723b1629c80d6014a91ac06a))
+* **axle:** fix template ([410092f](https://github.com/varletjs/api-farmer/commit/410092f5a2b6a728090e3cec6e512febfd3ea9da))
+* ignore invalid path items key ([40c99af](https://github.com/varletjs/api-farmer/commit/40c99af5c2ca5208723b1629c80d6014a91ac06a))
+
+
 
 ## [0.0.10](https://github.com/varletjs/api-farmer/compare/v0.0.9...v0.0.10) (2025-01-16)
 
+
 ### Features
 
-- support smart statusCodeStrategy ([80d103c](https://github.com/varletjs/api-farmer/commit/80d103c56cb15f28fc7bd5a037aa0ca62aa008b2))
+* support smart statusCodeStrategy ([80d103c](https://github.com/varletjs/api-farmer/commit/80d103c56cb15f28fc7bd5a037aa0ca62aa008b2))
+
+
 
 ## [0.0.9](https://github.com/varletjs/api-farmer/compare/v0.0.8...v0.0.9) (2025-01-16)
 
+
 ### Features
 
-- enhance transform process ([d2ab6cc](https://github.com/varletjs/api-farmer/commit/d2ab6cccfffcfe9e69014d89634cd7ac68bdd009))
+* enhance transform process ([d2ab6cc](https://github.com/varletjs/api-farmer/commit/d2ab6cccfffcfe9e69014d89634cd7ac68bdd009))
+
+
 
 ## [0.0.8](https://github.com/varletjs/api-farmer/compare/v0.0.7...v0.0.8) (2025-01-16)
 
+
 ### Features
 
-- add more transformer args ([c92b68a](https://github.com/varletjs/api-farmer/commit/c92b68a9fdf663af6ae096755c2eebeb7616ba65))
+*  add more transformer args ([c92b68a](https://github.com/varletjs/api-farmer/commit/c92b68a9fdf663af6ae096755c2eebeb7616ba65))
+
+
 
 ## [0.0.7](https://github.com/varletjs/api-farmer/compare/v0.0.6...v0.0.7) (2025-01-16)
 
+
 ### Code Refactoring
 
-- remove useless case ([84625d2](https://github.com/varletjs/api-farmer/commit/84625d262de0ee569847cd6474bdc680edc0f93b))
+* remove useless case ([84625d2](https://github.com/varletjs/api-farmer/commit/84625d262de0ee569847cd6474bdc680edc0f93b))
+
+
 
 ## [0.0.6](https://github.com/varletjs/api-farmer/compare/v0.0.5...v0.0.6) (2025-01-16)
 
+
 ### Bug Fixes
 
-- fix optional requestBody types error and adjust response mime handler ([f744f2d](https://github.com/varletjs/api-farmer/commit/f744f2dddae66538f07b0c4a23ee7c9206dda2ce))
+* fix optional requestBody types error and adjust response mime handler ([f744f2d](https://github.com/varletjs/api-farmer/commit/f744f2dddae66538f07b0c4a23ee7c9206dda2ce))
+
+
 
 ## [0.0.5](https://github.com/varletjs/api-farmer/compare/v0.0.4...v0.0.5) (2025-01-16)
 
+
 ### Bug Fixes
 
-- fix nullish error and lost templates ([77723ec](https://github.com/varletjs/api-farmer/commit/77723ec4886eac0c21b25e615b1ef3a0175d83c1))
+* fix nullish error and lost templates ([77723ec](https://github.com/varletjs/api-farmer/commit/77723ec4886eac0c21b25e615b1ef3a0175d83c1))
+
+
 
 ## [0.0.4](https://github.com/varletjs/api-farmer/compare/v0.0.3...v0.0.4) (2025-01-16)
 
+
 ### Code Refactoring
 
-- refactor transformer api and add readme ([488353b](https://github.com/varletjs/api-farmer/commit/488353b62b85d15ad8553767bb243f42eebff9ff))
+* refactor transformer api and add readme ([488353b](https://github.com/varletjs/api-farmer/commit/488353b62b85d15ad8553767bb243f42eebff9ff))
+
+
 
 ## [0.0.3](https://github.com/varletjs/api-farmer/compare/v0.0.2...v0.0.3) (2025-01-16)
 
+
 ### Features
 
-- support transform module name ([eee1ce1](https://github.com/varletjs/api-farmer/commit/eee1ce1c3d3273ec7362c8ec4e78ecf47f8250d3))
+* support transform module name ([eee1ce1](https://github.com/varletjs/api-farmer/commit/eee1ce1c3d3273ec7362c8ec4e78ecf47f8250d3))
+
+
 
 ## [0.0.2](https://github.com/varletjs/api-farmer/compare/v0.0.1...v0.0.2) (2025-01-16)
 
+
 ### Features
 
-- expose pluralize ([e527dd6](https://github.com/varletjs/api-farmer/commit/e527dd69cb24e88751244aa62a56415ddbb17657))
+* expose pluralize ([e527dd6](https://github.com/varletjs/api-farmer/commit/e527dd69cb24e88751244aa62a56415ddbb17657))
+
+
 
 ## [0.0.1](https://github.com/varletjs/api-farmer/compare/c2ecf0772d24d0cad6b809881ee952679c53fa03...v0.0.1) (2025-01-15)
 
+
 ### Features
 
-- complete poc ([c2ecf07](https://github.com/varletjs/api-farmer/commit/c2ecf0772d24d0cad6b809881ee952679c53fa03))
-- support swagger2 and fix template ([f4aed80](https://github.com/varletjs/api-farmer/commit/f4aed804e178ab36ad954e6cc460a8edcd2304b8))
+* complete poc ([c2ecf07](https://github.com/varletjs/api-farmer/commit/c2ecf0772d24d0cad6b809881ee952679c53fa03))
+* support swagger2 and fix template ([f4aed80](https://github.com/varletjs/api-farmer/commit/f4aed804e178ab36ad954e6cc460a8edcd2304b8))
+
+
+
