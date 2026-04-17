@@ -1,5 +1,4 @@
-import { lint, fmt, staged } from 'rattail/vite-plus'
-import { defineConfig } from 'vite-plus'
+import { clean, defineConfig, fmt, hook, lint, staged } from 'rattail/vite-plus'
 
 const ignores = ['**/fixtures/**/apis/generated/**']
 
@@ -15,4 +14,10 @@ export default defineConfig({
   lint: lint({ ignores }),
 
   fmt: fmt({ ignores }),
+
+  rattail: {
+    clean: clean(),
+
+    hook: hook(),
+  },
 })

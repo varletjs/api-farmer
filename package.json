@@ -38,12 +38,12 @@
   },
   "scripts": {
     "build": "vp pack",
-    "clean": "rimraf node_modules dist",
+    "clean": "rt clean",
     "format": "vp fmt",
     "gen": "rimraf ./fixtures/axios/src/apis/generated ./fixtures/axle/src/apis/generated && pnpm --dir ./fixtures/axios gen & pnpm --dir ./fixtures/axle gen",
     "lint": "vp lint --fix",
-    "prepare": "vp config --hooks-dir .vite-hooks",
-    "release": "pnpm build && vr release"
+    "prepare": "vp config --hooks-dir .vite-hooks && rt hook",
+    "release": "pnpm build && rt release"
   },
   "dependencies": {
     "@types/pluralize": "^0.0.33",
@@ -53,10 +53,10 @@
     "openapi-typescript": "^7.5.2",
     "pluralize": "^8.0.0",
     "prettier": "^3.4.2",
-    "rattail": "^1.8.3",
+    "rattail": "^2.0.3",
     "rslog": "^1.2.3",
     "swagger2openapi": "^7.0.8",
-    "unconfig": "^0.6.0",
+    "unconfig": "^7.5.0",
     "yaml": "^2.7.0"
   },
   "devDependencies": {
@@ -64,10 +64,9 @@
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^22.8.1",
     "@types/swagger2openapi": "^7.0.4",
-    "@varlet/release": "^0.4.1",
     "rimraf": "^6.0.1",
     "typescript": "5.3.3",
-    "vite-plus": "0.1.16"
+    "vite-plus": "0.1.18"
   },
   "peerDependencies": {
     "typescript": "^5.3.3"
@@ -78,8 +77,8 @@
   "packageManager": "pnpm@10.0.0",
   "pnpm": {
     "overrides": {
-      "vite": "npm:@voidzero-dev/vite-plus-core@0.1.16",
-      "vitest": "npm:@voidzero-dev/vite-plus-test@0.1.16"
+      "vite": "npm:@voidzero-dev/vite-plus-core@0.1.18",
+      "vitest": "npm:@voidzero-dev/vite-plus-test@0.1.18"
     }
   }
 }
