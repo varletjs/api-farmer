@@ -1,4 +1,4 @@
-<% if (!typesOnly) { %> import { api } from '@/request' <% } %>
+<% if (!typesOnly) { %> import { api } from '<%- requestImportPath %>' <% } %>
 <% if (ts) { %>  import { type paths } from './<%- typesFilename %>' <% } %>
 
 <% if (!typesOnly) { %>

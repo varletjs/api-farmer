@@ -1,5 +1,5 @@
-<% if (ts && !typesOnly) { %> import type { RequestConfig } from '@/request' <% } %>
-<% if (!typesOnly) { %> import { request } from '@/request' <% } %>
+<% if (ts && !typesOnly) { %> import type { RequestConfig } from '<%- requestImportPath %>' <% } %>
+<% if (!typesOnly) { %> import { request } from '<%- requestImportPath %>' <% } %>
 <% if (ts) { %> import { type paths } from './<%- typesFilename %>' <% } %>
 
 <%_ if (!typesOnly) { _%>

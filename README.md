@@ -56,6 +56,21 @@ npx af
 
 Some simple usage examples can be found [here](fixtures)
 
+### Request import path
+
+The preset templates import the request instance from `@/request` by default. If your request instance lives elsewhere, use `requestImportPath` to change the import path in the generated files.
+
+```ts
+// api-farmer.config.ts
+import { defineConfig } from 'api-farmer'
+
+export default defineConfig({
+  requestImportPath: '@/shared/request',
+})
+```
+
+The value is also passed to custom templates as the `requestImportPath` template variable.
+
 ### Custom code generation templates
 
 Create `api-farmer.ejs` in the project root, which will replace the `preset` template.
@@ -141,6 +156,11 @@ export interface Config {
    */
   typesFilename?: string
   /**
+   * The module path that the generated files import the request instance from.
+   * @default '@/request'
+   */
+  requestImportPath?: string
+  /**
    * Whether to generate TypeScript code.
    * @default true
    */
@@ -203,6 +223,10 @@ export interface ApiModuleTemplateData {
    * The name of the generated api ts type aggregation file
    */
   typesFilename: string
+  /**
+   * The module path that the request instance is imported from
+   */
+  requestImportPath: string
   /**
    * Whether to generate ts code
    */

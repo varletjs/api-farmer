@@ -28,6 +28,10 @@ export interface ApiModuleTemplateData {
    */
   typesFilename: string
   /**
+   * The module path that the request instance is imported from
+   */
+  requestImportPath: string
+  /**
    * Whether to generate ts code
    */
   ts: boolean
@@ -131,6 +135,11 @@ export interface GenerateOptions {
    * @default '_types.ts'
    */
   typesFilename?: string
+  /**
+   * The module path that the generated files import the request instance from.
+   * @default '@/request'
+   */
+  requestImportPath?: string
   /**
    * Whether to generate TypeScript code.
    * @default true
@@ -298,13 +307,14 @@ export function renderApiModules(
   options: {
     output: string
     typesFilename: string
+    requestImportPath: string
     ts: boolean
     typesOnly: boolean
     overrides: boolean | string[]
     preset: Preset
   },
 ) {
-  const { output, ts, typesOnly, overrides, preset } = options
+  const { output, requestImportPath, ts, typesOnly, overrides, preset } = options
   const templateFile = readTemplateFile(preset)
   const typesFilename = options.typesFilename.replace('.ts', '')
 
@@ -315,6 +325,7 @@ export function renderApiModules(
           const data: ApiModuleTemplateData = {
             apiModule,
             typesFilename,
+            requestImportPath,
             ts,
             typesOnly,
           }
@@ -404,6 +415,7 @@ export async function generate(userOptions: GenerateOptions = {}) {
     input = './schema.json',
     output = './src/apis/generated',
     typesFilename = '_types.ts',
+    requestImportPath = '@/request',
     clean = true,
     validateStatus = (status: number) => status >= 200 && status < 300,
     transformer = {},
@@ -441,6 +453,14 @@ export async function generate(userOptions: GenerateOptions = {}) {
 
   detectCollisions(apiModules)
 
-  await renderApiModules(apiModules, { output, typesFilename, ts, typesOnly, overrides, preset })
+  await renderApiModules(apiModules, {
+    output,
+    typesFilename,
+    requestImportPath,
+    ts,
+    typesOnly,
+    overrides,
+    preset,
+  })
   logger.success('Done')
 }
