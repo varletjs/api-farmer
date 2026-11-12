@@ -1,4 +1,4 @@
-import { api } from '@/request'
+import { api } from '@/shared/request'
 import { type paths } from './_types'
 
 export const apiGetUsers = api<ApiGetUsersResponseBody, ApiGetUsersQuery, ApiGetUsersRequestBody>('/users', 'get')
